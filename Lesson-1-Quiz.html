@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Demand & Elasticities Quiz</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    padding: 40px;
+}
+h1 {
+    color: #1f4e79;
+}
+.question {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+button {
+    padding: 10px 15px;
+    margin: 10px 5px 0 0;
+    border: none;
+    border-radius: 6px;
+    background-color: #1f4e79;
+    color: white;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #163b5c;
+}
+.result {
+    font-weight: bold;
+    margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<h1>Market Demand & Elasticities Quiz</h1>
+<div id="quiz"></div>
+<button onclick="checkAnswers()">Submit</button>
+<button onclick="loadQuiz()">Next 10 Questions</button>
+<div class="result" id="result"></div>
+
+<script>
+const questions = [
+{q:"1. Market demand is obtained by:", options:["Vertical summation","Horizontal summation","Multiplying quantities","Averaging demand"], answer:1},
+{q:"2. A movement along demand curve is caused by:", options:["Income change","Price change","Preference change","Population change"], answer:1},
+{q:"3. A shift in demand is caused by:", options:["Own price change","Tax change","Income change","Quantity change"], answer:2},
+{q:"4. Own-price elasticity measures responsiveness to:", options:["Income","Own price","Other goods price","Supply"], answer:1},
+{q:"5. Elastic demand means:", options:["|ε|<1","|ε|=1","|ε|>1","ε=0"], answer:2},
+{q:"6. Inelastic demand means:", options:["|ε|<1","|ε|>1","ε=1","ε=0"], answer:0},
+{q:"7. Unit elastic demand means:", options:["|ε|=1","|ε|<1","|ε|>1","ε=0"], answer:0},
+{q:"8. Total spending equals:", options:["P/Q","P+Q","P×Q","Q-P"], answer:2},
+{q:"9. If demand is elastic and price rises, total spending:", options:["Rises","Falls","Unchanged","Doubles"], answer:1},
+{q:"10. If demand is inelastic and price rises, total spending:", options:["Falls","Unchanged","Rises","Zero"], answer:2},
+{q:"11. Income elasticity >0 means:", options:["Inferior","Normal","Complement","Substitute"], answer:1},
+{q:"12. Income elasticity <0 means:", options:["Normal","Luxury","Inferior","Substitute"], answer:2},
+{q:"13. Cross elasticity >0 implies:", options:["Complements","Substitutes","Inferior","Normal"], answer:1},
+{q:"14. Cross elasticity <0 implies:", options:["Complements","Substitutes","Luxury","Normal"], answer:0},
+{q:"15. Price takers are:", options:["Firms controlling price","Too small to affect price","Monopolists","Government agents"], answer:1},
+{q:"16. Cobb-Douglas U=xy gives own-price elasticity:", options:["0","1","-1","2"], answer:2},
+{q:"17. When price falls, quantity demanded:", options:["Falls","Rises","Constant","Undefined"], answer:1},
+{q:"18. Demand shifter example:", options:["Price of same good","Income","Quantity","Cost"], answer:1},
+{q:"19. Marshallian demand depends on:", options:["Prices and income","Utility only","Supply","Tax only"], answer:0},
+{q:"20. Elasticity formula equals:", options:["ΔP/ΔQ","%ΔQ/%ΔP","P/Q","Q/P"], answer:1},
+{q:"21. If ε=-2, demand is:", options:["Inelastic","Unit elastic","Elastic","Perfectly inelastic"], answer:2},
+{q:"22. If ε=-0.5, demand is:", options:["Elastic","Inelastic","Unit elastic","Perfectly elastic"], answer:1},
+{q:"23. Perfectly inelastic elasticity equals:", options:["0","1","∞","-1"], answer:0},
+{q:"24. Perfectly elastic elasticity equals:", options:["0","∞","1","-1"], answer:1},
+{q:"25. Income doubles and demand doubles → income elasticity:", options:["0.5","1","2","-1"], answer:1},
+{q:"26. Substitutes example:", options:["Tea & Coffee","Car & Gasoline","Pen & Ink","Printer & Ink"], answer:0},
+{q:"27. Complements example:", options:["Tea & Coffee","Car & Gasoline","Coke & Pepsi","Butter & Margarine"], answer:1},
+{q:"28. Market demand curve slope is usually:", options:["Upward","Downward","Vertical","Horizontal"], answer:1},
+{q:"29. Giffen goods have:", options:["Positive elasticity","Negative elasticity","Zero elasticity","Unit elasticity"], answer:0},
+{q:"30. Luxury goods have income elasticity:", options:["<1","=1",">1","<0"], answer:2},
+{q:"31. Necessities have income elasticity:", options:["<1 but >0","<0",">1","=0"], answer:0},
+{q:"32. Change in tastes causes:", options:["Movement","Shift","Slope change","Elasticity change"], answer:1},
+{q:"33. Horizontal summation means:", options:["Add prices","Add quantities","Multiply curves","Average curves"], answer:1},
+{q:"34. If price rises and total spending unchanged:", options:["Elastic","Inelastic","Unit elastic","Perfectly elastic"], answer:2},
+{q:"35. Income effect relates to:", options:["Price change","Income change","Tax","Supply"], answer:1},
+{q:"36. Complement cross elasticity sign:", options:["Positive","Negative","Zero","Infinite"], answer:1},
+{q:"37. Substitute cross elasticity sign:", options:["Negative","Zero","Positive","Undefined"], answer:2},
+{q:"38. Elastic demand curve appears:", options:["Steep","Flat","Vertical","Undefined"], answer:1},
+{q:"39. Inelastic demand curve appears:", options:["Flat","Horizontal","Steep","Perfectly elastic"], answer:2},
+{q:"40. Market demand includes:", options:["One consumer","All consumers","Firms only","Government"], answer:1},
+{q:"41. Own-price elasticity is usually:", options:["Positive","Negative","Zero","Infinite"], answer:1},
+{q:"42. Inferior goods income elasticity:", options:["Positive","Negative","Zero","Infinite"], answer:1},
+{q:"43. Movement along curve changes:", options:["Demand","Quantity demanded","Income","Taste"], answer:1},
+{q:"44. Shift changes:", options:["Price","Quantity","Demand","Elasticity"], answer:2},
+{q:"45. Total spending formula:", options:["P/Q","P×Q","P+Q","Q-P"], answer:1},
+{q:"46. If ε=-1, demand is:", options:["Elastic","Unit elastic","Inelastic","Perfectly elastic"], answer:1},
+{q:"47. Cross elasticity measures response to:", options:["Income","Own price","Other good price","Supply"], answer:2},
+{q:"48. If income rises and demand falls:", options:["Normal","Inferior","Luxury","Substitute"], answer:1},
+{q:"49. Elastic demand → price and revenue move:", options:["Same direction","Opposite direction","No change","Random"], answer:1},
+{q:"50. Inelastic demand → price and revenue move:", options:["Opposite","Same","Zero","Infinite"], answer:1}
+];
+
+let currentSet = [];
+
+function loadQuiz() {
+    document.getElementById("result").innerHTML = "";
+    const shuffled = questions.sort(() => 0.5 - Math.random());
+    currentSet = shuffled.slice(0,10);
+    const quizDiv = document.getElementById("quiz");
+    quizDiv.innerHTML = "";
+
+    currentSet.forEach((item,index)=>{
+        let qDiv = document.createElement("div");
+        qDiv.className="question";
+        qDiv.innerHTML = `<p>${item.q}</p>` +
+        item.options.map((opt,i)=>
+            `<label><input type="radio" name="q${index}" value="${i}"> ${opt}</label><br>`
+        ).join("");
+        quizDiv.appendChild(qDiv);
+    });
+}
+
+function checkAnswers(){
+    let score=0;
+    currentSet.forEach((item,index)=>{
+        let selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if(selected && parseInt(selected.value)===item.answer){
+            score++;
+        }
+    });
+    document.getElementById("result").innerHTML = `Score: ${score}/10`;
+}
+
+loadQuiz();
+</script>
+
+</body>
+</html>

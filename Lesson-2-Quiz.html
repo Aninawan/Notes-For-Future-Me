@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Efficiency in Exchange – Full Quiz</title>
+
+<style>
+body{
+    font-family: Arial;
+    margin:40px;
+    background:#f4f6f9;
+}
+h1{color:#1f4e79;}
+.question{
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:8px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+button{
+    padding:10px 15px;
+    margin-top:10px;
+    border:none;
+    border-radius:6px;
+    background:#1f4e79;
+    color:white;
+    cursor:pointer;
+}
+.result{
+    margin-top:20px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<h1>Efficiency in Exchange Quiz</h1>
+
+<div id="quiz"></div>
+<button onclick="checkAnswers()">Submit</button>
+<button onclick="loadQuiz()">Next 10 Questions</button>
+<div class="result" id="result"></div>
+
+<script>
+
+const questions = [
+
+{q:"1. Pareto efficiency occurs when:",o:["One gains and one loses","No further mutually beneficial trades exist","Income is equal","Prices are fixed"],a:1},
+{q:"2. A Pareto improvement makes:",o:["At least one better off, none worse off","Everyone better off","Everyone worse off","Government richer"],a:0},
+{q:"3. Exchange efficiency requires:",o:["Equal income","Equal MRS across consumers","Equal prices","Equal quantities"],a:1},
+{q:"4. If MRS_A > MRS_B, then:",o:["Allocation is efficient","Trade can improve welfare","No exchange possible","Government must intervene"],a:1},
+{q:"5. The Edgeworth Box represents:",o:["Production choices","All possible allocations between two consumers","Supply curve","Market equilibrium price"],a:1},
+{q:"6. The contract curve shows:",o:["All inefficient allocations","All Pareto efficient allocations","Demand curve","Supply curve"],a:1},
+{q:"7. Efficiency in exchange assumes:",o:["Fixed total supply of goods","Unlimited goods","Government pricing","Monopoly power"],a:0},
+{q:"8. When MRS_A ≠ MRS_B:",o:["Allocation is optimal","No trade possible","Gains from trade exist","Market collapses"],a:2},
+{q:"9. Pareto optimality means:",o:["Equal utilities","No one can be better off without harming another","Equal prices","Equal income"],a:1},
+{q:"10. Movement toward the contract curve implies:",o:["Increasing inefficiency","Increasing gains from trade","Approaching efficiency","Government taxation"],a:2},
+
+{q:"11. In exchange efficiency, the total quantity of goods is:",o:["Variable","Fixed","Infinite","Irrelevant"],a:1},
+{q:"12. If two consumers have identical MRS, then:",o:["Trade will occur","Allocation may be efficient","Prices must rise","Goods disappear"],a:1},
+{q:"13. Gains from trade arise because:",o:["Preferences differ","Supply changes","Taxes exist","Prices fixed"],a:0},
+{q:"14. The contract curve lies inside:",o:["Budget line","Edgeworth Box","Production function","Demand curve"],a:1},
+{q:"15. A point off the contract curve is:",o:["Efficient","Inefficient","Optimal","Equilibrium"],a:1},
+{q:"16. Exchange efficiency concerns:",o:["Firms only","Consumers only","Government","Exports"],a:1},
+{q:"17. Equal MRS implies:",o:["Equal income","No further beneficial exchange","Equal goods","Equal wealth"],a:1},
+{q:"18. If trade benefits one and harms none, it is:",o:["Pareto optimal","Pareto improvement","Inefficient","Illegal"],a:1},
+{q:"19. Edgeworth Box axes represent:",o:["Income","Utility","Goods for two consumers","Prices"],a:2},
+{q:"20. Contract curve points satisfy:",o:["MRS_A = MRS_B","Income equality","Price equality","Utility equality"],a:0},
+
+{q:"21. Efficiency does NOT require:",o:["Equal MRS","Equal utilities","No further gains from trade","Fixed supply"],a:1},
+{q:"22. If both consumers gain from exchange:",o:["Initial allocation was efficient","Initial allocation was inefficient","Supply increased","Prices changed"],a:1},
+{q:"23. Pareto efficiency does not consider:",o:["Equity","Welfare","Gains from trade","Reallocation"],a:0},
+{q:"24. MRS measures:",o:["Price ratio","Utility level","Rate of substitution between goods","Income level"],a:2},
+{q:"25. Exchange efficiency applies when:",o:["Two or more consumers trade","One consumer alone","Firms produce","Government taxes"],a:0},
+
+{q:"26. A Pareto efficient allocation may still be:",o:["Unfair","Impossible","Illegal","Inefficient"],a:0},
+{q:"27. Reallocation continues until:",o:["Income equalizes","MRS equalizes","Prices zero","Goods exhausted"],a:1},
+{q:"28. Edgeworth Box assumes:",o:["Two goods and two consumers","Many goods","Infinite consumers","No preferences"],a:0},
+{q:"29. A point inside contract curve means:",o:["Efficient","Inefficient","Perfect equality","Max income"],a:1},
+{q:"30. When MRS differ, total welfare can:",o:["Increase through trade","Decrease only","Stay fixed","Disappear"],a:0},
+
+{q:"31. Exchange efficiency is achieved without:",o:["Production changes","Trade","Preferences","Utility"],a:0},
+{q:"32. If one gains and another loses, it is:",o:["Pareto improvement","Not Pareto improvement","Efficient","Optimal"],a:1},
+{q:"33. Contract curve slopes are determined by:",o:["Equal MRS condition","Income equality","Price controls","Taxes"],a:0},
+{q:"34. Efficiency focuses on:",o:["Fairness","Maximizing total gains without harming others","Equal wages","Government policy"],a:1},
+{q:"35. MRS equality eliminates:",o:["Gains from trade","Income","Utility","Supply"],a:0},
+
+{q:"36. Edgeworth Box visually demonstrates:",o:["Tax burden","Trade possibilities","Supply shocks","Inflation"],a:1},
+{q:"37. Pareto optimal does NOT mean:",o:["Best for society morally","No further improvements possible","Efficient allocation","Gains exhausted"],a:0},
+{q:"38. A reallocation that harms no one is:",o:["Efficient","Pareto improvement","Inefficient","Impossible"],a:1},
+{q:"39. Exchange efficiency depends on:",o:["Relative preferences","Absolute income","Government control","Market size"],a:0},
+{q:"40. If MRS_A < MRS_B:",o:["Trade can increase welfare","Allocation optimal","Prices fixed","Production needed"],a:0},
+
+{q:"41. Contract curve is:",o:["Set of efficient allocations","Budget line","Demand curve","Supply curve"],a:0},
+{q:"42. Efficiency requires voluntary exchange because:",o:["Preferences differ","Prices fixed","Income equal","Supply infinite"],a:0},
+{q:"43. Pareto efficiency ignores:",o:["Distribution concerns","Welfare gains","Trade benefits","MRS equality"],a:0},
+{q:"44. Equal MRS ensures:",o:["Equal happiness","No further exchange gains","Equal wealth","Equal goods"],a:1},
+{q:"45. Edgeworth Box corners represent:",o:["Total endowment","Zero goods for one consumer","Infinite goods","Taxes"],a:1},
+
+{q:"46. Exchange efficiency is about:",o:["Reallocation only","Production increase","Technology","Costs"],a:0},
+{q:"47. Pareto improvement moves allocation:",o:["Toward contract curve","Away from efficiency","Outside box","To origin"],a:0},
+{q:"48. Efficiency condition can be written as:",o:["MRS_A = MRS_B","Income_A = Income_B","X_A = X_B","Utility equal"],a:0},
+{q:"49. When gains from trade are exhausted:",o:["Efficient allocation achieved","Income equal","Government intervenes","Supply rises"],a:0},
+{q:"50. The core condition for exchange efficiency is:",o:["Equal MRS","Equal income","Equal price","Equal goods"],a:0}
+
+];
+
+let currentSet=[];
+
+function loadQuiz(){
+    document.getElementById("result").innerHTML="";
+    const shuffled=[...questions].sort(()=>0.5-Math.random());
+    currentSet=shuffled.slice(0,10);
+    const quizDiv=document.getElementById("quiz");
+    quizDiv.innerHTML="";
+    currentSet.forEach((item,index)=>{
+        let div=document.createElement("div");
+        div.className="question";
+        div.innerHTML="<p>"+item.q+"</p>"+
+        item.o.map((opt,i)=>
+            `<label><input type="radio" name="q${index}" value="${i}"> ${opt}</label><br>`
+        ).join("");
+        quizDiv.appendChild(div);
+    });
+}
+
+function checkAnswers(){
+    let score=0;
+    currentSet.forEach((item,index)=>{
+        let selected=document.querySelector(`input[name="q${index}"]:checked`);
+        if(selected && parseInt(selected.value)===item.a){score++;}
+    });
+    document.getElementById("result").innerHTML="Score: "+score+"/10";
+}
+
+loadQuiz();
+
+</script>
+
+</body>
+</html>

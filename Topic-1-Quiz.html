@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Introduction to Macroeconomics Quiz</title>
+<style>
+body{
+    font-family: Arial;
+    margin:40px;
+    background:#f4f6f9;
+}
+.question{
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:8px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+button{
+    padding:10px 15px;
+    margin-top:10px;
+    border:none;
+    border-radius:6px;
+    background:#1f4e79;
+    color:white;
+    cursor:pointer;
+}
+.result{
+    margin-top:20px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<h1>Introduction to Macroeconomics Quiz</h1>
+
+<div id="quiz"></div>
+<button onclick="checkAnswers()">Submit</button>
+<button onclick="loadQuiz()">Next 10 Questions</button>
+<div class="result" id="result"></div>
+
+<script>
+
+const questions = [
+
+{q:"1. Macroeconomics studies:",o:["Individual markets","Entire economy","Single firm","One consumer"],a:1},
+{q:"2. GDP measures:",o:["Total income abroad","Total output within country","Total exports","Total imports"],a:1},
+{q:"3. The expenditure formula for GDP is:",o:["C+I+G","C+I+G+(X-M)","C+S+T","I+G+T"],a:1},
+{q:"4. Inflation refers to:",o:["Falling prices","Rising general price level","Rising unemployment","GDP growth"],a:1},
+{q:"5. Unemployment rate measures:",o:["Total workers","Jobless as % of labor force","Retired people","Students"],a:1},
+{q:"6. Fiscal policy involves:",o:["Interest rates","Taxes and spending","Exports","Imports"],a:1},
+{q:"7. Monetary policy is controlled by:",o:["Households","Central bank","Firms","Congress only"],a:1},
+{q:"8. Expansion phase means:",o:["Falling GDP","Rising GDP","High unemployment","Low demand"],a:1},
+{q:"9. Recession is:",o:["Growth period","Economic decline","Price stability","Full employment"],a:1},
+{q:"10. Peak occurs:",o:["Before recession","After trough","During unemployment","At zero GDP"],a:0},
+
+{q:"11. Trough is:",o:["Highest point","Lowest point","Middle cycle","Inflation spike"],a:1},
+{q:"12. Structural unemployment arises from:",o:["Skill mismatch","Short job search","Recession only","Inflation"],a:0},
+{q:"13. Cyclical unemployment relates to:",o:["Business cycle","Technology","Retirement","Skills only"],a:0},
+{q:"14. Frictional unemployment is:",o:["Long term","Short job transition","Permanent","Inflation driven"],a:1},
+{q:"15. Nominal GDP uses:",o:["Constant prices","Current prices","Real output only","Imports only"],a:1},
+{q:"16. Real GDP adjusts for:",o:["Inflation","Exports","Imports","Taxes"],a:0},
+{q:"17. Economic growth means:",o:["Price increase","Increase in output","Higher taxes","Higher imports"],a:1},
+{q:"18. Full employment means:",o:["Zero unemployment","Only frictional unemployment","No inflation","Equal income"],a:1},
+{q:"19. Price stability aims to:",o:["Increase inflation","Reduce volatility","Raise GDP","Increase imports"],a:1},
+{q:"20. External balance relates to:",o:["Trade balance","Inflation","Unemployment","GDP only"],a:0},
+
+{q:"21. GDP excludes:",o:["Final goods","Used goods","Services","Investment"],a:1},
+{q:"22. Investment in GDP refers to:",o:["Stock purchases","Capital goods","Savings","Imports"],a:1},
+{q:"23. Government spending includes:",o:["Transfer payments","Public services","Private spending","Exports"],a:1},
+{q:"24. Inflation reduces:",o:["Purchasing power","Exports","Income","Employment"],a:0},
+{q:"25. Aggregate output equals:",o:["National income","Exports only","Imports only","Taxes"],a:0},
+
+{q:"26. Business cycles are:",o:["Predictable","Irregular fluctuations","Linear growth","Fixed length"],a:1},
+{q:"27. Macroeconomic policy seeks to:",o:["Stabilize economy","Increase imports","Eliminate firms","Raise taxes always"],a:0},
+{q:"28. Labor force excludes:",o:["Employed","Unemployed","Discouraged workers","Job seekers"],a:2},
+{q:"29. GDP per capita measures:",o:["Total GDP","Average output per person","Exports","Inflation"],a:1},
+{q:"30. Inflation is commonly measured using:",o:["CPI","GDP only","Unemployment","Exports"],a:0},
+
+{q:"31. Hyperinflation means:",o:["Very low inflation","Extremely high inflation","Zero inflation","Stable prices"],a:1},
+{q:"32. Monetary tightening reduces:",o:["Interest rates","Money supply","GDP always","Taxes"],a:1},
+{q:"33. Fiscal expansion increases:",o:["Taxes","Government spending","Imports","Unemployment"],a:1},
+{q:"34. Recession typically increases:",o:["GDP","Unemployment","Exports","Investment"],a:1},
+{q:"35. Long-run growth depends on:",o:["Productivity","Imports","Inflation","Taxes only"],a:0},
+
+{q:"36. Aggregate demand includes:",o:["C+I+G+(X-M)","Wages only","Taxes only","Imports only"],a:0},
+{q:"37. Supply shocks affect:",o:["Inflation and output","Exports only","Taxes","Labor only"],a:0},
+{q:"38. Stabilization policy aims to:",o:["Smooth cycles","Eliminate trade","Raise inequality","Stop growth"],a:0},
+{q:"39. A contractionary policy reduces:",o:["Inflation","GDP always","Exports","Population"],a:0},
+{q:"40. Economic indicators help:",o:["Predict trends","Fix GDP","Eliminate inflation","Stop trade"],a:0},
+
+{q:"41. Leading indicators predict:",o:["Past data","Future changes","Current GDP only","Inflation only"],a:1},
+{q:"42. Coincident indicators show:",o:["Future","Current state","Past only","Imports"],a:1},
+{q:"43. Lagging indicators confirm:",o:["Future","Past trends","Imports","Exports"],a:1},
+{q:"44. Sustainable growth avoids:",o:["Excess inflation","Employment","Income","Output"],a:0},
+{q:"45. Policy trade-offs often involve:",o:["Inflation vs unemployment","Exports vs imports","GDP vs income","Taxes vs imports"],a:0},
+
+{q:"46. Short-run Phillips Curve shows:",o:["Trade-off inflation & unemployment","GDP formula","Money supply","Trade balance"],a:0},
+{q:"47. Economic stability improves:",o:["Investor confidence","Inflation volatility","Unemployment spikes","Recession risk"],a:0},
+{q:"48. Macroeconomic models simplify:",o:["Reality","Income","Inflation","Taxes"],a:0},
+{q:"49. National income accounting tracks:",o:["Total output","Single firm","Imports only","Exports only"],a:0},
+{q:"50. The core macro question is:",o:["How the entire economy performs","One consumer choice","One firm profit","One price"],a:0}
+
+];
+
+let currentSet=[];
+
+function loadQuiz(){
+    document.getElementById("result").innerHTML="";
+    const shuffled=[...questions].sort(()=>0.5-Math.random());
+    currentSet=shuffled.slice(0,10);
+    const quizDiv=document.getElementById("quiz");
+    quizDiv.innerHTML="";
+    currentSet.forEach((item,index)=>{
+        let div=document.createElement("div");
+        div.className="question";
+        div.innerHTML="<p>"+item.q+"</p>"+
+        item.o.map((opt,i)=>
+            `<label><input type="radio" name="q${index}" value="${i}"> ${opt}</label><br>`
+        ).join("");
+        quizDiv.appendChild(div);
+    });
+}
+
+function checkAnswers(){
+    let score=0;
+    currentSet.forEach((item,index)=>{
+        let selected=document.querySelector(`input[name="q${index}"]:checked`);
+        if(selected && parseInt(selected.value)===item.a){score++;}
+    });
+    document.getElementById("result").innerHTML="Score: "+score+"/10";
+}
+
+loadQuiz();
+
+</script>
+
+</body>
+</html>

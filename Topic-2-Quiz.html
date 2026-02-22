@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AS-AD Framework Quiz</title>
+<style>
+body{
+    font-family: Arial;
+    margin:40px;
+    background:#f4f6f9;
+}
+.question{
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:8px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+button{
+    padding:10px 15px;
+    margin-top:10px;
+    border:none;
+    border-radius:6px;
+    background:#1f4e79;
+    color:white;
+    cursor:pointer;
+}
+.result{
+    margin-top:20px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<h1>AS-AD Framework Quiz</h1>
+
+<div id="quiz"></div>
+<button onclick="checkAnswers()">Submit</button>
+<button onclick="loadQuiz()">Next 10 Questions</button>
+<div class="result" id="result"></div>
+
+<script>
+
+const questions = [
+
+{q:"1. The AS-AD model determines:",o:["Individual prices","Total output and price level","Firm profits","Wages only"],a:1},
+{q:"2. Aggregate demand equals:",o:["C+I+G+(X-M)","C+S+T","W+R","I+G"],a:0},
+{q:"3. AD curve slopes downward because:",o:["Price level effects","Taxes rise","Income fixed","Exports fixed"],a:0},
+{q:"4. SRAS is:",o:["Vertical","Downward sloping","Upward sloping","Flat always"],a:2},
+{q:"5. LRAS is:",o:["Upward sloping","Vertical at Yf","Downward sloping","Horizontal"],a:1},
+{q:"6. Yf represents:",o:["Inflation rate","Full employment output","Exports","Investment"],a:1},
+{q:"7. When Y<Yf, economy has:",o:["Inflation gap","Recessionary gap","Trade surplus","Full capacity"],a:1},
+{q:"8. When Y>Yf:",o:["Recession","Inflationary pressure","Low prices","Unemployment spike"],a:1},
+{q:"9. Long-run output determined by:",o:["AD","Money supply","Capital and technology","Exports only"],a:2},
+{q:"10. A demand increase shifts:",o:["AD right","AS right","LRAS left","SRAS left"],a:0},
+
+{q:"11. Supply shock affects:",o:["Inflation and output","Exports only","Taxes","Imports"],a:0},
+{q:"12. Sticky wages explain:",o:["Vertical AS","Upward SRAS","Horizontal LRAS","Flat AD"],a:1},
+{q:"13. In long run:",o:["Output depends on AD","Output equals Yf","Prices fixed","No inflation"],a:1},
+{q:"14. Expansionary fiscal policy shifts:",o:["AD right","AS left","LRAS left","None"],a:0},
+{q:"15. Productivity growth shifts:",o:["LRAS right","AD left","SRAS left","AD down"],a:0},
+
+{q:"16. Very long run allows:",o:["Capital adjustment","No change","Fixed output","No growth"],a:0},
+{q:"17. Monetary expansion shifts:",o:["AD right","SRAS left","LRAS left","AS down"],a:0},
+{q:"18. Cost increase shifts SRAS:",o:["Right","Left","Up","None"],a:1},
+{q:"19. Equilibrium occurs where:",o:["AD=AS","Y=0","P=0","Exports=Imports"],a:0},
+{q:"20. Inflation gap closes via:",o:["Price adjustments","Exports","Imports","Taxes only"],a:0},
+
+{q:"21. Recessionary gap means:",o:["Y>Yf","Y<Yf","Full employment","Zero inflation"],a:1},
+{q:"22. Long-run neutrality implies:",o:["Money affects output permanently","Money affects prices only","Exports rise","Taxes fall"],a:1},
+{q:"23. AS steepness depends on:",o:["Capacity constraints","Exports","Imports","Taxes"],a:0},
+{q:"24. AD depends on:",o:["Spending components","Wages only","Taxes only","Capital only"],a:0},
+{q:"25. Capital accumulation shifts:",o:["LRAS right","AD left","SRAS down","None"],a:0},
+
+{q:"26. Full employment means:",o:["Zero unemployment","Natural rate","High inflation","No trade"],a:1},
+{q:"27. SRAS flatter when:",o:["High unemployment","Full capacity","High inflation","Zero output"],a:0},
+{q:"28. Inflation shock shifts:",o:["SRAS left","AD left","LRAS right","None"],a:0},
+{q:"29. Long run determined by:",o:["Supply side","Demand side","Exports","Imports"],a:0},
+{q:"30. AD right shift increases:",o:["Output and prices short run","Only prices","Only output","Nothing"],a:0},
+
+{q:"31. Vertical LRAS implies:",o:["Capacity constraint","Infinite supply","Flat supply","No growth"],a:0},
+{q:"32. Policy trade-off short run:",o:["Inflation vs output","Exports vs imports","GDP vs income","None"],a:0},
+{q:"33. Technological improvement shifts:",o:["LRAS right","AD right","SRAS left","None"],a:0},
+{q:"34. Oil price increase shifts:",o:["SRAS left","AD right","LRAS right","None"],a:0},
+{q:"35. Long-run growth increases:",o:["Yf","Inflation","Unemployment","Imports"],a:0},
+
+{q:"36. Equilibrium price level found at:",o:["AD-AS intersection","Yf only","Exports","Imports"],a:0},
+{q:"37. Short run deviation corrected by:",o:["Wage adjustments","Exports","Imports","Taxes only"],a:0},
+{q:"38. AD left shift lowers:",o:["Output and prices short run","Prices only","Exports only","Nothing"],a:0},
+{q:"39. SRAS vertical in:",o:["Long run","Short run","Recession","None"],a:0},
+{q:"40. Money supply increase short run:",o:["Raises output","Lowers output","No effect","Raises unemployment"],a:0},
+
+{q:"41. Excess capacity implies:",o:["Flat SRAS","Vertical SRAS","No AD","No inflation"],a:0},
+{q:"42. Overheating economy means:",o:["Y>Yf","Y<Yf","Full recession","Zero inflation"],a:0},
+{q:"43. Aggregate supply represents:",o:["Total production","Total spending","Imports","Exports"],a:0},
+{q:"44. AD curve relates P and:",o:["Total output","Exports","Taxes","Wages"],a:0},
+{q:"45. Policy goal:",o:["Stabilize around Yf","Eliminate growth","Fix prices forever","Zero GDP"],a:0},
+
+{q:"46. Long run price level determined by:",o:["Money supply and AS","Exports","Imports","Taxes only"],a:0},
+{q:"47. Recession gap closes via:",o:["Falling wages","Rising taxes","Imports","Exports"],a:0},
+{q:"48. AS shift right lowers:",o:["Price level","Output","Employment","Growth"],a:0},
+{q:"49. Demand shock affects:",o:["Short-run output","Long-run capacity","Technology","Labor supply"],a:0},
+{q:"50. Core AS-AD insight:",o:["Short run demand matters, long run supply dominates","Demand always dominates","Supply irrelevant","Prices fixed"],a:0}
+
+];
+
+let currentSet=[];
+
+function loadQuiz(){
+    document.getElementById("result").innerHTML="";
+    const shuffled=[...questions].sort(()=>0.5-Math.random());
+    currentSet=shuffled.slice(0,10);
+    const quizDiv=document.getElementById("quiz");
+    quizDiv.innerHTML="";
+    currentSet.forEach((item,index)=>{
+        let div=document.createElement("div");
+        div.className="question";
+        div.innerHTML="<p>"+item.q+"</p>"+
+        item.o.map((opt,i)=>
+            `<label><input type="radio" name="q${index}" value="${i}"> ${opt}</label><br>`
+        ).join("");
+        quizDiv.appendChild(div);
+    });
+}
+
+function checkAnswers(){
+    let score=0;
+    currentSet.forEach((item,index)=>{
+        let selected=document.querySelector(`input[name="q${index}"]:checked`);
+        if(selected && parseInt(selected.value)===item.a){score++;}
+    });
+    document.getElementById("result").innerHTML="Score: "+score+"/10";
+}
+
+loadQuiz();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Aggregate Supply Quiz</title>
+<style>
+body{
+    font-family: Arial;
+    margin:40px;
+    background:#f4f6f9;
+}
+.question{
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:8px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+button{
+    padding:10px 15px;
+    margin-top:10px;
+    border:none;
+    border-radius:6px;
+    background:#1f4e79;
+    color:white;
+    cursor:pointer;
+}
+.result{
+    margin-top:20px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<h1>Aggregate Supply Quiz</h1>
+
+<div id="quiz"></div>
+<button onclick="checkAnswers()">Submit</button>
+<button onclick="loadQuiz()">Next 10 Questions</button>
+<div class="result" id="result"></div>
+
+<script>
+
+const questions = [
+
+{q:"1. SRAS is typically:",o:["Vertical","Downward sloping","Upward sloping","Horizontal"],a:2},
+{q:"2. Phillips Curve shows relationship between:",o:["GDP and inflation","Unemployment and inflation","Exports and imports","Money and GDP"],a:1},
+{q:"3. When unemployment falls below natural rate:",o:["Inflation falls","Inflation rises","Inflation fixed","No effect"],a:1},
+{q:"4. Natural rate unemployment means:",o:["Zero unemployment","Frictional and structural only","Cyclical only","Full inflation"],a:1},
+{q:"5. Expected inflation affects:",o:["Current inflation","GDP only","Exports","Imports"],a:0},
+
+{q:"6. If π > πe:",o:["u > uf","u < uf","u = uf","No change"],a:1},
+{q:"7. If unemployment equals natural rate:",o:["π = πe","π rises","π falls","GDP zero"],a:0},
+{q:"8. Wage-setting depends on:",o:["Labor market tightness","Exports","Imports","Taxes"],a:0},
+{q:"9. Price-setting depends on:",o:["Wages and markup","Exports","Imports","GDP only"],a:0},
+{q:"10. Long-run Phillips Curve is:",o:["Upward sloping","Downward sloping","Vertical","Horizontal"],a:2},
+
+{q:"11. Inflation expectations shift:",o:["Phillips Curve","LRAS only","GDP","Imports"],a:0},
+{q:"12. Output gap positive implies:",o:["Inflation rises","Inflation falls","No change","Exports rise"],a:0},
+{q:"13. Output below potential implies:",o:["Disinflation","Hyperinflation","Zero growth","Imports"],a:0},
+{q:"14. Supply shock raises costs shifts:",o:["AS left","AS right","AD right","LRAS right"],a:0},
+{q:"15. Higher markup increases:",o:["Prices","Unemployment fixed","Exports","GDP automatically"],a:0},
+
+{q:"16. Inflation formula includes:",o:["πe","Exports","Imports","Taxes"],a:0},
+{q:"17. If σ large:",o:["Inflation sensitive to unemployment","No effect","GDP zero","Exports rise"],a:0},
+{q:"18. Natural rate determined by:",o:["Labor market structure","Money supply","Exports","Imports"],a:0},
+{q:"19. Wage increase shifts SRAS:",o:["Left","Right","Vertical","None"],a:0},
+{q:"20. Stable inflation requires:",o:["u=uf","u>uf","u<uf","GDP zero"],a:0},
+
+{q:"21. Long-run unemployment equals:",o:["Natural rate","Zero","100%","Exports"],a:0},
+{q:"22. Expected inflation increase shifts:",o:["SRAS up","AD right","LRAS left","None"],a:0},
+{q:"23. Disinflation occurs when:",o:["u>uf","u<uf","u=0","Exports rise"],a:0},
+{q:"24. Wage-price spiral occurs when:",o:["Inflation expectations rise","GDP falls","Exports rise","Taxes fall"],a:0},
+{q:"25. Structural reforms affect:",o:["Natural rate","Money supply","Exports only","Taxes only"],a:0},
+
+{q:"26. If unemployment high:",o:["Inflation falls","Inflation rises","Inflation fixed","Exports rise"],a:0},
+{q:"27. Inflation acceleration occurs if:",o:["u<uf persistently","u=uf","u>uf","GDP zero"],a:0},
+{q:"28. Long run no trade-off means:",o:["Vertical Phillips Curve","Flat Phillips Curve","AD curve","LRAS flat"],a:0},
+{q:"29. Labor market bargaining power increases:",o:["Wages","Exports","Imports","GDP fixed"],a:0},
+{q:"30. Cost-push inflation comes from:",o:["Supply shocks","Demand shocks","Exports","Imports"],a:0},
+
+{q:"31. Demand-pull inflation comes from:",o:["AD increase","AS decrease","Imports","Exports"],a:0},
+{q:"32. If πe rises:",o:["Inflation rises","GDP falls automatically","Exports fall","Taxes rise"],a:0},
+{q:"33. Output gap relates to:",o:["Unemployment gap","Exports","Imports","Taxes"],a:0},
+{q:"34. Natural rate influenced by:",o:["Institutions","Money only","Exports","Imports"],a:0},
+{q:"35. Inflation stable when:",o:["π=πe","π>πe","π<πe","GDP zero"],a:0},
+
+{q:"36. Wage growth increases when:",o:["Unemployment low","Unemployment high","Exports rise","Imports rise"],a:0},
+{q:"37. Persistent unemployment below uf causes:",o:["Accelerating inflation","Stable inflation","Zero inflation","Exports"],a:0},
+{q:"38. Short-run trade-off exists between:",o:["Inflation and unemployment","Exports and imports","GDP and income","Taxes and GDP"],a:0},
+{q:"39. Long-run trade-off:",o:["Does not exist","Always exists","Exports","Imports"],a:0},
+{q:"40. Markup increase shifts:",o:["AS left","AD right","LRAS right","None"],a:0},
+
+{q:"41. Inflation expectations anchored means:",o:["Stable inflation","Hyperinflation","Zero GDP","High exports"],a:0},
+{q:"42. Productivity increase shifts:",o:["AS right","AS left","AD left","None"],a:0},
+{q:"43. Natural rate called:",o:["NAIRU","GDP","AD","LRAS"],a:0},
+{q:"44. NAIRU means:",o:["No inflation acceleration rate unemployment","Zero unemployment","Exports only","Imports only"],a:0},
+{q:"45. Inflation depends on:",o:["Expectations and unemployment gap","Exports","Imports","Taxes"],a:0},
+
+{q:"46. Long run inflation determined by:",o:["Expectations","Unemployment permanently","Exports","Imports"],a:0},
+{q:"47. Short-run Phillips Curve shifts when:",o:["πe changes","Exports change","Imports change","Taxes change"],a:0},
+{q:"48. Stable output gap equals:",o:["Zero","Positive","Negative","Exports"],a:0},
+{q:"49. Supply improvements reduce:",o:["Inflation","Output","Employment","Growth"],a:0},
+{q:"50. Core AS insight:",o:["Inflation tied to labor market conditions","Exports determine inflation","Imports determine inflation","Taxes determine inflation"],a:0}
+
+];
+
+let currentSet=[];
+
+function loadQuiz(){
+    document.getElementById("result").innerHTML="";
+    const shuffled=[...questions].sort(()=>0.5-Math.random());
+    currentSet=shuffled.slice(0,10);
+    const quizDiv=document.getElementById("quiz");
+    quizDiv.innerHTML="";
+    currentSet.forEach((item,index)=>{
+        let div=document.createElement("div");
+        div.className="question";
+        div.innerHTML="<p>"+item.q+"</p>"+
+        item.o.map((opt,i)=>
+            `<label><input type="radio" name="q${index}" value="${i}"> ${opt}</label><br>`
+        ).join("");
+        quizDiv.appendChild(div);
+    });
+}
+
+function checkAnswers(){
+    let score=0;
+    currentSet.forEach((item,index)=>{
+        let selected=document.querySelector(`input[name="q${index}"]:checked`);
+        if(selected && parseInt(selected.value)===item.a){score++;}
+    });
+    document.getElementById("result").innerHTML="Score: "+score+"/10";
+}
+
+loadQuiz();
+
+</script>
+
+</body>
+</html>

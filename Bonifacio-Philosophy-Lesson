@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Three Concepts of Philosophy - Summary</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    line-height: 1.6;
+    background-color: #f4f6f9;
+}
+h1, h2 {
+    color: #1f3c88;
+}
+.section {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.highlight {
+    background-color: #fff3cd;
+    padding: 5px;
+}
+</style>
+</head>
+<body>
+
+<h1>Three Concepts of Philosophy</h1>
+<h2>Based on Armando F. Bonifacio</h2>
+
+<div class="section">
+<h2>1️⃣ Philosophy as Personal Worldview</h2>
+<p>
+Every person has a <span class="highlight">personal philosophy</span>, even if they cannot clearly define it.
+This includes internalized values, beliefs, assumptions, and judgments about:
+</p>
+<ul>
+<li>Right and wrong (Ethics)</li>
+<li>Reality and existence (Metaphysics)</li>
+<li>Truth and knowledge (Epistemology)</li>
+</ul>
+<p>
+These presuppositions shape decisions, behavior, and conscience.
+They are often unconscious but guide everyday life.
+</p>
+</div>
+
+<div class="section">
+<h2>2️⃣ Philosophy as Reflection and Analysis</h2>
+<p>
+Philosophy also means the activity of examining and analyzing our beliefs.
+This involves questioning:
+</p>
+<ul>
+<li>Why we believe what we believe</li>
+<li>The foundation of our moral values</li>
+<li>The basis of knowledge and truth</li>
+</ul>
+<p>
+Professional philosophers like Plato, Aristotle, Kant, and others engaged in systematic reflection.
+This level goes beyond ordinary thinking and seeks clarity and logical structure.
+</p>
+</div>
+
+<div class="section">
+<h2>3️⃣ Philosophy as Reconstruction</h2>
+<p>
+Beyond analysis, philosophy aims to rebuild a more coherent and comprehensive worldview.
+This reconstructed philosophy:
+</p>
+<ul>
+<li>Unifies knowledge across disciplines</li>
+<li>Creates systematic frameworks</li>
+<li>Seeks universal foundations</li>
+</ul>
+<p>
+This is the highest level — not just criticizing beliefs, but constructing a better system of understanding.
+</p>
+</div>
+
+<div class="section">
+<h2>🔑 Core Takeaways</h2>
+<ul>
+<li>Everyone has a philosophy (even unconsciously).</li>
+<li>Philosophy involves critical reflection on values and beliefs.</li>
+<li>Philosophy can reconstruct a comprehensive worldview.</li>
+<li>Ethics, metaphysics, and epistemology form its foundation.</li>
+</ul>
+</div>
+
+</body>
+</html>

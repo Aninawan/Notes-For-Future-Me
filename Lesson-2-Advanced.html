@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Macroeconomics Lesson 2 - Aggregate Demand</title>
+<style>
+body { font-family: Arial; margin: 40px; }
+.question { margin-bottom: 20px; }
+button { padding: 10px 15px; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h1>Macroeconomics – Lesson 2 (Aggregate Demand)</h1>
+<div id="quiz"></div>
+<button onclick="submitQuiz()">Submit</button>
+<p id="result"></p>
+
+<script>
+
+const questions = [
+
+{q:"Aggregate demand represents:",a:["Total supply of goods","Total planned spending","Total production capacity","Labor demand"],c:1},
+{q:"The AD curve slopes downward because:",a:["Higher income raises spending","Higher prices reduce real balances","Taxes increase","Exports increase"],c:1},
+{q:"Which is NOT part of AD?",a:["Consumption","Investment","Government spending","Wages"],c:3},
+{q:"If interest rates fall, investment typically:",a:["Falls","Rises","Unchanged","Disappears"],c:1},
+{q:"Wealth effect occurs when:",a:["Higher prices reduce purchasing power","Taxes rise","Exports fall","Wages increase"],c:0},
+
+{q:"Exchange rate effect refers to:",a:["Interest rates rising","Currency appreciation reducing exports","Inflation rising","GDP growth"],c:1},
+{q:"If domestic currency appreciates:",a:["Exports rise","Imports rise","Net exports rise","GDP rises automatically"],c:1},
+{q:"Government spending increase shifts AD:",a:["Left","Right","Up","No shift"],c:1},
+{q:"Higher taxes shift AD:",a:["Right","Left","No change","Upward slope"],c:1},
+{q:"If price level rises, quantity demanded:",a:["Rises","Falls","Shifts right","Shifts left"],c:1},
+
+{q:"A movement along AD is caused by:",a:["Change in G","Change in price level","Change in taxes","Change in money supply"],c:1},
+{q:"An outward shift of AD can result from:",a:["Lower consumer confidence","Higher taxes","Increase in exports","Higher interest rates"],c:2},
+{q:"Which policy is expansionary fiscal?",a:["Tax cut","Tax hike","Spending cut","Balanced budget"],c:0},
+{q:"Monetary expansion typically:",a:["Raises interest rates","Lowers interest rates","Raises taxes","Cuts G"],c:1},
+{q:"Investment spending is most sensitive to:",a:["Wages","Interest rates","Population","Exports"],c:1},
+
+{q:"If households expect recession, consumption:",a:["Rises","Falls","Unaffected","Doubles"],c:1},
+{q:"AD equation is:",a:["Y = C + I + G + NX","Y = C + S","Y = T + G","Y = I + S"],c:0},
+{q:"If imports increase holding others constant:",a:["AD rises","AD falls","No effect","GDP doubles"],c:1},
+{q:"Which increases net exports?",a:["Currency appreciation","Foreign income rise","Domestic income rise","Higher imports"],c:1},
+{q:"Multiplier effect means:",a:["Spending causes larger output change","GDP equals spending","Taxes equal G","Inflation doubles"],c:0},
+
+{q:"Marginal propensity to consume (MPC) measures:",a:["Extra saving","Extra consumption per extra income","Tax rate","Import rate"],c:1},
+{q:"Higher MPC implies:",a:["Smaller multiplier","Larger multiplier","No multiplier","Lower GDP"],c:1},
+{q:"If MPC = 0.8, multiplier equals:",a:["5","4","2","1.25"],c:0},
+{q:"Crowding out reduces:",a:["Consumption","Private investment","Exports","Taxes"],c:1},
+{q:"Which shifts AD right?",a:["Higher interest rates","Lower taxes","Lower exports","Lower G"],c:1},
+
+{q:"If price level falls:",a:["Real balances rise","Investment falls","Exports fall","Taxes rise"],c:0},
+{q:"Real interest rate equals:",a:["Nominal - inflation","Nominal + inflation","GDP - inflation","CPI + GDP"],c:0},
+{q:"Planned spending includes:",a:["Unplanned inventory","C+I+G+NX","Only C","Only I"],c:1},
+{q:"If foreign recession occurs:",a:["Exports fall","Imports fall","AD rises","Interest rises"],c:0},
+{q:"Which reduces AD?",a:["Lower consumer confidence","Lower taxes","Higher exports","Lower rates"],c:0},
+
+{q:"Autonomous consumption means:",a:["Depends on income","Independent of income","Zero consumption","Government spending"],c:1},
+{q:"If investment becomes more profitable:",a:["AD shifts left","AD shifts right","Movement along AD","No effect"],c:1},
+{q:"Higher domestic inflation vs foreign:",a:["Exports rise","Imports fall","Net exports fall","GDP rises automatically"],c:2},
+{q:"Which is induced spending?",a:["Autonomous tax","Consumption based on income","Government grant","Exports"],c:1},
+{q:"Slope of AD reflects:",a:["Positive relation P and Y","Negative relation P and Y","Vertical line","Horizontal always"],c:1},
+
+{q:"Which increases consumption?",a:["Higher disposable income","Higher taxes","Higher interest rates","Lower wealth"],c:0},
+{q:"Disposable income equals:",a:["Income - taxes","GDP - inflation","C + I","Exports - imports"],c:0},
+{q:"If government raises spending and taxes equally:",a:["Balanced budget multiplier positive","AD unchanged","AD falls","GDP zero"],c:0},
+{q:"Liquidity effect refers to:",a:["More money lowers rates","More money raises rates","Higher taxes","Exports fall"],c:0},
+{q:"Speculative demand for money depends on:",a:["Interest rate","GDP","Taxes","Exports"],c:0},
+
+{q:"If central bank sells bonds:",a:["Money supply rises","Money supply falls","Taxes fall","G rises"],c:1},
+{q:"Lower interest rates stimulate:",a:["Saving","Investment","Taxes","Imports"],c:1},
+{q:"Which shifts AD left?",a:["Higher taxes","Higher exports","Higher G","Lower rates"],c:0},
+{q:"Import spending is:",a:["Leakage","Injection","Tax","Transfer"],c:0},
+{q:"Government spending is:",a:["Leakage","Injection","Import","Tax"],c:1},
+
+{q:"Net exports equal:",a:["X - M","M - X","C - I","G - T"],c:0},
+{q:"If MPC increases:",a:["Multiplier decreases","Multiplier increases","No change","GDP falls"],c:1},
+{q:"If interest rate rises:",a:["Investment rises","Investment falls","AD shifts right","Consumption rises"],c:1},
+{q:"Expected future income rise causes:",a:["AD shift left","AD shift right","Movement along","No change"],c:1},
+{q:"Tax increase reduces:",a:["Disposable income","GDP always zero","Exports","Imports"],c:0},
+
+{q:"Money supply increase shifts:",a:["AD right","AD left","AS right","AS left"],c:0},
+{q:"Exchange rate depreciation causes:",a:["Exports rise","Imports rise","Net exports fall","AD falls"],c:0},
+{q:"Which affects AD through confidence?",a:["Stock market crash","Weather","Technology","Population"],c:0},
+{q:"Autonomous investment does NOT depend on:",a:["Interest rate","Business expectations","Technology","Confidence"],c:0},
+{q:"If MPC = 0.6, multiplier:",a:["2.5","5","1.5","0.6"],c:0},
+
+{q:"Higher government borrowing may:",a:["Raise interest rates","Lower interest rates","Increase exports","Lower taxes"],c:0},
+{q:"Planned aggregate expenditure line slope equals:",a:["MPC","MPS","Tax rate","Interest rate"],c:0},
+{q:"If AD shifts right and AS fixed short-run:",a:["Output rises","Output falls","Prices fall","Unemployment rises"],c:0},
+{q:"Which is component most volatile?",a:["Consumption","Investment","Government spending","Taxes"],c:1},
+{q:"Permanent income hypothesis relates to:",a:["Consumption behavior","Investment","Exports","Taxes"],c:0},
+
+{q:"Ricardian equivalence suggests:",a:["Deficits irrelevant to AD","Taxes irrelevant","Exports irrelevant","G irrelevant"],c:0},
+{q:"Higher wealth increases:",a:["Consumption","Taxes","Imports automatically","Interest rates always"],c:0},
+{q:"Foreign currency appreciation means domestic:",a:["Depreciates","Appreciates","Stable","Inflates"],c:1},
+{q:"Higher imports reduce:",a:["NX","GDP","AD","All of the above"],c:3},
+{q:"If taxes fall, multiplier effect depends on:",a:["MPC","GDP","Inflation","Exports"],c:0},
+
+{q:"Which is automatic stabilizer affecting AD?",a:["Progressive tax","Tariff","Export subsidy","Interest cap"],c:0},
+{q:"Short-run equilibrium output where:",a:["Planned = actual spending","GDP = potential","Unemployment zero","Inflation zero"],c:0},
+{q:"If consumption function shifts up:",a:["AD shifts right","AD shifts left","Movement only","No change"],c:0},
+{q:"Investment tax credit would:",a:["Raise I","Lower I","No effect","Lower C"],c:0},
+{q:"Higher foreign income increases:",a:["Exports","Imports","Taxes","Interest rates"],c:0},
+
+{q:"AD curve becomes flatter if:",a:["Interest sensitivity higher","Taxes higher","Exports lower","MPC zero"],c:0},
+{q:"Interest rate effect strongest when:",a:["Investment highly sensitive","Consumption zero","Exports zero","Taxes zero"],c:0},
+{q:"Which is NOT reason for downward AD slope?",a:["Wealth effect","Interest effect","Exchange rate effect","Cost push"],c:3},
+{q:"If money demand increases with fixed supply:",a:["Interest rises","Interest falls","AD rises","Taxes fall"],c:0},
+{q:"Higher precautionary saving shifts AD:",a:["Left","Right","Up","Vertical"],c:0},
+
+{q:"If government cuts spending:",a:["AD shifts left","AD shifts right","No change","Prices fixed"],c:0},
+{q:"Which increases AD immediately?",a:["Unexpected tax rebate","Future tax hike","Higher imports","Higher interest rates"],c:0},
+{q:"Investment accelerator theory links I to:",a:["Change in output","Inflation","Taxes","Money supply"],c:0},
+{q:"Higher real balances effect strongest when:",a:["Money supply high","Prices low","Prices high","Exports high"],c:1},
+{q:"Fiscal contraction reduces:",a:["AD","AS","Money supply","Exports always"],c:0},
+
+{q:"If domestic interest < foreign:",a:["Capital outflow","Capital inflow","Exports fall","Taxes rise"],c:0},
+{q:"Capital inflow causes currency:",a:["Appreciation","Depreciation","Collapse","No change"],c:0},
+{q:"Which policy offsets recession?",a:["Increase G","Increase taxes","Cut money supply","Raise rates"],c:0},
+{q:"Multiplier larger when:",a:["MPC high","MPC low","Taxes high","Imports high"],c:0},
+{q:"Marginal propensity to save equals:",a:["1 - MPC","MPC","Tax rate","NX"],c:0},
+
+{q:"If MPS rises:",a:["Multiplier smaller","Multiplier larger","GDP rises","AD right"],c:0},
+{q:"Consumption smoothing implies:",a:["Stable C over time","Volatile C","Zero saving","Zero income"],c:0},
+{q:"Which shock shifts AD right?",a:["Positive export shock","Negative confidence","Tax increase","Import surge"],c:0},
+{q:"Expansionary monetary policy shifts:",a:["AD right","AD left","AS right","AS left"],c:0},
+{q:"AD curve drawn in (P,Y) space shows:",a:["Inverse P-Y relation","Positive P-Y relation","Vertical","Horizontal"],c:0},
+
+{q:"Higher government transfers increase:",a:["Disposable income","Taxes","Imports automatically","Interest always"],c:0},
+{q:"Balanced trade means NX:",a:["Zero","Positive","Negative","Equal GDP"],c:0},
+{q:"Unexpected inflation redistributes from:",a:["Lenders to borrowers","Borrowers to lenders","Exporters to importers","Government to firms"],c:0},
+{q:"Which increases multiplier size?",a:["Lower tax rate","Higher imports","Higher MPS","Higher savings"],c:0},
+{q:"A fall in asset prices shifts AD:",a:["Left","Right","Up","Vertical"],c:0}
+
+];
+
+function shuffle(array){
+return array.sort(()=>Math.random()-0.5);
+}
+
+let selected = shuffle([...questions]).slice(0,10);
+const quizDiv = document.getElementById("quiz");
+
+selected.forEach((item,index)=>{
+let div=document.createElement("div");
+div.classList.add("question");
+div.innerHTML="<p>"+(index+1)+". "+item.q+"</p>";
+item.a.forEach((option,i)=>{
+div.innerHTML+=`<label><input type="radio" name="q${index}" value="${i}"> ${option}</label><br>`;
+});
+quizDiv.appendChild(div);
+});
+
+function submitQuiz(){
+let score=0;
+selected.forEach((item,index)=>{
+let answer=document.querySelector(`input[name="q${index}"]:checked`);
+if(answer && parseInt(answer.value)===item.c){
+score++;
+}
+});
+document.getElementById("result").innerText="Score: "+score+"/10";
+}
+
+</script>
+</body>
+</html>

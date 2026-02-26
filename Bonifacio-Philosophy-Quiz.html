@@ -4,17 +4,9 @@
 <meta charset="UTF-8">
 <title>Three Concepts of Philosophy Quiz</title>
 <style>
-body {
-    font-family: Arial;
-    margin: 40px;
-}
-.question {
-    margin-bottom: 20px;
-}
-button {
-    padding: 10px 15px;
-    margin-top: 20px;
-}
+body { font-family: Arial; margin: 40px; }
+.question { margin-bottom: 20px; }
+button { padding: 10px 15px; margin-top: 20px; }
 </style>
 </head>
 <body>
@@ -26,33 +18,69 @@ button {
 
 <script>
 const questions = [
-{q:"According to Bonifacio, who has a philosophy?",a:["Only philosophers","Everyone","Teachers only","Scientists only"],c:1},
-{q:"Personal philosophy consists mainly of?",a:["Memorized facts","Internalized values and beliefs","Scientific formulas","Government laws"],c:1},
-{q:"Ethics concerns?",a:["Truth","Beauty","Right and wrong","Physics"],c:2},
-{q:"Metaphysics studies?",a:["Morality","Knowledge","Reality and existence","Politics"],c:2},
-{q:"Epistemology studies?",a:["Truth and knowledge","Religion","Economics","Art"],c:0},
-{q:"Conscience is linked to?",a:["External law","Internalized values","Government policy","Random emotion"],c:1},
-{q:"Reflection in philosophy means?",a:["Memorizing","Questioning foundations","Avoiding thinking","Repeating tradition"],c:1},
-{q:"Professional philosophy is usually?",a:["Random","Systematic","Emotional","Instinctive"],c:1},
-{q:"Reconstruction in philosophy means?",a:["Destroying beliefs","Rebuilding coherent systems","Ignoring ideas","Memorizing facts"],c:1},
-{q:"A comprehensive philosophy attempts to?",a:["Unify knowledge","Divide knowledge","Ignore ethics","Reject science"],c:0},
-];
 
-// Generate 40 more unique conceptual questions
-for(let i=11;i<=50;i++){
-questions.push({
-q:"Conceptual Question "+i+": Philosophy involves examining which foundational area?",
-a:["Ethics","Metaphysics","Epistemology","All of the above"],
-c:3
-});
-}
+{q:"According to Bonifacio, who has a personal philosophy?",a:["Only philosophers","Every person","Only teachers","Only politicians"],c:1},
+{q:"Personal philosophy consists mainly of?",a:["Memorized facts","Internalized values and assumptions","Government rules","Scientific data"],c:1},
+{q:"Ethics primarily concerns?",a:["Beauty","Right and wrong","Weather","Mathematics"],c:1},
+{q:"Metaphysical notions concern?",a:["Reality and existence","Cooking","Finance","Geography"],c:0},
+{q:"Epistemology studies?",a:["Beauty","Knowledge and truth","Politics","Emotion"],c:1},
+{q:"Conscience is connected to?",a:["External punishment","Internalized values","Scientific law","Tradition alone"],c:1},
+{q:"Philosophical reflection involves?",a:["Blind belief","Objectification and analysis","Ignoring doubts","Emotional reaction"],c:1},
+{q:"Professional philosophers differ because they are?",a:["More emotional","More systematic","More wealthy","More powerful"],c:1},
+{q:"Reconstruction in philosophy aims to?",a:["Destroy beliefs","Create coherent systems","Ignore reality","Reject ethics"],c:1},
+{q:"A comprehensive philosophy seeks to?",a:["Unify knowledge","Divide disciplines","Avoid reasoning","Reject science"],c:0},
+
+{q:"Ethics, metaphysics, and epistemology are parts of?",a:["Politics","Philosophy","Law","Religion"],c:1},
+{q:"The first sense of philosophy refers to?",a:["Personal worldview","Academic debate","Religion","Law"],c:0},
+{q:"The second sense refers to?",a:["Systematic reflection","Emotion","Habit","Law enforcement"],c:0},
+{q:"The third sense refers to?",a:["Reconstructed worldview","Personal opinion","Instinct","Tradition"],c:0},
+{q:"Values influence?",a:["Nothing","Beliefs and actions","Weather","Technology"],c:1},
+{q:"Ethical values are learned through?",a:["Isolation","Training and environment","Birth alone","Government decree"],c:1},
+{q:"Shadows vs reality example relates to?",a:["Economics","Plato’s Allegory","Mathematics","Politics"],c:1},
+{q:"Plato associated wisdom with?",a:["Moonlight","Sunlight","Fire","Darkness"],c:1},
+{q:"Wisdom aids in understanding what is?",a:["Profitable","True, good, and beautiful","Popular","Legal only"],c:1},
+{q:"Philosophy literally means?",a:["Love of wisdom","Fear of ignorance","Study of law","Science of math"],c:0},
+
+{q:"Logic studies?",a:["Reasoning","Custom","Emotion","Fashion"],c:0},
+{q:"Metaphysics studies?",a:["Markets","Being","Beauty","Language"],c:1},
+{q:"Epistemology studies?",a:["Law","Knowledge","Art","Religion"],c:1},
+{q:"Axiology studies?",a:["Value","Power","Biology","War"],c:0},
+{q:"Ethics falls under?",a:["Axiology","Physics","Chemistry","Astronomy"],c:0},
+{q:"Personal philosophy is usually?",a:["Conscious always","Unconscious foundation","Illegal","Scientific only"],c:1},
+{q:"Reflection challenges?",a:["Presuppositions","Weather","Architecture","Fashion"],c:0},
+{q:"Reconstruction follows?",a:["Analysis","Emotion","Silence","Ignorance"],c:0},
+{q:"Philosophers attempt to find?",a:["Temporary answers","Universal foundations","Profits","Trends"],c:1},
+{q:"A systematic worldview requires?",a:["Random thought","Integration","Tradition only","Emotion"],c:1},
+
+{q:"Ethical presuppositions influence?",a:["Behavior","Temperature","Gravity","Currency"],c:0},
+{q:"Conceptual confusion may arise from?",a:["Clear logic","Woolly metaphysical notions","Exact math","Science"],c:1},
+{q:"The statement 'square circles do not exist' raises?",a:["Political issues","Metaphysical issues","Weather problems","Economic crisis"],c:1},
+{q:"Philosophy asks underlying?",a:["Surface questions","Explanations","Rumors","Trends"],c:1},
+{q:"Academic specialization may hinder?",a:["Unified worldview","Skill","Expertise","Precision"],c:0},
+{q:"Comprehensive philosophy aims to?",a:["Fragment knowledge","Unify knowledge","Ignore disciplines","Promote ignorance"],c:1},
+{q:"Ethical analysis questions?",a:["Value foundations","Fashion choices","Sports results","Weather"],c:0},
+{q:"Beliefs may be shaped by?",a:["Parents and culture","Isolation","Nothing","Technology only"],c:0},
+{q:"Ethical reflection may reveal?",a:["Error","Profit","Weather","Physics"],c:0},
+{q:"Personal philosophy shapes?",a:["Expectations","Climate","Gravity","Technology"],c:0},
+
+{q:"Ethics evaluates?",a:["Moral value","Scientific fact","Beauty","Color"],c:0},
+{q:"Reflection is?",a:["Passive","Active examination","Blind acceptance","Habit"],c:1},
+{q:"Systematic philosophy differs from casual thinking because it is?",a:["Structured","Emotional","Temporary","Accidental"],c:0},
+{q:"Values become part of?",a:["Intellectual repertoire","Bank account","Weather","Body weight"],c:0},
+{q:"Philosophy examines?",a:["Assumptions","Shoes","Cars","Sports"],c:0},
+{q:"Ethical discomfort may signal?",a:["Conscience","Ignorance","Wealth","Luck"],c:0},
+{q:"Philosophical reconstruction seeks?",a:["Coherence","Confusion","Silence","Profit"],c:0},
+{q:"Ethical beliefs influence?",a:["Decisions","Temperature","Rainfall","Gravity"],c:0},
+{q:"Reflection can lead to?",a:["Improved foundations","Chaos","Silence","Forgetfulness"],c:0},
+{q:"Philosophy ultimately seeks?",a:["Wisdom","Wealth","Fame","Entertainment"],c:0}
+
+];
 
 function shuffle(array){
 return array.sort(()=>Math.random()-0.5);
 }
 
 let selected = shuffle([...questions]).slice(0,10);
-
 const quizDiv = document.getElementById("quiz");
 
 selected.forEach((item,index)=>{

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Macroeconomics Lesson 1 Advanced</title>
+<style>
+body { font-family: Arial; margin: 40px; }
+.question { margin-bottom: 20px; }
+button { padding: 10px 15px; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h1>Macroeconomics – Lesson 1 (100 Questions)</h1>
+<div id="quiz"></div>
+<button onclick="submitQuiz()">Submit</button>
+<p id="result"></p>
+
+<script>
+
+const questions = [
+
+{q:"Which of the following is a macroeconomic variable?",a:["Price of one laptop","Total national output","Wage of one worker","Price of rice in one store"],c:1},
+{q:"GDP measures the market value of?",a:["All goods ever produced","Final goods and services produced domestically","All intermediate goods","Used goods sold"],c:1},
+{q:"If a country’s nominal GDP rises while real GDP stays constant, this implies:",a:["Deflation","Inflation","Higher productivity","Lower employment"],c:1},
+{q:"Investment in GDP refers to:",a:["Stock purchases","New capital goods","Bank deposits","Government bonds"],c:1},
+{q:"Which is NOT included in GDP?",a:["New car purchase","Government teacher salary","Used textbook resale","New factory construction"],c:2},
+{q:"Real GDP adjusts for:",a:["Population","Inflation","Unemployment","Exports"],c:1},
+{q:"The unemployment rate equals:",a:["Unemployed / total population","Unemployed / labor force","Labor force / population","Employed / labor force"],c:1},
+{q:"Cyclical unemployment occurs due to:",a:["Technological change","Business cycle downturn","Seasonal harvest","Skill mismatch"],c:1},
+{q:"Structural unemployment results from:",a:["Temporary recession","Mismatch of skills","Weather shocks","Inflation"],c:1},
+{q:"Frictional unemployment is:",a:["Long-term joblessness","Normal job search process","Technological unemployment","Policy failure"],c:1},
+
+{q:"Inflation is defined as:",a:["Increase in GDP","Sustained rise in general price level","Higher wages","Increase in exports"],c:1},
+{q:"Deflation can be dangerous because:",a:["It raises exports","It increases real debt burdens","It lowers prices","It increases employment"],c:1},
+{q:"Opportunity cost in macro policy refers to:",a:["Budget deficits","Trade-offs between goals","Interest payments","Taxes"],c:1},
+{q:"Which goal conflicts with low inflation in the short run?",a:["Low unemployment","High exports","Balanced trade","Stable currency"],c:0},
+{q:"Automatic stabilizers include:",a:["Tax cuts by Congress","Progressive income tax","Interest rate hikes","Tariffs"],c:1},
+
+{q:"GDP per capita is used as a proxy for:",a:["Inequality","Living standards","Inflation","Exports"],c:1},
+{q:"If population grows faster than GDP:",a:["GDP per capita rises","GDP per capita falls","Inflation falls","Exports rise"],c:1},
+{q:"Nominal interest rate equals:",a:["Real rate + inflation","Real rate - inflation","GDP growth","Money supply growth"],c:0},
+{q:"Hyperinflation typically results from:",a:["Strong productivity","Excessive money growth","High exports","Balanced budgets"],c:1},
+{q:"The labor force includes:",a:["Everyone over 18","Employed + unemployed seeking work","Retirees","Students only"],c:1},
+
+{q:"A recession is typically defined as:",a:["One bad month","Sustained decline in output","High inflation","Trade deficit"],c:1},
+{q:"Which is a demand-side policy tool?",a:["Minimum wage law","Government spending increase","Technology innovation","Education reform"],c:1},
+{q:"Which is supply-side improvement?",a:["Money printing","Tax cut on investment","Higher tariffs","Higher minimum wage"],c:1},
+{q:"If real wages rise above equilibrium:",a:["Labor shortage","Labor surplus","Full employment","No effect"],c:1},
+{q:"GDP excludes household production because:",a:["It has no value","It lacks market price","It is illegal","It is taxed"],c:1},
+
+{q:"Which increases measured GDP?",a:["Buying used car","Building new house","Transfer payment","Illegal transaction"],c:1},
+{q:"Net exports equal:",a:["Exports - Imports","Imports - Exports","GDP - C","I - G"],c:0},
+{q:"If imports exceed exports:",a:["Trade surplus","Trade deficit","Balanced trade","Budget surplus"],c:1},
+{q:"Which policy reduces inflation?",a:["Expansionary fiscal policy","Contractionary monetary policy","Higher government spending","Tax cuts"],c:1},
+{q:"Potential output is determined by:",a:["Money supply","Real factors like labor and capital","Exports","Inflation"],c:1},
+
+{q:"A positive output gap implies:",a:["Recession","Overheating economy","High unemployment","Deflation"],c:1},
+{q:"If CPI rises from 100 to 105:",a:["5% inflation","105% inflation","-5% inflation","0% inflation"],c:0},
+{q:"Labor productivity equals:",a:["Output per worker","Wages per worker","Population growth","GDP growth"],c:0},
+{q:"Long-term growth depends primarily on:",a:["Money supply","Productivity growth","Tariffs","Inflation"],c:1},
+{q:"Which is a stock variable?",a:["GDP","Investment","Capital","Income"],c:2},
+
+{q:"Which is a flow variable?",a:["Wealth","Capital","Income","Population"],c:2},
+{q:"Human capital refers to:",a:["Machines","Education and skills","Factories","Money supply"],c:1},
+{q:"Government transfer payments are:",a:["Included in GDP","Excluded from GDP","Exports","Investment"],c:1},
+{q:"Balanced budget means:",a:["G = T","Exports = Imports","C = I","GDP = C"],c:0},
+{q:"Crowding out occurs when:",a:["Gov spending raises private investment","Gov borrowing raises interest rates","Taxes fall","Exports rise"],c:1},
+
+{q:"Real GDP growth of 3% with population growth of 2% means per capita growth of:",a:["1%","5%","3%","-1%"],c:0},
+{q:"Which reduces unemployment in short run?",a:["Higher taxes","Increased demand","Lower productivity","Higher wages"],c:1},
+{q:"Price stability refers to:",a:["Zero prices","Low and stable inflation","High exports","Balanced trade"],c:1},
+{q:"Which is macroeconomic goal?",a:["Firm profit maximization","Full employment","Individual salary increase","Firm market share"],c:1},
+{q:"Labor force participation rate equals:",a:["Labor force / population","Unemployed / population","Employed / population","GDP / population"],c:0},
+
+{q:"If discouraged workers stop searching, unemployment rate:",a:["Rises","Falls","Stays same","Doubles"],c:1},
+{q:"Inflation erodes:",a:["Real purchasing power","Exports","GDP","Employment"],c:0},
+{q:"Which reflects economic growth?",a:["Higher real GDP","Higher inflation","Higher imports","Higher taxes"],c:0},
+{q:"GDP double counting occurs when:",a:["Final goods counted twice","Intermediate goods included","Exports rise","Taxes fall"],c:1},
+{q:"A stable currency helps:",a:["Investment planning","Inflation rise","Unemployment rise","GDP fall"],c:0},
+
+{q:"Economic growth shifts production possibilities curve:",a:["Inward","Outward","Downward","Leftward"],c:1},
+{q:"Which increases potential GDP?",a:["More capital","Higher tariffs","Lower education","Inflation"],c:0},
+{q:"Business cycle refers to:",a:["Long-term growth","Short-run fluctuations","Population change","Currency change"],c:1},
+{q:"Which is countercyclical policy?",a:["Tightening during recession","Stimulus during recession","Tariffs during growth","Balanced budget always"],c:1},
+{q:"If inflation expected to rise, lenders:",a:["Lower rates","Raise nominal rates","Stop lending","Ignore inflation"],c:1},
+
+{q:"Short-run tradeoff between inflation and unemployment is described by:",a:["Phillips Curve","Laffer Curve","IS Curve","LM Curve"],c:0},
+{q:"Real income equals:",a:["Nominal income / price level","Nominal income + price level","GDP + inflation","Exports - imports"],c:0},
+{q:"GDP measures production within:",a:["Nationality","Geographic borders","Corporations only","Imports only"],c:1},
+{q:"Which is not a macro objective?",a:["Price stability","Growth","Full employment","Firm profit"],c:3},
+{q:"Inflation targeting is conducted by:",a:["Treasury","Central bank","Firms","Consumers"],c:1},
+
+{q:"If real GDP < potential GDP:",a:["Expansion","Recessionary gap","Inflationary gap","Full employment"],c:1},
+{q:"High inflation uncertainty discourages:",a:["Spending","Saving","Investment","Exports"],c:2},
+{q:"Which affects long-run growth?",a:["Education policy","Temporary stimulus","One-time rebate","Weather shock"],c:0},
+{q:"GDP identity is:",a:["Y = C + I + G + NX","Y = C + S","Y = I + G","Y = T + G"],c:0},
+{q:"National saving equals:",a:["Y - C - G","C + I","G - T","NX"],c:0},
+
+{q:"Higher saving increases:",a:["Future capital stock","Inflation","Unemployment","Imports"],c:0},
+{q:"Real wage equals:",a:["Nominal wage / price level","Nominal wage + inflation","GDP / labor","Capital / labor"],c:0},
+{q:"If exports increase:",a:["GDP rises","GDP falls","Unemployment rises","Inflation falls"],c:0},
+{q:"Which is procyclical?",a:["Unemployment","GDP","Bankruptcies","Welfare payments"],c:1},
+{q:"Which is countercyclical?",a:["Unemployment","GDP","Consumption","Investment"],c:0},
+
+{q:"A central bank combats recession by:",a:["Raising rates","Lowering rates","Raising taxes","Cutting spending"],c:1},
+{q:"Fiscal deficit equals:",a:["G - T","T - G","Exports - imports","GDP - G"],c:0},
+{q:"Long-run neutrality of money implies:",a:["Money affects output permanently","Money affects prices only long term","Money reduces unemployment permanently","Money irrelevant"],c:1},
+{q:"Which causes structural change?",a:["Automation","Recession","Weather","Inflation"],c:0},
+{q:"Inflation tax affects:",a:["Money holders","Exporters","Importers","Investors only"],c:0},
+
+{q:"Which variable is leading indicator?",a:["Stock prices","GDP","Unemployment rate","CPI"],c:0},
+{q:"Which variable lags cycle?",a:["Unemployment","Stock market","Orders","Confidence"],c:0},
+{q:"Economic policy aims to minimize:",a:["Business cycles","Exports","Imports","Savings"],c:0},
+{q:"If productivity doubles, wages tend to:",a:["Fall","Rise","Stay fixed","Disappear"],c:1},
+{q:"Money illusion occurs when:",a:["People ignore real values","People ignore inflation","Banks fail","Exports rise"],c:1},
+
+{q:"Long-run growth rate depends on:",a:["Capital accumulation and innovation","Money supply only","Government size","Trade deficit"],c:0},
+{q:"Which is expansionary fiscal policy?",a:["Cut taxes","Raise taxes","Cut spending","Balanced budget"],c:0},
+{q:"Which reduces aggregate demand?",a:["Higher taxes","Higher exports","Lower rates","Higher investment"],c:0},
+{q:"Which is not included in labor force?",a:["Employed","Unemployed seeking","Discouraged workers","Part-time workers"],c:2},
+{q:"Real GDP per capita best measures:",a:["Economic welfare proxy","Inflation","Trade balance","Debt"],c:0},
+
+{q:"Inflation expectations affect:",a:["Wage negotiations","Weather","Exports only","Population"],c:0},
+{q:"Higher government borrowing may lead to:",a:["Crowding out","Higher saving","Lower rates","Higher exports"],c:0},
+{q:"Economic growth increases:",a:["Living standards","Inflation automatically","Unemployment automatically","Deficits automatically"],c:0},
+{q:"Which describes macroeconomics?",a:["Study of individual markets","Study of economy-wide outcomes","Firm pricing","Consumer utility"],c:1},
+{q:"Full employment means:",a:["Zero unemployment","Natural rate of unemployment","All adults employed","No friction"],c:1},
+
+{q:"If CPI base year index = 100 and now 120, inflation since base:",a:["20%","120%","100%","-20%"],c:0},
+{q:"Real GDP corrects nominal GDP by dividing by:",a:["Price index","Population","Exports","Taxes"],c:0},
+{q:"Higher education improves:",a:["Human capital","Inflation","Imports","Deficits"],c:0},
+{q:"If money supply grows too fast long term:",a:["Higher inflation","Higher real GDP permanently","Lower unemployment permanently","Higher exports"],c:0},
+{q:"Primary goal of macro policy:",a:["Stability and growth","Firm profit","Trade surplus always","Zero imports"],c:0}
+
+];
+
+function shuffle(array){
+return array.sort(()=>Math.random()-0.5);
+}
+
+let selected = shuffle([...questions]).slice(0,10);
+const quizDiv = document.getElementById("quiz");
+
+selected.forEach((item,index)=>{
+let div=document.createElement("div");
+div.classList.add("question");
+div.innerHTML="<p>"+(index+1)+". "+item.q+"</p>";
+item.a.forEach((option,i)=>{
+div.innerHTML+=`<label><input type="radio" name="q${index}" value="${i}"> ${option}</label><br>`;
+});
+quizDiv.appendChild(div);
+});
+
+function submitQuiz(){
+let score=0;
+selected.forEach((item,index)=>{
+let answer=document.querySelector(`input[name="q${index}"]:checked`);
+if(answer && parseInt(answer.value)===item.c){
+score++;
+}
+});
+document.getElementById("result").innerText="Score: "+score+"/10";
+}
+
+</script>
+</body>
+</html>

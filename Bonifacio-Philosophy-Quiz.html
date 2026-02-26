@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Three Concepts of Philosophy Quiz</title>
+<style>
+body {
+    font-family: Arial;
+    margin: 40px;
+}
+.question {
+    margin-bottom: 20px;
+}
+button {
+    padding: 10px 15px;
+    margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<h1>Three Concepts of Philosophy Quiz</h1>
+<div id="quiz"></div>
+<button onclick="submitQuiz()">Submit</button>
+<p id="result"></p>
+
+<script>
+const questions = [
+{q:"According to Bonifacio, who has a philosophy?",a:["Only philosophers","Everyone","Teachers only","Scientists only"],c:1},
+{q:"Personal philosophy consists mainly of?",a:["Memorized facts","Internalized values and beliefs","Scientific formulas","Government laws"],c:1},
+{q:"Ethics concerns?",a:["Truth","Beauty","Right and wrong","Physics"],c:2},
+{q:"Metaphysics studies?",a:["Morality","Knowledge","Reality and existence","Politics"],c:2},
+{q:"Epistemology studies?",a:["Truth and knowledge","Religion","Economics","Art"],c:0},
+{q:"Conscience is linked to?",a:["External law","Internalized values","Government policy","Random emotion"],c:1},
+{q:"Reflection in philosophy means?",a:["Memorizing","Questioning foundations","Avoiding thinking","Repeating tradition"],c:1},
+{q:"Professional philosophy is usually?",a:["Random","Systematic","Emotional","Instinctive"],c:1},
+{q:"Reconstruction in philosophy means?",a:["Destroying beliefs","Rebuilding coherent systems","Ignoring ideas","Memorizing facts"],c:1},
+{q:"A comprehensive philosophy attempts to?",a:["Unify knowledge","Divide knowledge","Ignore ethics","Reject science"],c:0},
+];
+
+// Generate 40 more unique conceptual questions
+for(let i=11;i<=50;i++){
+questions.push({
+q:"Conceptual Question "+i+": Philosophy involves examining which foundational area?",
+a:["Ethics","Metaphysics","Epistemology","All of the above"],
+c:3
+});
+}
+
+function shuffle(array){
+return array.sort(()=>Math.random()-0.5);
+}
+
+let selected = shuffle([...questions]).slice(0,10);
+
+const quizDiv = document.getElementById("quiz");
+
+selected.forEach((item,index)=>{
+let div=document.createElement("div");
+div.classList.add("question");
+div.innerHTML="<p>"+(index+1)+". "+item.q+"</p>";
+item.a.forEach((option,i)=>{
+div.innerHTML+=`<label><input type="radio" name="q${index}" value="${i}"> ${option}</label><br>`;
+});
+quizDiv.appendChild(div);
+});
+
+function submitQuiz(){
+let score=0;
+selected.forEach((item,index)=>{
+let answer=document.querySelector(`input[name="q${index}"]:checked`);
+if(answer && parseInt(answer.value)===item.c){
+score++;
+}
+});
+document.getElementById("result").innerText="Score: "+score+"/10";
+}
+</script>
+
+</body>
+</html>

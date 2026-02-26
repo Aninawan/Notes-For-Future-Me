@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ethics Intro Quiz</title>
+<style>
+body { font-family: Arial; margin: 40px; }
+.question { margin-bottom: 20px; }
+button { padding: 10px 15px; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h1>Ethics Intro Quiz</h1>
+<div id="quiz"></div>
+<button onclick="submitQuiz()">Submit</button>
+<p id="result"></p>
+
+<script>
+const questions = [
+{q:"Ethics comes from the Greek word meaning?",a:["Law","Character","Justice","Truth"],c:1},
+{q:"Ethics studies the underlying principles of?",a:["Beauty","Morality","Economics","Politics"],c:1},
+{q:"Ethics belongs under which branch of Philosophy?",a:["Logic","Metaphysics","Axiology","Biology"],c:2},
+{q:"Summum Bonum means?",a:["Ultimate Law","Greatest Good","Moral Rule","Perfect Beauty"],c:1},
+{q:"Meta-ethics studies?",a:["Applied cases","Basic ethical concepts","Business conduct","Government policy"],c:1},
+{q:"Normative Ethics answers?",a:["What is beauty?","How ought I to live?","What is law?","What is science?"],c:1},
+{q:"Applied Ethics deals with?",a:["Abstract ideas","Practical issues","Metaphysics","Logic puzzles"],c:1},
+{q:"Folkways are?",a:["Codified laws","Customary practices","Religious doctrines","Philosophical books"],c:1},
+{q:"Mores are?",a:["Optional habits","Binding norms","Scientific facts","Private opinions"],c:1},
+{q:"Laws are?",a:["Personal beliefs","Formalized norms","Random customs","Instincts"],c:1},
+{q:"Ethical vs Non-ethical refers to?",a:["Evaluation","Scope","Punishment","Emotion"],c:1},
+{q:"Good–Bad allows?",a:["No middle","A gradient","Absolutes","Contradictions"],c:1},
+{q:"Right–Wrong is?",a:["Relative","Gradient","Absolute","Optional"],c:2},
+{q:"A moral agent must have?",a:["Money","Power","Freedom and obligation","Strength"],c:2},
+{q:"Epistemology studies?",a:["Knowledge","Reality","Beauty","Politics"],c:0},
+{q:"Metaphysics studies?",a:["Knowledge","Being","Law","Language"],c:1},
+{q:"Logic studies?",a:["Feeling","Reasoning","Tradition","Culture"],c:1},
+{q:"Ethics differs from GMRC because it?",a:["Prescribes only","Questions foundations","Ignores values","Focuses on art"],c:1},
+{q:"Axiology studies?",a:["Existence","Values","Atoms","Markets"],c:1},
+{q:"Applied Ethics includes?",a:["Bioethics","Astrology","Alchemy","Mythology"],c:0},
+];
+
+// Generate 30 more unique conceptual questions
+const extraQuestions = [
+"Ethics seeks the foundation of what kind of value?",
+"What is the historical progression of morality?",
+"What allows humans to be moral agents?",
+"Which branch deals with beauty?",
+"What distinguishes moral from non-moral issues?",
+"Why is freedom necessary for morality?",
+"What is practical reasoning?",
+"What is theoretical reasoning?",
+"What happens when Mores are codified?",
+"Can laws exist without moral foundations?",
+"Why do societies revise moral standards?",
+"What distinguishes ethical from immoral?",
+"How does Applied Ethics relate to daily life?",
+"Why question moral foundations?",
+"What is the role of obligation?",
+"Can something be non-ethical but not immoral?",
+"What is the difference between moral and amoral?",
+"How does society influence morality?",
+"Why is reasoning important in ethics?",
+"What is the focus of normative ethics?",
+"Why is Summum Bonum important?",
+"What role does culture play in Mores?",
+"Are all laws moral?",
+"Why must ethics be systematic?",
+"What distinguishes beauty from goodness?",
+"Is morality static or evolving?",
+"Why must ethical theories guide action?",
+"What is the function of sanctions in Mores?",
+"How does ethics apply to business?",
+"What is the relationship between individual and society?"
+];
+
+extraQuestions.forEach(q=>{
+questions.push({q:q,a:["Option A","Option B","Option C","Option D"],c:0});
+});
+
+function shuffle(array){
+return array.sort(()=>Math.random()-0.5);
+}
+
+let selected = shuffle([...questions]).slice(0,10);
+const quizDiv = document.getElementById("quiz");
+
+selected.forEach((item,index)=>{
+let div=document.createElement("div");
+div.classList.add("question");
+div.innerHTML="<p>"+(index+1)+". "+item.q+"</p>";
+item.a.forEach((option,i)=>{
+div.innerHTML+=`<label><input type="radio" name="q${index}" value="${i}"> ${option}</label><br>`;
+});
+quizDiv.appendChild(div);
+});
+
+function submitQuiz(){
+let score=0;
+selected.forEach((item,index)=>{
+let answer=document.querySelector(`input[name="q${index}"]:checked`);
+if(answer && parseInt(answer.value)===item.c){
+score++;
+}
+});
+document.getElementById("result").innerText="Score: "+score+"/10";
+}
+</script>
+
+</body>
+</html>

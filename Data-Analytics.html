@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Data Analytics Path</title>
+<style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0f172a;
+  font-family: Arial, sans-serif;
+}
 
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1000px;
+}
+
+.icon-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 180px;
+  font-size: 60px;
+  text-decoration: none;
+  border-radius: 20px;
+  transition: 0.3s;
+  color: white;
+}
+
+.icon-link:hover {
+  transform: scale(1.1);
+}
+
+.label {
+  text-align: center;
+  margin-top: 10px;
+  color: white;
+  font-size: 16px;
+}
+
+.wrapper {
+  text-align: center;
+}
+
+/* Colors */
+.stats { background: #2563eb; }
+.excel { background: #16a34a; }
+.sql { background: #9333ea; }
+.python { background: #f59e0b; }
+.viz { background: #ec4899; }
+.story { background: #14b8a6; }
+
+.locked {
+  background: #334155;
+  opacity: 0.5;
+  filter: grayscale(100%);
+  cursor: not-allowed;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="wrapper">
+    <div class="icon-link stats">📐</div>
+    <div class="label">Statistics</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="icon-link excel">📊</div>
+    <div class="label">Excel</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="icon-link sql">🗄️</div>
+    <div class="label">SQL</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="icon-link python">🐍</div>
+    <div class="label">Python</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="icon-link viz">📈</div>
+    <div class="label">Data Viz Tools</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="icon-link story">🎤</div>
+    <div class="label">Storytelling</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="icon-link locked">🔒</div>
+    <div class="label">Machine Learning</div>
+  </div>
+
+</div>
+
+</body>
+</html>

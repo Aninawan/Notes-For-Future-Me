@@ -4,3 +4,90 @@
 <a href="Econ-102.html"> To go to the Econ 102 page click here </a> <br>
 <a href="Ethics-10.html"> To go to the Ethics 10 page click here </a> <br>
 <a href="Science-10.html"> To go to the Science 10 page click here </a> <br>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Work</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0f172a;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  gap: 60px;
+}
+
+.icon-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  font-size: 70px;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: 0.3s;
+  color: white;
+}
+
+.icon-link:hover {
+  transform: scale(1.1);
+}
+
+.econ { background: #7c3aed; }       /* Purple */
+.analytics { background: #f97316; }  /* Orange */
+
+.locked {
+  background: #334155;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.locked:hover {
+  transform: none;
+}
+
+.label {
+  text-align: center;
+  margin-top: 15px;
+  color: white;
+  font-size: 18px;
+}
+
+.wrapper {
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="wrapper">
+    <a href="Economics.html" class="icon-link econ">📈</a>
+    <div class="label">Economics</div>
+  </div>
+
+  <div class="wrapper">
+    <a href="Data-Analytics.html" class="icon-link analytics">📊</a>
+    <div class="label">Data Analytics</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="icon-link locked">🔒</div>
+    <div class="label">Data Science (Locked)</div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income & Substitution Effects: Lesson & Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #09111f 0%, #1a1f3a 50%, #0f1628 100%);
+            color: #e0e6ff;
+            min-height: 100vh;
+            padding: 28px;
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            background: rgba(20, 25, 45, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(100, 120, 255, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a5fff 0%, #2d3bad 100%);
+            padding: 75px 55px;
+            text-align: center;
+            animation: slideDown 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 3.2em;
+            color: white;
+            margin-bottom: 12px;
+            letter-spacing: -0.8px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.15em;
+            color: rgba(255, 255, 255, 0.92);
+            font-weight: 400;
+            letter-spacing: 0.4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(30, 35, 60, 0.8);
+            border-bottom: 1px solid rgba(100, 120, 255, 0.15);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 22px 30px;
+            background: none;
+            border: none;
+            color: #9fa3c0;
+            font-size: 1.05em;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            color: #4a5fff;
+            background: rgba(74, 95, 255, 0.08);
+        }
+
+        .tab-btn.active {
+            color: #4a5fff;
+            background: rgba(74, 95, 255, 0.1);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4a5fff, #7b68ff);
+        }
+
+        .content {
+            padding: 55px 50px;
+            min-height: 700px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* LESSON STYLES */
+        .lesson-section {
+            margin-bottom: 50px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(100, 120, 255, 0.1);
+        }
+
+        .lesson-section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 2.2em;
+            margin-bottom: 22px;
+            color: #4a9fff;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.5em;
+            margin: 28px 0 16px 0;
+            color: #6b8fff;
+            font-weight: 600;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, rgba(74, 95, 255, 0.12) 0%, rgba(123, 104, 255, 0.08) 100%);
+            border-left: 4px solid #4a5fff;
+            padding: 24px 28px;
+            margin: 22px 0;
+            border-radius: 8px;
+            line-height: 1.85;
+            border: 1px solid rgba(100, 120, 255, 0.15);
+        }
+
+        .concept-box strong {
+            color: #4a9fff;
+            font-weight: 600;
+        }
+
+        .concept-box.secondary {
+            border-left-color: #7b68ff;
+            background: linear-gradient(135deg, rgba(123, 104, 255, 0.12) 0%, rgba(74, 95, 255, 0.08) 100%);
+        }
+
+        .concept-box.secondary strong {
+            color: #7b68ff;
+        }
+
+        ul, ol {
+            margin-left: 32px;
+            line-height: 2;
+        }
+
+        li {
+            margin-bottom: 16px;
+            font-size: 1.01em;
+        }
+
+        .math-formula {
+            background: rgba(30, 35, 60, 0.9);
+            padding: 28px;
+            margin: 26px 0;
+            border-left: 4px solid #4a5fff;
+            border-radius: 8px;
+            font-family: 'Outfit', serif;
+            color: #4a9fff;
+            text-align: center;
+            font-size: 1.1em;
+            line-height: 1.8;
+            border: 1px solid rgba(100, 120, 255, 0.15);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 28px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+            background: rgba(30, 35, 60, 0.8);
+            border: 1px solid rgba(100, 120, 255, 0.15);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #4a5fff 0%, #2d3bad 100%);
+            color: white;
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(100, 120, 255, 0.1);
+            font-size: 1em;
+        }
+
+        tr:hover {
+            background: rgba(74, 95, 255, 0.1);
+        }
+
+        p {
+            margin: 18px 0;
+            line-height: 1.9;
+            font-size: 1.01em;
+        }
+
+        /* QUIZ STYLES */
+        .quiz-container {
+            display: none;
+        }
+
+        .quiz-container.active {
+            display: block;
+        }
+
+        .quiz-progress {
+            background: rgba(74, 95, 255, 0.1);
+            padding: 26px;
+            border: 1px solid rgba(100, 120, 255, 0.2);
+            border-radius: 8px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .progress-bar {
+            width: 68%;
+            height: 8px;
+            background: rgba(74, 95, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4a5fff, #7b68ff);
+            transition: width 0.4s ease;
+        }
+
+        .progress-text {
+            color: #4a9fff;
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 0.98em;
+        }
+
+        .question-card {
+            background: rgba(30, 35, 60, 0.8);
+            border: 1px solid rgba(100, 120, 255, 0.15);
+            padding: 36px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: rgba(100, 120, 255, 0.35);
+            box-shadow: 0 4px 16px rgba(74, 95, 255, 0.15);
+        }
+
+        .question-number {
+            color: #7b68ff;
+            font-size: 0.9em;
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            margin-bottom: 28px;
+            font-weight: 600;
+            color: white;
+            line-height: 1.65;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 18px 20px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(100, 120, 255, 0.15);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: rgba(20, 25, 45, 0.5);
+        }
+
+        .option:hover {
+            background: rgba(74, 95, 255, 0.12);
+            border-color: rgba(100, 120, 255, 0.35);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 18px;
+            margin-top: 4px;
+            cursor: pointer;
+            accent-color: #4a5fff;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 1.01em;
+            line-height: 1.6;
+        }
+
+        .option.selected {
+            background: rgba(74, 95, 255, 0.18);
+            border-color: #4a5fff;
+        }
+
+        .option.correct {
+            background: rgba(52, 211, 153, 0.15);
+            border-color: #34d399;
+            animation: pulse 0.5s ease;
+        }
+
+        .option.incorrect {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: #ef4444;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+
+        .feedback {
+            display: none;
+            padding: 16px 20px;
+            border-radius: 6px;
+            margin-top: 16px;
+            font-weight: 600;
+            font-size: 0.96em;
+            border-left: 4px solid;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: rgba(52, 211, 153, 0.15);
+            color: #34d399;
+            border-left-color: #34d399;
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border-left-color: #ef4444;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 18px;
+            margin-top: 44px;
+            justify-content: center;
+        }
+
+        button.submit-btn, button.reset-btn {
+            padding: 18px 48px;
+            font-size: 1.08em;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #4a5fff 0%, #7b68ff 100%);
+            color: white;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(74, 95, 255, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reset-btn {
+            background: transparent;
+            color: #4a5fff;
+            border: 2px solid #4a5fff;
+        }
+
+        .reset-btn:hover {
+            background: rgba(74, 95, 255, 0.15);
+            box-shadow: 0 4px 16px rgba(74, 95, 255, 0.2);
+        }
+
+        .quiz-summary {
+            display: none;
+            background: linear-gradient(135deg, rgba(74, 95, 255, 0.1) 0%, rgba(123, 104, 255, 0.08) 100%);
+            padding: 50px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 32px;
+            border: 1px solid rgba(100, 120, 255, 0.2);
+        }
+
+        .quiz-summary.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .summary-score {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 4em;
+            color: #4a9fff;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+
+        .summary-text {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            color: #e0e6ff;
+        }
+
+        .summary-breakdown {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            margin-top: 32px;
+            font-size: 1.08em;
+        }
+
+        .breakdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .breakdown-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #4a9fff;
+            margin-bottom: 10px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .breakdown-label {
+            color: #9fa3c0;
+            font-size: 0.98em;
+            font-weight: 600;
+        }
+
+        .correct .breakdown-number {
+            color: #34d399;
+        }
+
+        .incorrect .breakdown-number {
+            color: #f87171;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+            color: #9fa3c0;
+        }
+
+        .empty-state h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 2.4em;
+            margin-bottom: 22px;
+            color: #4a9fff;
+            font-weight: 700;
+        }
+
+        .empty-state p {
+            font-size: 1.12em;
+            margin-bottom: 14px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Income & Substitution Effects</h1>
+            <p class="subtitle">Price Changes, Giffen Goods & Price Consumption Curves</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('lesson')">📚 Lesson Summary</button>
+            <button class="tab-btn" onclick="switchTab('quiz')">✏️ Quiz</button>
+        </div>
+
+        <div class="content">
+            <!-- LESSON TAB -->
+            <div id="lesson" class="tab-content active">
+                <div class="lesson-section">
+                    <h2>Understanding Price Effects</h2>
+                    
+                    <div class="concept-box">
+                        When the price of a good changes, the consumer's optimal choice shifts. This total change in quantity demanded is composed of two distinct effects: the <strong>substitution effect</strong> and the <strong>income effect</strong>.
+                    </div>
+
+                    <h3>Total Effect (NE) = Substitution Effect (SE) + Income Effect (IE)</h3>
+                    <p>Understanding these components helps explain why quantity demanded changes and reveals consumer behavior patterns.</p>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Substitution Effect</h2>
+                    
+                    <div class="concept-box">
+                        The <strong>substitution effect</strong> shows how consumers substitute one good for another when its price changes, <strong>holding purchasing power constant</strong> (staying on the same indifference curve).
+                    </div>
+
+                    <h3>Key Characteristics</h3>
+                    <ul>
+                        <li><strong>Movement along the same indifference curve:</strong> Utility level remains constant</li>
+                        <li><strong>MRS must equal new price ratio:</strong> Optimal allocation changes even without utility change</li>
+                        <li><strong>Relative expensiveness changes:</strong> Good becomes relatively cheaper or more expensive</li>
+                    </ul>
+
+                    <h3>When Price of X Increases</h3>
+                    <div class="concept-box secondary">
+                        <ul style="margin-top: 12px; margin-left: 0;">
+                            <li>p<sub>x</sub>/p<sub>y</sub> increases (X becomes relatively more expensive)</li>
+                            <li>Consumer shifts preference toward relatively cheaper good Y</li>
+                            <li>Quantity of X demanded decreases: ∂x/∂p<sub>x</sub><sup>SE</sup> < 0</li>
+                            <li>Quantity of Y demanded increases: ∂y/∂p<sub>x</sub><sup>SE</sup> > 0</li>
+                        </ul>
+                    </div>
+
+                    <h3>Important Note</h3>
+                    <p>Point B (after substitution effect) is <strong>not on the original budget constraint</strong>. The consumer cannot afford it unless compensated. This is why we must also consider the income effect.</p>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Income Effect</h2>
+                    
+                    <div class="concept-box">
+                        The <strong>income effect</strong> represents the change in optimal consumption due to a change in <strong>purchasing power</strong> or real income caused by the price change.
+                    </div>
+
+                    <h3>How Real Income Changes</h3>
+                    <ul>
+                        <li><strong>When price of X increases:</strong> Real purchasing power decreases (cannot buy as much)</li>
+                        <li><strong>When price of X decreases:</strong> Real purchasing power increases (can buy more)</li>
+                    </ul>
+
+                    <h3>Effect Depends on Good Type</h3>
+                    <p><strong>Normal Good (most common):</strong> ∂x/∂RI > 0</p>
+                    <div class="concept-box">
+                        When real income decreases due to price increase: quantity demanded decreases further
+                    </div>
+
+                    <p><strong>Inferior Good:</strong> ∂x/∂RI < 0</p>
+                    <div class="concept-box secondary">
+                        When real income decreases due to price increase: quantity demanded increases (opposite direction)
+                    </div>
+
+                    <h3>Movement to Different Indifference Curve</h3>
+                    <p>Unlike the substitution effect, the income effect moves the consumer to a completely different indifference curve, reflecting the change in real purchasing power.</p>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Cases: Normal Goods (Both SE and IE in Same Direction)</h2>
+                    
+                    <h3>Case 1: SE = IE (Balanced Effects)</h3>
+                    <div class="concept-box">
+                        Substitution and income effects are equal in magnitude. Net effect (NE) exists but both goods experience both effects reinforcing one another.
+                    </div>
+
+                    <h3>Case 2: SE < IE (Income Effect Dominates)</h3>
+                    <div class="concept-box secondary">
+                        Income effect is larger than substitution effect. Quantity of X decreases significantly. Consumer experiences substantial loss of purchasing power.
+                    </div>
+
+                    <h3>Case 3: SE > IE (Substitution Effect Dominates)</h3>
+                    <div class="concept-box">
+                        Substitution effect is larger than income effect. Quantity of X decreases, but not as much as when SE = IE. Consumer's substitution behavior dominates income constraint.
+                    </div>
+
+                    <p><strong>For all normal goods:</strong> When price increases, both SE and IE lead to decreased quantity demanded, reinforcing the normal downward-sloping demand curve.</p>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Cases: Inferior Goods (Effects in Opposite Directions)</h2>
+                    
+                    <h3>Case 4: SE > IE (Substitution Dominates)</h3>
+                    <div class="concept-box">
+                        <ul style="margin-top: 12px; margin-left: 0;">
+                            <li><strong>Substitution Effect:</strong> Quantity of X decreases (becomes relatively expensive)</li>
+                            <li><strong>Income Effect:</strong> Quantity of X increases (real income falls, inferior good)</li>
+                            <li><strong>Net Effect:</strong> Quantity of X still decreases overall (SE stronger)</li>
+                        </ul>
+                    </div>
+
+                    <h3>Case 5: SE < IE (Income Effect Dominates) - GIFFEN GOOD</h3>
+                    <div class="concept-box secondary">
+                        <ul style="margin-top: 12px; margin-left: 0;">
+                            <li><strong>Substitution Effect:</strong> Quantity of X decreases (becomes relatively expensive)</li>
+                            <li><strong>Income Effect:</strong> Quantity of X increases (real income falls, inferior good)</li>
+                            <li><strong>Net Effect:</strong> Quantity of X increases overall (IE stronger) ← VIOLATES LAW OF DEMAND</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Giffen Good</h2>
+                    
+                    <div class="concept-box">
+                        A <strong>Giffen good</strong> is a special case of an inferior good where the income effect is so large that it overwhelms the substitution effect. When price increases, quantity demanded <strong>increases</strong>—violating the law of demand!
+                    </div>
+
+                    <h3>Requirements for Giffen Good</h3>
+                    <ul>
+                        <li><strong>Good must be inferior:</strong> Demand decreases when income increases</li>
+                        <li><strong>Income effect > Substitution effect:</strong> In magnitude and opposite direction</li>
+                        <li><strong>Good constitutes large budget share:</strong> Price change significantly affects real income</li>
+                    </ul>
+
+                    <h3>Historical Examples</h3>
+                    <ul>
+                        <li>Bread in poor Irish households during 19th century</li>
+                        <li>Rice in poor Asian households</li>
+                        <li>Potatoes during Irish famine</li>
+                    </ul>
+
+                    <h3>Why Does This Happen?</h3>
+                    <p>When the price of a Giffen good (say potatoes) increases, poor consumers' real income drops so much that they can no longer afford more expensive alternatives (meat). They must buy even more potatoes to survive, despite the higher price.</p>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Price Consumption Curve (PCC)</h2>
+                    
+                    <div class="concept-box">
+                        The <strong>Price Consumption Curve</strong> traces all optimal consumption bundles as the price of one good varies, while income and the price of the other good remain constant.
+                    </div>
+
+                    <h3>PCC Derivation</h3>
+                    <ul>
+                        <li>Start with initial optimal bundle (point A) at original prices</li>
+                        <li>Change the price of good X</li>
+                        <li>Find new optimal bundle (point B, then C, etc.)</li>
+                        <li>Connect all these optimal points to form the PCC</li>
+                    </ul>
+
+                    <h3>Relationship to Demand Curve</h3>
+                    <p>The Price Consumption Curve can be converted into a demand curve by plotting price (p<sub>x</sub>) against quantity demanded (x).</p>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>PCC Slopes and Demand Elasticity</h2>
+                    
+                    <h3>Case 1: Horizontal PCC (Slope = 0)</h3>
+                    <div class="concept-box">
+                        <strong>Unit Elastic Demand (ε = 1)</strong>
+                        <ul style="margin-top: 12px; margin-left: 0;">
+                            <li>Y quantity doesn't change as price of X changes</li>
+                            <li>Total spending on X remains constant: p<sub>x</sub> × x = constant</li>
+                            <li>Consumer maintains fixed budget allocation to both goods</li>
+                        </ul>
+                    </div>
+
+                    <h3>Case 2: Upward Sloping PCC (Slope > 0)</h3>
+                    <div class="concept-box secondary">
+                        <strong>Inelastic Demand (ε < 1)</strong>
+                        <ul style="margin-top: 12px; margin-left: 0;">
+                            <li>Y increases as price of X increases</li>
+                            <li>Consumer reduces X, increases Y</li>
+                            <li>Budget share of X increases when price increases</li>
+                        </ul>
+                    </div>
+
+                    <h3>Case 3: Downward Sloping PCC (Slope < 0)</h3>
+                    <div class="concept-box">
+                        <strong>Elastic Demand (ε > 1)</strong>
+                        <ul style="margin-top: 12px; margin-left: 0;">
+                            <li>Y decreases as price of X increases</li>
+                            <li>Consumer strongly reduces X, spending shifts to other goods</li>
+                            <li>Budget share of X decreases when price increases</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Summary: Effects of Price Changes</h2>
+                    
+                    <h3>Normal Goods</h3>
+                    <div class="concept-box">
+                        <strong>When price decreases:</strong> Both SE and IE → increase in quantity demanded
+                        <br><br>
+                        <strong>When price increases:</strong> Both SE and IE → decrease in quantity demanded
+                        <br><br>
+                        Effects reinforce each other, creating clear demand curve
+                    </div>
+
+                    <h3>Inferior Goods (Not Giffen)</h3>
+                    <div class="concept-box secondary">
+                        <strong>When price decreases:</strong> SE increases quantity, IE decreases it; SE > IE
+                        <br><br>
+                        <strong>When price increases:</strong> SE decreases quantity, IE increases it; SE > IE
+                        <br><br>
+                        Net effect still follows law of demand (substitution effect dominates)
+                    </div>
+
+                    <h3>Giffen Goods</h3>
+                    <div class="concept-box">
+                        <strong>When price increases:</strong> IE > SE, so quantity demanded increases
+                        <br><br>
+                        <strong>When price decreases:</strong> IE > SE, so quantity demanded decreases
+                        <br><br>
+                        Violates law of demand—upward sloping demand curve
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Key Takeaways</h2>
+                    
+                    <ul>
+                        <li>Total effect = Substitution Effect + Income Effect</li>
+                        <li>SE: consumer substitutes toward cheaper good, staying on same indifference curve</li>
+                        <li>IE: change in real purchasing power moves consumer to different indifference curve</li>
+                        <li>For normal goods, both effects reinforce (law of demand holds)</li>
+                        <li>For inferior goods, effects oppose; SE typically dominates</li>
+                        <li>Giffen goods are rare inferior goods where IE > SE, violating law of demand</li>
+                        <li>PCC traces optimal choices as price varies; its slope relates to demand elasticity</li>
+                        <li>Understanding these effects explains complex consumer behavior patterns</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- QUIZ TAB -->
+            <div id="quiz" class="tab-content">
+                <div id="quizStart" class="empty-state">
+                    <h3>Test Your Mastery</h3>
+                    <p>Explore income and substitution effects, Giffen goods,</p>
+                    <p>and the nuances of consumer behavior under price changes.</p>
+                    <button class="submit-btn" style="margin-top: 35px;" onclick="startQuiz()">Start 10-Question Quiz</button>
+                </div>
+
+                <div id="quizContainer" class="quiz-container">
+                    <div class="quiz-progress">
+                        <div>
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="progress-text">Question <span id="currentQuestion">1</span> of 10</div>
+                        </div>
+                    </div>
+
+                    <div id="questionsDisplay"></div>
+
+                    <div class="buttons">
+                        <button class="submit-btn" onclick="submitQuiz()">Submit Quiz</button>
+                        <button class="reset-btn" onclick="resetQuiz()">Reset Quiz</button>
+                    </div>
+                </div>
+
+                <div id="quizSummary" class="quiz-summary"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Question Bank (50+ questions)
+        const questionBank = [
+            {
+                question: "When price changes, the total effect on quantity demanded consists of:",
+                options: [
+                    "Only the substitution effect",
+                    "Only the income effect",
+                    "Substitution effect + Income effect",
+                    "Neither effect matters"
+                ],
+                correct: 2
+            },
+            {
+                question: "The substitution effect holds which variable constant?",
+                options: [
+                    "Income",
+                    "Price of the good",
+                    "Utility level",
+                    "Purchasing power"
+                ],
+                correct: 2
+            },
+            {
+                question: "When price of X increases, the substitution effect causes:",
+                options: [
+                    "Quantity of X to increase",
+                    "Quantity of X to decrease",
+                    "No change in quantity of X",
+                    "Y to become more expensive"
+                ],
+                correct: 1
+            },
+            {
+                question: "What does the income effect represent?",
+                options: [
+                    "Change in quantity due to relative price change only",
+                    "Change in quantity due to change in real purchasing power",
+                    "Change in price of the good",
+                    "Change in consumer preferences"
+                ],
+                correct: 1
+            },
+            {
+                question: "For a normal good, when its price increases, the income effect causes:",
+                options: [
+                    "Quantity demanded to increase",
+                    "Quantity demanded to decrease",
+                    "No change",
+                    "Utility to increase"
+                ],
+                correct: 1
+            },
+            {
+                question: "For an inferior good, when its price increases, the income effect causes:",
+                options: [
+                    "Quantity demanded to decrease",
+                    "Quantity demanded to increase",
+                    "No change",
+                    "The good to become a normal good"
+                ],
+                correct: 1
+            },
+            {
+                question: "When substitution effect > income effect for an inferior good:",
+                options: [
+                    "Demand curve slopes upward",
+                    "Demand curve slopes downward (normal behavior)",
+                    "There is no demand curve",
+                    "Income and substitution effects cancel"
+                ],
+                correct: 1
+            },
+            {
+                question: "A Giffen good occurs when:",
+                options: [
+                    "SE > IE for a normal good",
+                    "IE > SE for an inferior good",
+                    "SE = 0",
+                    "Income effect doesn't exist"
+                ],
+                correct: 1
+            },
+            {
+                question: "What happens to quantity demanded of a Giffen good when its price increases?",
+                options: [
+                    "Quantity decreases (normal)",
+                    "Quantity increases (violates law of demand)",
+                    "Quantity stays the same",
+                    "It depends on consumer preferences"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which of the following can be a Giffen good?",
+                options: [
+                    "A luxury good",
+                    "A normal good",
+                    "A special type of inferior good",
+                    "Any good without restrictions"
+                ],
+                correct: 2
+            },
+            {
+                question: "For normal goods, substitution and income effects:",
+                options: [
+                    "Move in opposite directions",
+                    "Move in the same direction (both reinforce)",
+                    "Cancel each other out",
+                    "Are independent"
+                ],
+                correct: 1
+            },
+            {
+                question: "When price of X increases, the budget line:",
+                options: [
+                    "Shifts parallel outward",
+                    "Rotates about the Y-intercept",
+                    "Becomes flatter",
+                    "Doesn't change"
+                ],
+                correct: 1
+            },
+            {
+                question: "The substitution effect moves the consumer along:",
+                options: [
+                    "The budget line",
+                    "The same indifference curve",
+                    "To a higher indifference curve",
+                    "To a lower indifference curve"
+                ],
+                correct: 1
+            },
+            {
+                question: "The income effect moves the consumer:",
+                options: [
+                    "Along the same indifference curve",
+                    "To a different indifference curve",
+                    "Along the budget line",
+                    "Nowhere (no movement)"
+                ],
+                correct: 1
+            },
+            {
+                question: "Point B (after substitution effect but before income effect) is:",
+                options: [
+                    "On the new budget line",
+                    "On the original budget line",
+                    "Not on the original budget line",
+                    "At the equilibrium point"
+                ],
+                correct: 2
+            },
+            {
+                question: "The Price Consumption Curve (PCC) shows:",
+                options: [
+                    "How price relates to consumer income",
+                    "Optimal bundles as price of one good varies",
+                    "How demand changes with income",
+                    "All affordable consumption bundles"
+                ],
+                correct: 1
+            },
+            {
+                question: "A horizontal PCC (slope = 0) indicates:",
+                options: [
+                    "Elastic demand (ε > 1)",
+                    "Inelastic demand (ε < 1)",
+                    "Unit elastic demand (ε = 1)",
+                    "Perfectly inelastic demand"
+                ],
+                correct: 2
+            },
+            {
+                question: "An upward sloping PCC (slope > 0) indicates:",
+                options: [
+                    "Elastic demand",
+                    "Inelastic demand",
+                    "Unit elastic demand",
+                    "Giffen good behavior"
+                ],
+                correct: 1
+            },
+            {
+                question: "A downward sloping PCC (slope < 0) indicates:",
+                options: [
+                    "Inelastic demand",
+                    "Elastic demand",
+                    "Unit elastic demand",
+                    "Normal good"
+                ],
+                correct: 1
+            },
+            {
+                question: "When SE = IE for a normal good and price increases:",
+                options: [
+                    "Both effects reduce quantity equally",
+                    "SE dominates the effect",
+                    "IE dominates the effect",
+                    "They cancel out"
+                ],
+                correct: 0
+            },
+            {
+                question: "Real purchasing power decreases when:",
+                options: [
+                    "Price of desired good decreases",
+                    "Price of desired good increases",
+                    "Income increases",
+                    "Preferences change"
+                ],
+                correct: 1
+            },
+            {
+                question: "For an inferior good, ∂x/∂(real income) equals:",
+                options: [
+                    "> 0 (positive)",
+                    "< 0 (negative)",
+                    "= 0 (zero)",
+                    "Undefined"
+                ],
+                correct: 1
+            },
+            {
+                question: "A bread during famine exemplifies a Giffen good because:",
+                options: [
+                    "It becomes more luxurious",
+                    "Price increase reduces real income so much people buy more",
+                    "It's always a Giffen good",
+                    "Consumer preferences changed"
+                ],
+                correct: 1
+            },
+            {
+                question: "The substitution effect always causes quantity demanded to change in which direction?",
+                options: [
+                    "Always increase",
+                    "Always decrease",
+                    "Opposite direction to price change",
+                    "Same direction as price change"
+                ],
+                correct: 2
+            },
+            {
+                question: "When price of X increases and X is normal, the total effect is:",
+                options: [
+                    "Ambiguous",
+                    "Quantity demanded definitely decreases",
+                    "Quantity demanded definitely increases",
+                    "No effect on quantity"
+                ],
+                correct: 1
+            },
+            {
+                question: "For Giffen goods, the demand curve:",
+                options: [
+                    "Slopes downward (normal)",
+                    "Slopes upward (abnormal)",
+                    "Is horizontal",
+                    "Is vertical"
+                ],
+                correct: 1
+            },
+            {
+                question: "If IE > SE for an inferior good when price increases:",
+                options: [
+                    "Demand still falls (normal behavior)",
+                    "Demand rises (Giffen behavior)",
+                    "Demand doesn't change",
+                    "The good becomes normal"
+                ],
+                correct: 1
+            },
+            {
+                question: "The income effect for inferior goods is:",
+                options: [
+                    "Always positive",
+                    "Always negative",
+                    "Opposite sign to normal goods",
+                    "Zero"
+                ],
+                correct: 2
+            },
+            {
+                question: "Substitution and income effects both reinforce when:",
+                options: [
+                    "The good is inferior",
+                    "The good is normal",
+                    "Price decreases",
+                    "Income decreases"
+                ],
+                correct: 1
+            },
+            {
+                question: "A historic example of Giffen good behavior occurred with:",
+                options: [
+                    "Luxury watches",
+                    "Designer clothing",
+                    "Potatoes in Ireland during famine",
+                    "Automobiles"
+                ],
+                correct: 2
+            },
+            {
+                question: "When the price of an inferior good increases, if IE > SE:",
+                options: [
+                    "Quantity increases (violates law of demand)",
+                    "Quantity decreases (normal)",
+                    "No change in quantity",
+                    "The good becomes normal"
+                ],
+                correct: 0
+            },
+            {
+                question: "The PCC is derived by:",
+                options: [
+                    "Varying income and holding prices constant",
+                    "Varying price of one good and finding optimal bundles",
+                    "Varying consumer preferences",
+                    "Holding all variables constant"
+                ],
+                correct: 1
+            },
+            {
+                question: "Point A to Point B (substitution effect) represents movement:",
+                options: [
+                    "Along the budget line",
+                    "Along the same indifference curve",
+                    "To a new indifference curve",
+                    "Away from the budget constraint"
+                ],
+                correct: 1
+            },
+            {
+                question: "Point B to Point C (income effect) represents movement:",
+                options: [
+                    "Along the same indifference curve",
+                    "To a different indifference curve while maintaining MRS ratio",
+                    "Along the budget line",
+                    "Away from optimality"
+                ],
+                correct: 1
+            },
+            {
+                question: "The relationship NE = SE + IE means:",
+                options: [
+                    "Net effect is unrelated to components",
+                    "Total quantity change equals sum of individual effects",
+                    "Only one effect matters",
+                    "Effects always cancel"
+                ],
+                correct: 1
+            },
+            {
+                question: "For a good to be Giffen, it must first be:",
+                options: [
+                    "A luxury good",
+                    "An inferior good",
+                    "A normal good",
+                    "A complementary good"
+                ],
+                correct: 1
+            },
+            {
+                question: "When price of good X decreases for a normal good:",
+                options: [
+                    "Only SE operates",
+                    "Only IE operates",
+                    "Both SE and IE cause quantity to increase",
+                    "Effects work in opposite directions"
+                ],
+                correct: 2
+            },
+            {
+                question: "The income effect's magnitude depends on:",
+                options: [
+                    "Only the price change",
+                    "Budget share of the good (good's importance)",
+                    "Only consumer preferences",
+                    "Only income level"
+                ],
+                correct: 1
+            },
+            {
+                question: "Giffen goods are:",
+                options: [
+                    "Common in real markets",
+                    "Extremely rare in practice",
+                    "All inferior goods",
+                    "Impossible theoretically"
+                ],
+                correct: 1
+            },
+            {
+                question: "The PCC connects:",
+                options: [
+                    "All affordable bundles",
+                    "All optimal bundles as price varies",
+                    "All maximum utility points",
+                    "All income levels"
+                ],
+                correct: 1
+            },
+            {
+                question: "When the slope of PCC is positive (upward), the good's budget share:",
+                options: [
+                    "Decreases when price increases",
+                    "Increases when price increases",
+                    "Stays constant",
+                    "Becomes zero"
+                ],
+                correct: 1
+            },
+            {
+                question: "For Giffen goods, when price decreases:",
+                options: [
+                    "Quantity demanded increases",
+                    "Quantity demanded decreases",
+                    "No change in quantity",
+                    "Demand becomes elastic"
+                ],
+                correct: 1
+            },
+            {
+                question: "The magnitude of substitution effect depends primarily on:",
+                options: [
+                    "Income level",
+                    "Change in relative prices (MRS change needed)",
+                    "Total consumption",
+                    "Consumer age"
+                ],
+                correct: 1
+            },
+            {
+                question: "Point C (final equilibrium) satisfies:",
+                options: [
+                    "Only MRS = p_x/p_y",
+                    "Only budget constraint",
+                    "Both budget constraint and MRS = p_x/p_y",
+                    "Neither condition"
+                ],
+                correct: 2
+            }
+        ];
+
+        let currentQuiz = [];
+        let answers = {};
+        let submitted = false;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function startQuiz() {
+            currentQuiz = shuffleArray([...questionBank]).slice(0, 10);
+            answers = {};
+            submitted = false;
+            document.getElementById('quizStart').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('quizSummary').classList.remove('show');
+            renderQuestions();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsDisplay');
+            container.innerHTML = '';
+            
+            currentQuiz.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.innerHTML = `
+                    <div class="question-number">Question ${idx + 1}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div id="options-${idx}"></div>
+                    <div id="feedback-${idx}" class="feedback"></div>
+                `;
+                container.appendChild(card);
+
+                const optionsContainer = document.getElementById(`options-${idx}`);
+                q.options.forEach((opt, optIdx) => {
+                    const option = document.createElement('label');
+                    option.className = 'option';
+                    option.innerHTML = `
+                        <input type="radio" name="q${idx}" value="${optIdx}" onchange="selectOption(${idx}, ${optIdx})">
+                        <span>${opt}</span>
+                    `;
+                    optionsContainer.appendChild(option);
+                });
+            });
+        }
+
+        function selectOption(qIdx, optIdx) {
+            answers[qIdx] = optIdx;
+            updateProgress();
+            
+            if (submitted) {
+                checkAnswer(qIdx, optIdx);
+            }
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(answers).length;
+            const percent = (answered / 10) * 100;
+            document.getElementById('progressFill').style.width = percent + '%';
+        }
+
+        function checkAnswer(qIdx, userAnswer) {
+            const isCorrect = userAnswer === currentQuiz[qIdx].correct;
+            const options = document.querySelectorAll(`#options-${qIdx} .option`);
+            const feedback = document.getElementById(`feedback-${qIdx}`);
+            
+            options.forEach((opt, idx) => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+                const input = opt.querySelector('input');
+                
+                if (input.value == userAnswer) {
+                    opt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else if (idx == currentQuiz[qIdx].correct && !isCorrect) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+            feedback.innerHTML = isCorrect ? 
+                '✓ Correct!' : 
+                '✗ Incorrect. The correct answer is: ' + currentQuiz[qIdx].options[currentQuiz[qIdx].correct];
+        }
+
+        function submitQuiz() {
+            submitted = true;
+            let correct = 0;
+
+            Object.keys(answers).forEach(qIdx => {
+                if (answers[qIdx] === currentQuiz[qIdx].correct) {
+                    correct++;
+                }
+                checkAnswer(parseInt(qIdx), answers[qIdx]);
+            });
+
+            document.getElementById('quizContainer').style.display = 'none';
+            showSummary(correct);
+        }
+
+        function showSummary(correct) {
+            const percent = Math.round((correct / 10) * 100);
+            const summary = document.getElementById('quizSummary');
+            summary.innerHTML = `
+                <div class="summary-score">${percent}%</div>
+                <div class="summary-text">
+                    ${percent >= 80 ? "Outstanding! You've mastered income and substitution effects theory." : 
+                      percent >= 60 ? "Good effort! Review Giffen goods and PCC elasticity for improvement." :
+                      "Keep studying! Focus on the relationship between SE and IE."}
+                </div>
+                <div class="summary-breakdown">
+                    <div class="breakdown-item correct">
+                        <div class="breakdown-number">${correct}</div>
+                        <div class="breakdown-label">Correct</div>
+                    </div>
+                    <div class="breakdown-item incorrect">
+                        <div class="breakdown-number">${10 - correct}</div>
+                        <div class="breakdown-label">Incorrect</div>
+                    </div>
+                </div>
+                <button class="submit-btn" style="margin-top: 36px;" onclick="retakeQuiz()">Retake Quiz</button>
+            `;
+            summary.classList.add('show');
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('quizSummary').classList.remove('show');
+            document.getElementById('quizStart').style.display = 'block';
+            currentQuiz = [];
+            answers = {};
+            submitted = false;
+        }
+
+        function retakeQuiz() {
+            document.getElementById('quizSummary').classList.remove('show');
+            startQuiz();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer Choice & Preferences: Lesson & Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 70px 50px;
+            text-align: center;
+            animation: slideDown 0.7s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.8em;
+            color: white;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.15em;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fb;
+            border-bottom: 2px solid #e8eef5;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 20px 30px;
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            font-size: 1.05em;
+            font-family: 'Lato', sans-serif;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            letter-spacing: 0.3px;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .content {
+            padding: 50px 45px;
+            min-height: 650px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* LESSON STYLES */
+        .lesson-section {
+            margin-bottom: 45px;
+            padding-bottom: 35px;
+            border-bottom: 1px solid #ecf0f3;
+        }
+
+        .lesson-section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.9em;
+            margin-bottom: 18px;
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+            color: #764ba2;
+            font-weight: 600;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            border-left: 5px solid #667eea;
+            padding: 22px 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+
+        .concept-box strong {
+            color: #667eea;
+        }
+
+        .concept-box.secondary {
+            border-left-color: #764ba2;
+            background: linear-gradient(135deg, rgba(118, 75, 162, 0.08) 0%, rgba(102, 126, 234, 0.08) 100%);
+        }
+
+        .concept-box.secondary strong {
+            color: #764ba2;
+        }
+
+        ul, ol {
+            margin-left: 28px;
+            line-height: 1.95;
+        }
+
+        li {
+            margin-bottom: 14px;
+        }
+
+        .math-formula {
+            background: linear-gradient(135deg, #f8f9fb 0%, #f3f4f8 100%);
+            padding: 24px;
+            margin: 22px 0;
+            border-radius: 8px;
+            border-left: 5px solid #764ba2;
+            font-family: 'Georgia', serif;
+            color: #2c3e50;
+            text-align: center;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 25px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border: 1px solid #ecf0f3;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-family: 'Merriweather', serif;
+        }
+
+        td {
+            padding: 14px 15px;
+            border-bottom: 1px solid #ecf0f3;
+        }
+
+        tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        /* QUIZ STYLES */
+        .quiz-container {
+            display: none;
+        }
+
+        .quiz-container.active {
+            display: block;
+        }
+
+        .quiz-progress {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .progress-bar {
+            width: 65%;
+            height: 8px;
+            background: rgba(102, 126, 234, 0.15);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.4s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+
+        .question-card {
+            background: white;
+            border: 2px solid #ecf0f3;
+            padding: 32px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.1);
+        }
+
+        .question-number {
+            color: #667eea;
+            font-size: 0.9em;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .question-text {
+            font-size: 1.25em;
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            border: 2px solid #ecf0f3;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .option:hover {
+            background: rgba(102, 126, 234, 0.05);
+            border-color: #667eea;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 16px;
+            margin-top: 3px;
+            cursor: pointer;
+            accent-color: #667eea;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 0.98em;
+        }
+
+        .option.selected {
+            background: rgba(102, 126, 234, 0.08);
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: rgba(46, 213, 115, 0.1);
+            border-color: #2ed573;
+            animation: pulse 0.5s ease;
+        }
+
+        .option.incorrect {
+            background: rgba(255, 73, 87, 0.1);
+            border-color: #ff4957;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+
+        .feedback {
+            display: none;
+            padding: 16px 18px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: rgba(46, 213, 115, 0.15);
+            color: #27ae60;
+            border-left: 4px solid #2ed573;
+        }
+
+        .feedback.incorrect {
+            background: rgba(255, 73, 87, 0.15);
+            color: #e74c3c;
+            border-left: 4px solid #ff4957;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        button.submit-btn, button.reset-btn {
+            padding: 16px 42px;
+            font-size: 1.05em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Lato', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reset-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .reset-btn:hover {
+            background: rgba(102, 126, 234, 0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.15);
+        }
+
+        .quiz-summary {
+            display: none;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 45px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px solid #667eea;
+        }
+
+        .quiz-summary.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .summary-score {
+            font-family: 'Merriweather', serif;
+            font-size: 3.5em;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .summary-text {
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            color: #2c3e50;
+        }
+
+        .summary-breakdown {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            margin-top: 30px;
+            font-size: 1.05em;
+        }
+
+        .breakdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .breakdown-number {
+            font-size: 2.3em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .breakdown-label {
+            color: #7f8c8d;
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        .correct .breakdown-number {
+            color: #2ed573;
+        }
+
+        .incorrect .breakdown-number {
+            color: #ff4957;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 70px 30px;
+            color: #7f8c8d;
+        }
+
+        .empty-state h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .empty-state p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Consumer Choice & Preferences</h1>
+            <p class="subtitle">Utility, Indifference Curves & Rational Choice</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('lesson')">📚 Lesson Summary</button>
+            <button class="tab-btn" onclick="switchTab('quiz')">✏️ Quiz</button>
+        </div>
+
+        <div class="content">
+            <!-- LESSON TAB -->
+            <div id="lesson" class="tab-content active">
+                <div class="lesson-section">
+                    <h2>Axioms of Rational Choice</h2>
+                    
+                    <h3>1. Completeness (Comparability)</h3>
+                    <div class="concept-box">
+                        A consumer can always specify their ranking for any two bundles A and B. Either A is preferred to B (A ≻ B), B is preferred to A (B ≻ A), or they are equally attractive (A ~ B).
+                    </div>
+
+                    <h3>2. Transitivity</h3>
+                    <div class="concept-box secondary">
+                        Preferences are consistent and predictable. If A ≻ B and B ≻ C, then A ≻ C. This ensures rational behavior.
+                    </div>
+
+                    <h3>3. Convexity of Preferences</h3>
+                    <div class="concept-box">
+                        If two bundles are equally preferred (A ~ B), a combination of the two bundles would be preferred to either extreme. In other words, "average bundles are preferred to extremes."
+                    </div>
+
+                    <h3>4. Non-Satiation</h3>
+                    <div class="concept-box secondary">
+                        Consumers are never oversupplied with a commodity—"more is preferred to less." The consumer always prefers additional units of any good.
+                    </div>
+
+                    <h3>5. Continuity</h3>
+                    <div class="concept-box">
+                        If A is preferred to B, then situations "close to" A must also be preferred to B. This allows analysis of small changes in income and prices.
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Utility and Utility Functions</h2>
+                    
+                    <div class="concept-box">
+                        <strong>Utility</strong> is a numerical score representing the satisfaction a consumer gets from a given commodity bundle. If A is preferred to B, then U(A) > U(B).
+                    </div>
+
+                    <div class="concept-box secondary">
+                        <strong>Utility Function</strong> is a mathematical formulation that assigns a level of utility to individual commodity bundles: U = U(x₁, x₂, ..., xₙ), where xᵢ are consumption goods.
+                    </div>
+
+                    <p style="margin: 20px 0; line-height: 1.8;">A utility function U(x) represents a preference relation if and only if:</p>
+                    <ul>
+                        <li>If x₀ ≻ x₁, then U(x₀) > U(x₁)</li>
+                        <li>If x₀ ≺ x₁, then U(x₀) < U(x₁)</li>
+                        <li>If x₀ ~ x₁, then U(x₀) = U(x₁)</li>
+                    </ul>
+
+                    <h3>Properties of a Well-Behaved Utility Function</h3>
+                    <ul>
+                        <li><strong>Ordinal in nature:</strong> Only rankings matter, not actual utility numbers.</li>
+                        <li><strong>Non-unique:</strong> Any monotonic transformation exhibits the same preferences (e.g., U = u(x) and U = 2u(x) represent the same preferences).</li>
+                        <li><strong>Continuous:</strong> The function has continuous first and second-order partial derivatives.</li>
+                    </ul>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Cardinal vs. Ordinal Utility</h2>
+                    
+                    <h3>Ordinal Utility</h3>
+                    <div class="concept-box">
+                        <strong>Ordinal utility</strong> ranks bundles of commodities according to desirability. We care only about the ranking, not the magnitude of utility. This is the standard approach in modern economics.
+                    </div>
+
+                    <h3>Cardinal Utility</h3>
+                    <div class="concept-box secondary">
+                        <strong>Cardinal utility</strong> assigns specific numbers representing the amount of satisfaction (measured in "utils"). While historically used, modern economics emphasizes ordinal rankings instead.
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Total and Marginal Utility</h2>
+                    
+                    <h3>Total Utility (TU)</h3>
+                    <div class="concept-box">
+                        <strong>Total utility</strong> measures the overall satisfaction derived by a consumer from consuming a good.
+                    </div>
+
+                    <h3>Marginal Utility (MU)</h3>
+                    <div class="concept-box secondary">
+                        <strong>Marginal utility</strong> refers to the additional satisfaction derived from consuming an additional unit of a good.
+                    </div>
+
+                    <div class="math-formula">
+                        MUᵢ = ∂U/∂xᵢ &nbsp; (for i = 1,2,...,n commodities)
+                    </div>
+
+                    <h3>Law of Diminishing Marginal Utility</h3>
+                    <div class="concept-box">
+                        As an individual consumes more of a good, the additional satisfaction (marginal utility) derived from each additional unit decreases. This creates the characteristic shape of indifference curves.
+                    </div>
+
+                    <h3>Example: Diminishing Marginal Utility</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Units of X</th>
+                                    <th>Total Utility</th>
+                                    <th>Marginal Utility</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>10</td>
+                                    <td>—</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>18</td>
+                                    <td>8</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>24</td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>28</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>30</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>30</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Indifference Curves</h2>
+                    
+                    <div class="concept-box">
+                        <strong>An indifference curve (IC)</strong> is the locus of points representing bundles of two goods from which a consumer derives the same level of satisfaction or utility. All bundles on an indifference curve bring about the same utility level.
+                    </div>
+
+                    <h3>Indifference Curve Map</h3>
+                    <div class="concept-box secondary">
+                        An <strong>indifference curve map</strong> is a set of indifference curves indicating increasing utility levels. As one moves northeast on the X-Y plane, utility increases: U₂ > U₁ > U₀.
+                    </div>
+
+                    <h3>Characteristics of Indifference Curves</h3>
+                    <ul>
+                        <li><strong>Negatively sloped:</strong> There is substitutability/trade-off between goods X and Y. Slope: dY/dX < 0.</li>
+                        <li><strong>Convex to the origin:</strong> Shows relative substitutability of goods (goods are not perfect substitutes).</li>
+                        <li><strong>Never intersect:</strong> Prevents violation of the transitivity axiom. If they intersected, the consumer would be indifferent between bundles that should rank differently.</li>
+                        <li><strong>Higher curves preferred:</strong> An IC which lies above and to the right of another represents preferred combinations.</li>
+                    </ul>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Marginal Rate of Substitution (MRS)</h2>
+                    
+                    <div class="concept-box">
+                        <strong>The MRS of X for Y</strong> refers to the maximum amount of Y that a consumer is willing to give up in order to get an additional unit of X, while maintaining the same utility level. It is the negative of the slope of the indifference curve.
+                    </div>
+
+                    <div class="math-formula">
+                        MRS<sub>XY</sub> = −ΔY/ΔX = −dY/dX = MU<sub>X</sub>/MU<sub>Y</sub>
+                    </div>
+
+                    <h3>Key Property: Diminishing MRS</h3>
+                    <div class="concept-box secondary">
+                        As a consumer substitutes more X for Y, the MRS diminishes. This means the consumer becomes less willing to give up Y for additional units of X. This creates the characteristic <strong>convex</strong> shape of indifference curves.
+                    </div>
+
+                    <h3>Example: MRS Calculation</h3>
+                    <p style="margin: 15px 0; line-height: 1.8;">Consider the utility function U(x₁, x₂) = x₁x₂. If the consumer wants to maintain constant utility:</p>
+                    <div class="math-formula">
+                        MU<sub>1</sub> = x₂ &nbsp;&nbsp;&nbsp;&nbsp; MU<sub>2</sub> = x₁ &nbsp;&nbsp;&nbsp;&nbsp; MRS = x₂/x₁
+                    </div>
+                    <ul>
+                        <li>At point (1,8): MRS = 8/1 = 8 (willing to give up 8 units of Y for 1 more unit of X)</li>
+                        <li>At point (6,6): MRS = 6/6 = 1 (willing to give up 1 unit of Y for 1 more unit of X)</li>
+                    </ul>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Special Cases: Utility Functions</h2>
+                    
+                    <h3>Cobb-Douglas Utility Function</h3>
+                    <div class="concept-box">
+                        Any utility function of the form <strong>U(x₁, x₂) = x₁ᵃx₂ᵇ</strong> where a > 0 and b > 0 is a Cobb-Douglas function. Examples: U(x₁, x₂) = x₁^(1/2)x₂^(1/2) or U(x₁, x₂) = 2x₁x₂³
+                    </div>
+                    <p style="margin: 15px 0;">For Cobb-Douglas functions, indifference curves are hyperbolic, asymptotic to but never touching the axes.</p>
+
+                    <h3>Perfect Substitutes</h3>
+                    <div class="concept-box secondary">
+                        When U(x₁, x₂) = x₁ + x₂, indifference curves are linear and parallel. The MRS is constant. Example: perfect substitutes like red and blue pens.
+                    </div>
+
+                    <h3>Perfect Complements</h3>
+                    <div class="concept-box">
+                        When U(x₁, x₂) = min{x₁, x₂}, indifference curves are right-angled with vertices on a 45° ray from origin. The MRS is infinite along the vertical and horizontal segments. Example: left and right shoes.
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Key Takeaways</h2>
+                    
+                    <ul>
+                        <li>Rational consumers obey the five axioms, allowing preferences to be ranked via utility functions.</li>
+                        <li>Indifference curves visually represent utility levels; bundles on the same curve provide equal satisfaction.</li>
+                        <li>The MRS measures the trade-off rate between goods and equals the ratio of marginal utilities.</li>
+                        <li>Diminishing MRS creates convex indifference curves, reflecting realistic preferences for balance.</li>
+                        <li>Different utility functions (Cobb-Douglas, perfect substitutes, perfect complements) model different consumer preferences.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- QUIZ TAB -->
+            <div id="quiz" class="tab-content">
+                <div id="quizStart" class="empty-state">
+                    <h3>Test Your Understanding</h3>
+                    <p>Ready to check your knowledge on consumer preferences, utility, and indifference curves?</p>
+                    <p>Take a randomized 10-question quiz from our question bank of 50+ questions.</p>
+                    <button class="submit-btn" style="margin-top: 30px;" onclick="startQuiz()">Start Quiz</button>
+                </div>
+
+                <div id="quizContainer" class="quiz-container">
+                    <div class="quiz-progress">
+                        <div>
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="progress-text">Question <span id="currentQuestion">1</span> of 10</div>
+                        </div>
+                    </div>
+
+                    <div id="questionsDisplay"></div>
+
+                    <div class="buttons">
+                        <button class="submit-btn" onclick="submitQuiz()">Submit Quiz</button>
+                        <button class="reset-btn" onclick="resetQuiz()">Reset Quiz</button>
+                    </div>
+                </div>
+
+                <div id="quizSummary" class="quiz-summary"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Question Bank (50+ questions)
+        const questionBank = [
+            {
+                question: "Which axiom states that a consumer can always rank any two bundles?",
+                options: [
+                    "Transitivity",
+                    "Completeness",
+                    "Non-Satiation",
+                    "Continuity"
+                ],
+                correct: 1
+            },
+            {
+                question: "If A ≻ B and B ≻ C, then A ≻ C. This represents which axiom?",
+                options: [
+                    "Completeness",
+                    "Convexity",
+                    "Transitivity",
+                    "Non-Satiation"
+                ],
+                correct: 2
+            },
+            {
+                question: "What does the convexity axiom imply?",
+                options: [
+                    "More goods are always better",
+                    "Average bundles are preferred to extremes",
+                    "Indifference curves must intersect",
+                    "Preferences are always linear"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which statement best describes 'utility'?",
+                options: [
+                    "The cost of purchasing a bundle",
+                    "A numerical score representing satisfaction from a bundle",
+                    "The price of a commodity",
+                    "The quantity of goods consumed"
+                ],
+                correct: 1
+            },
+            {
+                question: "A utility function U(x) represents preferences if U(A) > U(B) implies:",
+                options: [
+                    "B is preferred to A",
+                    "A is preferred to B",
+                    "A and B are equally preferred",
+                    "Nothing about preferences"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which property is NOT characteristic of a well-behaved utility function?",
+                options: [
+                    "Continuous with continuous derivatives",
+                    "Ordinal in nature",
+                    "Unique for a given set of preferences",
+                    "All of the above are properties"
+                ],
+                correct: 2
+            },
+            {
+                question: "What is the main difference between ordinal and cardinal utility?",
+                options: [
+                    "Ordinal ranks bundles; cardinal assigns specific satisfaction numbers",
+                    "Cardinal is outdated; ordinal is modern",
+                    "Ordinal uses mathematics; cardinal doesn't",
+                    "There is no difference"
+                ],
+                correct: 0
+            },
+            {
+                question: "Total Utility (TU) measures:",
+                options: [
+                    "The additional satisfaction from one more unit",
+                    "The overall satisfaction from consuming a good",
+                    "The price of a commodity",
+                    "The change in satisfaction per unit"
+                ],
+                correct: 1
+            },
+            {
+                question: "What is Marginal Utility (MU)?",
+                options: [
+                    "The total satisfaction from all units",
+                    "The additional satisfaction from one more unit",
+                    "The average satisfaction per unit",
+                    "The minimum satisfaction needed"
+                ],
+                correct: 1
+            },
+            {
+                question: "The Law of Diminishing Marginal Utility states:",
+                options: [
+                    "Total utility always increases",
+                    "Consumers should buy less",
+                    "Additional satisfaction from more units decreases",
+                    "Prices must fall"
+                ],
+                correct: 2
+            },
+            {
+                question: "What is an indifference curve?",
+                options: [
+                    "A curve showing how price changes",
+                    "A locus of bundles yielding the same utility",
+                    "A demand curve for two goods",
+                    "A supply curve"
+                ],
+                correct: 1
+            },
+            {
+                question: "All bundles on an indifference curve have:",
+                options: [
+                    "The same cost",
+                    "The same quantity",
+                    "The same utility level",
+                    "The same price"
+                ],
+                correct: 2
+            },
+            {
+                question: "As you move northeast on an indifference curve map, utility:",
+                options: [
+                    "Stays the same",
+                    "Decreases",
+                    "Increases",
+                    "Becomes uncertain"
+                ],
+                correct: 2
+            },
+            {
+                question: "Indifference curves are negatively sloped because:",
+                options: [
+                    "Goods are always cheaper",
+                    "There is substitutability between goods",
+                    "Prices increase",
+                    "Consumers have no preferences"
+                ],
+                correct: 1
+            },
+            {
+                question: "Why are indifference curves convex to the origin?",
+                options: [
+                    "Goods must be perfect complements",
+                    "Consumers prefer extremes",
+                    "Goods show relative substitutability (diminishing MRS)",
+                    "Prices are linear"
+                ],
+                correct: 2
+            },
+            {
+                question: "Indifference curves never intersect because it would:",
+                options: [
+                    "Violate the law of demand",
+                    "Violate the transitivity axiom",
+                    "Increase utility",
+                    "Make consumers happier"
+                ],
+                correct: 1
+            },
+            {
+                question: "The Marginal Rate of Substitution (MRS) is:",
+                options: [
+                    "The price ratio",
+                    "The rate at which a consumer trades one good for another",
+                    "The total quantity consumed",
+                    "The cost difference"
+                ],
+                correct: 1
+            },
+            {
+                question: "MRS can be calculated as:",
+                options: [
+                    "−dY/dX",
+                    "MUₓ/MU_y",
+                    "Both A and B",
+                    "Neither A nor B"
+                ],
+                correct: 2
+            },
+            {
+                question: "When MRS diminishes along an indifference curve, the curve is:",
+                options: [
+                    "Linear",
+                    "Concave",
+                    "Convex",
+                    "Vertical"
+                ],
+                correct: 2
+            },
+            {
+                question: "For the utility function U(x₁, x₂) = x₁x₂, the MRS is:",
+                options: [
+                    "x₁/x₂",
+                    "x₂/x₁",
+                    "x₁ + x₂",
+                    "1"
+                ],
+                correct: 1
+            },
+            {
+                question: "At point (1, 8) with U(x₁, x₂) = x₁x₂, the MRS equals:",
+                options: [
+                    "1",
+                    "4",
+                    "8",
+                    "16"
+                ],
+                correct: 2
+            },
+            {
+                question: "A Cobb-Douglas utility function has the form:",
+                options: [
+                    "U = ax₁ + bx₂",
+                    "U = min{x₁, x₂}",
+                    "U = x₁ᵃx₂ᵇ",
+                    "U = max{x₁, x₂}"
+                ],
+                correct: 2
+            },
+            {
+                question: "Indifference curves for Cobb-Douglas functions are:",
+                options: [
+                    "Linear",
+                    "Right-angled",
+                    "Hyperbolic, asymptotic to axes",
+                    "Circular"
+                ],
+                correct: 2
+            },
+            {
+                question: "When goods are perfect substitutes U(x₁, x₂) = x₁ + x₂, the MRS is:",
+                options: [
+                    "Variable",
+                    "Infinite",
+                    "Constant",
+                    "Zero"
+                ],
+                correct: 2
+            },
+            {
+                question: "Perfect substitute indifference curves are:",
+                options: [
+                    "Convex",
+                    "Hyperbolic",
+                    "Linear and parallel",
+                    "Right-angled"
+                ],
+                correct: 2
+            },
+            {
+                question: "When goods are perfect complements U(x₁, x₂) = min{x₁, x₂}, the MRS is:",
+                options: [
+                    "Equal to 1",
+                    "Zero on some segments, infinite on others",
+                    "Always positive",
+                    "Always decreasing"
+                ],
+                correct: 1
+            },
+            {
+                question: "Perfect complement indifference curves are:",
+                options: [
+                    "Linear",
+                    "Hyperbolic",
+                    "Right-angled with vertices on a 45° ray",
+                    "Circular"
+                ],
+                correct: 2
+            },
+            {
+                question: "Example: Red and blue pens are:",
+                options: [
+                    "Perfect complements",
+                    "Perfect substitutes",
+                    "Normal goods",
+                    "Inferior goods"
+                ],
+                correct: 1
+            },
+            {
+                question: "Example: Left and right shoes are:",
+                options: [
+                    "Perfect substitutes",
+                    "Perfect complements",
+                    "Independent goods",
+                    "Luxury goods"
+                ],
+                correct: 1
+            },
+            {
+                question: "A monotonic transformation of a utility function:",
+                options: [
+                    "Changes the preferences it represents",
+                    "Violates ordinal utility",
+                    "Represents the same preferences",
+                    "Eliminates indifference curves"
+                ],
+                correct: 2
+            },
+            {
+                question: "If U = u(x) and U = 3u(x) both represent the same preferences, they demonstrate:",
+                options: [
+                    "Cardinal utility only",
+                    "The non-uniqueness of utility functions",
+                    "That ordinal utility is wrong",
+                    "Perfect complementarity"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which is NOT one of the axioms of rational choice?",
+                options: [
+                    "Completeness",
+                    "Transitivity",
+                    "Diminishing returns",
+                    "Non-Satiation"
+                ],
+                correct: 2
+            },
+            {
+                question: "Non-satiation means:",
+                options: [
+                    "Consumers don't get full",
+                    "More of any good is preferred to less",
+                    "Goods are always scarce",
+                    "Prices always increase"
+                ],
+                correct: 1
+            },
+            {
+                question: "The continuity axiom allows economists to:",
+                options: [
+                    "Ignore preferences",
+                    "Analyze small changes in prices and income",
+                    "Predict exact consumer behavior",
+                    "Eliminate mathematics from economics"
+                ],
+                correct: 1
+            },
+            {
+                question: "If a consumer prefers more to less of every good, this represents:",
+                options: [
+                    "Transitivity",
+                    "Completeness",
+                    "Non-Satiation",
+                    "Convexity"
+                ],
+                correct: 2
+            },
+            {
+                question: "An indifference curve map shows:",
+                options: [
+                    "Only one level of satisfaction",
+                    "Multiple indifference curves with increasing utility levels",
+                    "The supply of goods",
+                    "Market prices"
+                ],
+                correct: 1
+            },
+            {
+                question: "If (2,3) ≻ (4,1), this means:",
+                options: [
+                    "4 units of X and 1 of Y is better",
+                    "2 units of X and 3 of Y is better",
+                    "Both bundles are equally good",
+                    "The consumer can't decide"
+                ],
+                correct: 1
+            },
+            {
+                question: "The slope of an indifference curve represents:",
+                options: [
+                    "The price",
+                    "The MRS",
+                    "Total utility",
+                    "Consumer income"
+                ],
+                correct: 1
+            },
+            {
+                question: "A higher indifference curve indicates:",
+                options: [
+                    "Lower utility",
+                    "Higher utility",
+                    "Same utility level",
+                    "No preference change"
+                ],
+                correct: 1
+            },
+            {
+                question: "The statement 'people prefer balanced consumption' reflects:",
+                options: [
+                    "Linear preferences",
+                    "Perfect substitutability",
+                    "Convex preferences",
+                    "Cardinal utility"
+                ],
+                correct: 2
+            },
+            {
+                question: "Marginal utility is typically calculated as:",
+                options: [
+                    "Total utility ÷ quantity",
+                    "The partial derivative ∂U/∂xᵢ",
+                    "Change in utility from one more unit",
+                    "Both B and C"
+                ],
+                correct: 3
+            },
+            {
+                question: "A utility function must be:",
+                options: [
+                    "Linear",
+                    "Always increasing",
+                    "Continuous with continuous derivatives",
+                    "Expressed in monetary terms"
+                ],
+                correct: 2
+            },
+            {
+                question: "The first fundamental axiom of consumer choice is:",
+                options: [
+                    "Convexity",
+                    "Completeness",
+                    "Continuity",
+                    "Non-Satiation"
+                ],
+                correct: 1
+            },
+            {
+                question: "In the utility function U(x₁, x₂) = x₁x₂ = 16, as x₁ increases, x₂ must:",
+                options: [
+                    "Increase",
+                    "Stay constant",
+                    "Decrease",
+                    "Become zero"
+                ],
+                correct: 2
+            },
+            {
+                question: "Diminishing MRS is equivalent to:",
+                options: [
+                    "Increasing utility",
+                    "Decreasing satisfaction",
+                    "Convex indifference curves",
+                    "Perfect substitutes"
+                ],
+                correct: 2
+            },
+            {
+                question: "If a consumer has no preference between bundles A and B, they are:",
+                options: [
+                    "Rationally irrational",
+                    "Indifferent, and A ~ B",
+                    "Violating transitivity",
+                    "Violating completeness"
+                ],
+                correct: 1
+            },
+            {
+                question: "The MRS at point (6,6) for U(x₁, x₂) = x₁x₂ is:",
+                options: [
+                    "0.5",
+                    "1",
+                    "6",
+                    "12"
+                ],
+                correct: 1
+            },
+            {
+                question: "Preferences that are complete, transitive, and continuous can be:",
+                options: [
+                    "Not represented by any function",
+                    "Represented by a continuous utility function",
+                    "Never visualized",
+                    "Only represented ordinally"
+                ],
+                correct: 1
+            },
+            {
+                question: "The total differential of U = u(x,y) along an indifference curve equals:",
+                options: [
+                    "MUₓ × MU_y",
+                    "MUₓ + MU_y",
+                    "0 (dU = 0)",
+                    "1"
+                ],
+                correct: 2
+            },
+            {
+                question: "Why do economists prefer ordinal utility?",
+                options: [
+                    "It's more precise",
+                    "It only requires ranking, not specific satisfaction numbers",
+                    "Cardinal utility doesn't exist",
+                    "All of the above"
+                ],
+                correct: 1
+            }
+        ];
+
+        let currentQuiz = [];
+        let answers = {};
+        let submitted = false;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function startQuiz() {
+            currentQuiz = shuffleArray([...questionBank]).slice(0, 10);
+            answers = {};
+            submitted = false;
+            document.getElementById('quizStart').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('quizSummary').classList.remove('show');
+            renderQuestions();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsDisplay');
+            container.innerHTML = '';
+            
+            currentQuiz.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.innerHTML = `
+                    <div class="question-number">Question ${idx + 1}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div id="options-${idx}"></div>
+                    <div id="feedback-${idx}" class="feedback"></div>
+                `;
+                container.appendChild(card);
+
+                const optionsContainer = document.getElementById(`options-${idx}`);
+                q.options.forEach((opt, optIdx) => {
+                    const option = document.createElement('label');
+                    option.className = 'option';
+                    option.innerHTML = `
+                        <input type="radio" name="q${idx}" value="${optIdx}" onchange="selectOption(${idx}, ${optIdx})">
+                        <span>${opt}</span>
+                    `;
+                    optionsContainer.appendChild(option);
+                });
+            });
+        }
+
+        function selectOption(qIdx, optIdx) {
+            answers[qIdx] = optIdx;
+            updateProgress();
+            
+            if (submitted) {
+                checkAnswer(qIdx, optIdx);
+            }
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(answers).length;
+            const percent = (answered / 10) * 100;
+            document.getElementById('progressFill').style.width = percent + '%';
+        }
+
+        function checkAnswer(qIdx, userAnswer) {
+            const isCorrect = userAnswer === currentQuiz[qIdx].correct;
+            const options = document.querySelectorAll(`#options-${qIdx} .option`);
+            const feedback = document.getElementById(`feedback-${qIdx}`);
+            
+            options.forEach((opt, idx) => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+                const input = opt.querySelector('input');
+                
+                if (input.value == userAnswer) {
+                    opt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else if (idx == currentQuiz[qIdx].correct && !isCorrect) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+            feedback.innerHTML = isCorrect ? 
+                '✓ Correct!' : 
+                '✗ Incorrect. The correct answer is: ' + currentQuiz[qIdx].options[currentQuiz[qIdx].correct];
+        }
+
+        function submitQuiz() {
+            submitted = true;
+            let correct = 0;
+
+            Object.keys(answers).forEach(qIdx => {
+                if (answers[qIdx] === currentQuiz[qIdx].correct) {
+                    correct++;
+                }
+                checkAnswer(parseInt(qIdx), answers[qIdx]);
+            });
+
+            document.getElementById('quizContainer').style.display = 'none';
+            showSummary(correct);
+        }
+
+        function showSummary(correct) {
+            const percent = Math.round((correct / 10) * 100);
+            const summary = document.getElementById('quizSummary');
+            summary.innerHTML = `
+                <div class="summary-score">${percent}%</div>
+                <div class="summary-text">
+                    ${percent >= 80 ? "Outstanding! You have a strong grasp of consumer preferences and utility theory." : 
+                      percent >= 60 ? "Good job! Review the material on indifference curves and MRS to improve further." :
+                      "Keep studying! Focus on axioms of rational choice and utility functions."}
+                </div>
+                <div class="summary-breakdown">
+                    <div class="breakdown-item correct">
+                        <div class="breakdown-number">${correct}</div>
+                        <div class="breakdown-label">Correct</div>
+                    </div>
+                    <div class="breakdown-item incorrect">
+                        <div class="breakdown-number">${10 - correct}</div>
+                        <div class="breakdown-label">Incorrect</div>
+                    </div>
+                </div>
+                <button class="submit-btn" style="margin-top: 30px;" onclick="retakeQuiz()">Retake Quiz</button>
+            `;
+            summary.classList.add('show');
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('quizSummary').classList.remove('show');
+            document.getElementById('quizStart').style.display = 'block';
+            currentQuiz = [];
+            answers = {};
+            submitted = false;
+        }
+
+        function retakeQuiz() {
+            document.getElementById('quizSummary').classList.remove('show');
+            startQuiz();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microeconomics Introduction: Lesson & Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Serif Pro', serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            padding: 60px 40px;
+            text-align: center;
+            border-bottom: 3px solid #0ea5e9;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(30, 41, 59, 0.8);
+            border-bottom: 2px solid #0ea5e9;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 18px 30px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.1em;
+            font-family: 'Source Serif Pro', serif;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            color: #0ea5e9;
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .tab-btn.active {
+            color: #0ea5e9;
+            background: rgba(14, 165, 233, 0.15);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #0ea5e9;
+        }
+
+        .content {
+            padding: 50px 40px;
+            min-height: 600px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* LESSON STYLES */
+        .lesson-section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(14, 165, 233, 0.2);
+        }
+
+        .lesson-section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #0ea5e9;
+        }
+
+        .concept-box {
+            background: rgba(14, 165, 233, 0.1);
+            border-left: 4px solid #0ea5e9;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            line-height: 1.8;
+        }
+
+        .concept-box strong {
+            color: #38bdf8;
+        }
+
+        ul {
+            margin-left: 25px;
+            line-height: 1.9;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        .math-formula {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            color: #38bdf8;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        /* QUIZ STYLES */
+        .quiz-container {
+            display: none;
+        }
+
+        .quiz-container.active {
+            display: block;
+        }
+
+        .quiz-progress {
+            background: rgba(14, 165, 233, 0.1);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-bar {
+            width: 70%;
+            height: 8px;
+            background: rgba(14, 165, 233, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0ea5e9, #3b82f6);
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            color: #0ea5e9;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .question-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px solid rgba(14, 165, 233, 0.3);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .question-number {
+            color: #0ea5e9;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 2px solid rgba(14, 165, 233, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            background: rgba(14, 165, 233, 0.1);
+            border-color: #0ea5e9;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 15px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #0ea5e9;
+            width: 20px;
+            height: 20px;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .option.selected {
+            background: rgba(14, 165, 233, 0.2);
+            border-color: #0ea5e9;
+        }
+
+        .option.correct {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+            animation: pulse 0.5s ease;
+        }
+
+        .option.incorrect {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .feedback {
+            display: none;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+            border-left: 4px solid #22c55e;
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border-left: 4px solid #ef4444;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        button.submit-btn, button.reset-btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Source Serif Pro', serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            color: white;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reset-btn {
+            background: rgba(14, 165, 233, 0.2);
+            color: #0ea5e9;
+            border: 2px solid #0ea5e9;
+        }
+
+        .reset-btn:hover {
+            background: rgba(14, 165, 233, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .quiz-summary {
+            display: none;
+            background: rgba(14, 165, 233, 0.1);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .quiz-summary.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .summary-score {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            color: #0ea5e9;
+            margin-bottom: 15px;
+        }
+
+        .summary-text {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .summary-breakdown {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 25px;
+            font-size: 1.1em;
+        }
+
+        .breakdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .breakdown-number {
+            font-size: 2em;
+            font-weight: 600;
+            color: #38bdf8;
+            margin-bottom: 5px;
+        }
+
+        .breakdown-label {
+            color: #94a3b8;
+            font-size: 0.95em;
+        }
+
+        .correct .breakdown-number {
+            color: #22c55e;
+        }
+
+        .incorrect .breakdown-number {
+            color: #ef4444;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #0ea5e9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Microeconomics 101</h1>
+            <p class="subtitle">Introduction to Economic Theory & Models</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('lesson')">📚 Lesson Summary</button>
+            <button class="tab-btn" onclick="switchTab('quiz')">✏️ Quiz</button>
+        </div>
+
+        <div class="content">
+            <!-- LESSON TAB -->
+            <div id="lesson" class="tab-content active">
+                <div class="lesson-section">
+                    <h2>What is Microeconomics?</h2>
+                    <div class="concept-box">
+                        <strong>Economics</strong> is a social science that deals with the allocation of scarce resources to satisfy unlimited human needs and wants.
+                    </div>
+                    <div class="concept-box">
+                        <strong>Microeconomics</strong> studies the behavior of individual economic agents—consumers, firms, workers, and investors—as well as the markets these agents comprise.
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Understanding Tradeoffs</h2>
+                    <ul>
+                        <li><strong>Consumers</strong> have limited incomes and must decide how to spend on goods and services or save for the future.</li>
+                        <li><strong>Firms</strong> face limits in production capabilities and available resources to produce goods.</li>
+                        <li><strong>Workers</strong> make tradeoffs about workforce entry, employment choices, and weekly work hours.</li>
+                    </ul>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Theories and Models in Economics</h2>
+                    <p style="margin-bottom: 15px; line-height: 1.8;">Economics relies on theories to explain and predict phenomena based on basic rules and assumptions. Models are mathematical representations used to describe economic activities and understand behavior.</p>
+                    <div class="concept-box">
+                        While models are abstractions from reality, they provide essential aid in understanding economic behavior and making predictions.
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Key Features of Economic Models</h2>
+                    <ul>
+                        <li><strong>Ceteris Paribus Assumption:</strong> "Other things remaining the same." Models focus on a few forces while holding other variables constant.</li>
+                        <li><strong>Optimization Assumption:</strong> Economic actors rationally pursue goals—consumers maximize utility, firms maximize profits, regulators maximize public welfare.</li>
+                        <li><strong>Positive vs. Normative Analysis:</strong> Positive analysis explains what "is" (cause and effect); normative analysis prescribes what "should" be done.</li>
+                    </ul>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>The Supply and Demand Model</h2>
+                    <p style="margin-bottom: 20px;">The fundamental market model describing how prices and quantities are determined:</p>
+                    
+                    <div class="math-formula">
+                        Demand<sub>X</sub> = f(P<sub>X</sub>, P<sub>Y</sub>, I, N<sub>D</sub>, T, E<sub>C</sub>)
+                    </div>
+                    <ul style="margin-bottom: 20px;">
+                        <li>P<sub>X</sub> = price of good X</li>
+                        <li>P<sub>Y</sub> = price of another good Y</li>
+                        <li>I = consumer income</li>
+                        <li>N<sub>D</sub> = number of demanders</li>
+                        <li>T = taste and preferences</li>
+                        <li>E<sub>C</sub> = consumer expectations</li>
+                    </ul>
+
+                    <div class="math-formula">
+                        Supply<sub>X</sub> = f(P<sub>X</sub>, P<sub>Y</sub>, Input, N<sub>S</sub>, Tech, E<sub>F</sub>)
+                    </div>
+                    <ul style="margin-bottom: 20px;">
+                        <li>P<sub>X</sub> = price of good X</li>
+                        <li>P<sub>Y</sub> = price of another good Y</li>
+                        <li>Input = inputs and resources used</li>
+                        <li>N<sub>S</sub> = number of suppliers</li>
+                        <li>Tech = technology</li>
+                        <li>E<sub>F</sub> = firm expectations</li>
+                    </ul>
+
+                    <div class="concept-box">
+                        <strong>Equilibrium</strong> occurs when Q<sub>D</sub> = Q<sub>S</sub>. Example: If Q<sub>D</sub> = 1,000 - 100P and Q<sub>S</sub> = -125 + 125P, then P* = 5 and Q* = 500.
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Production Possibility Frontier (PPF)</h2>
+                    <p style="margin-bottom: 15px;">The PPF demonstrates that resources are scarce and choices have opportunity costs.</p>
+                    <ul>
+                        <li>The PPF boundary represents maximum production combinations of two goods with available resources.</li>
+                        <li>Points inside the PPF indicate underutilization of resources.</li>
+                        <li>The opportunity cost changes as production mix shifts—producing more of one good requires sacrificing more of the other.</li>
+                        <li>Example: For 2x² + y² = 225, the slope dy/dx = -2x/y increases in magnitude as x increases, showing rising opportunity costs.</li>
+                    </ul>
+                </div>
+
+                <div class="lesson-section">
+                    <h2>Differentiation Rules (Mathematical Tools)</h2>
+                    <p style="margin-bottom: 15px;">Economists use calculus to analyze how variables change:</p>
+                    <ul>
+                        <li><strong>Power Rule:</strong> d(x<sup>n</sup>)/dx = nx<sup>n-1</sup></li>
+                        <li><strong>Sum Rule:</strong> d(f+g)/dx = df/dx + dg/dx</li>
+                        <li><strong>Product Rule:</strong> d(fg)/dx = f(dg/dx) + g(df/dx)</li>
+                        <li><strong>Chain Rule:</strong> dz/dx = (dz/dy)(dy/dx) for composite functions</li>
+                        <li><strong>Partial Differentiation:</strong> Mathematical expression of ceteris paribus—shows how one variable affects an outcome when others are held constant.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- QUIZ TAB -->
+            <div id="quiz" class="tab-content">
+                <div id="quizStart" class="empty-state">
+                    <h3>Ready to Test Your Knowledge?</h3>
+                    <p>Click the button below to start a 10-question randomized quiz from our question bank.</p>
+                    <button class="submit-btn" style="margin-top: 25px;" onclick="startQuiz()">Start Quiz</button>
+                </div>
+
+                <div id="quizContainer" class="quiz-container">
+                    <div class="quiz-progress">
+                        <div>
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="progress-text">Question <span id="currentQuestion">1</span> of 10</div>
+                        </div>
+                    </div>
+
+                    <div id="questionsDisplay"></div>
+
+                    <div class="buttons">
+                        <button class="submit-btn" onclick="submitQuiz()">Submit Quiz</button>
+                        <button class="reset-btn" onclick="resetQuiz()">Reset Quiz</button>
+                    </div>
+                </div>
+
+                <div id="quizSummary" class="quiz-summary"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Question Bank (50 questions)
+        const questionBank = [
+            {
+                question: "What does microeconomics study?",
+                options: [
+                    "The behavior of individual economic agents and markets",
+                    "Only government policy decisions",
+                    "International trade agreements",
+                    "Historical economic data"
+                ],
+                correct: 0
+            },
+            {
+                question: "What does 'ceteris paribus' mean?",
+                options: [
+                    "With all things changing",
+                    "Other things remaining the same",
+                    "In the long run",
+                    "Under competitive conditions"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which of the following is an example of optimization in economics?",
+                options: [
+                    "Firms producing randomly",
+                    "Consumers maximizing their utility",
+                    "Workers never considering income",
+                    "Prices always increasing"
+                ],
+                correct: 1
+            },
+            {
+                question: "What is a primary difference between positive and normative analysis?",
+                options: [
+                    "Positive analysis is always correct",
+                    "Positive analysis explains 'what is'; normative analysis prescribes 'what should be'",
+                    "Normative analysis uses data while positive uses theory",
+                    "There is no meaningful difference"
+                ],
+                correct: 1
+            },
+            {
+                question: "In supply and demand equilibrium, what condition must hold?",
+                options: [
+                    "QD > QS",
+                    "QD = QS",
+                    "QS > QD",
+                    "Neither QD nor QS matters"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which factor does NOT appear in the demand function?",
+                options: [
+                    "Consumer income",
+                    "Production technology",
+                    "Consumer preferences",
+                    "Price of related goods"
+                ],
+                correct: 1
+            },
+            {
+                question: "What happens to equilibrium when demand increases (ceteris paribus)?",
+                options: [
+                    "Price falls and quantity falls",
+                    "Price rises and quantity falls",
+                    "Price rises and quantity rises",
+                    "No change in equilibrium"
+                ],
+                correct: 2
+            },
+            {
+                question: "A point inside the Production Possibility Frontier indicates:",
+                options: [
+                    "Efficient use of all resources",
+                    "Underutilization of resources",
+                    "Impossible production level",
+                    "Maximum production capacity"
+                ],
+                correct: 1
+            },
+            {
+                question: "What does the slope of the PPF represent?",
+                options: [
+                    "The market price",
+                    "The opportunity cost of producing more of one good",
+                    "The consumer's income",
+                    "Technological efficiency"
+                ],
+                correct: 1
+            },
+            {
+                question: "What is an opportunity cost?",
+                options: [
+                    "The price you pay for something",
+                    "What you must give up to get something else",
+                    "The amount saved by production",
+                    "The total expenditure on resources"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which assumption do economists commonly use in models?",
+                options: [
+                    "People are irrational",
+                    "Resources are unlimited",
+                    "Economic actors pursue rational goals",
+                    "Markets never reach equilibrium"
+                ],
+                correct: 2
+            },
+            {
+                question: "In the supply function, what does 'Tech' represent?",
+                options: [
+                    "Technological advancement",
+                    "Technical support services",
+                    "Production technology and methods",
+                    "Total economic changes"
+                ],
+                correct: 2
+            },
+            {
+                question: "A model that shows demand is QD = 1,000 - 100P and supply is QS = -125 + 125P. What is P* at equilibrium?",
+                options: [
+                    "P* = 3",
+                    "P* = 5",
+                    "P* = 7",
+                    "P* = 10"
+                ],
+                correct: 1
+            },
+            {
+                question: "Using the same supply and demand functions, what is Q* at equilibrium?",
+                options: [
+                    "Q* = 300",
+                    "Q* = 400",
+                    "Q* = 500",
+                    "Q* = 600"
+                ],
+                correct: 2
+            },
+            {
+                question: "What is the power rule of differentiation?",
+                options: [
+                    "d(x^n)/dx = n",
+                    "d(x^n)/dx = nx^(n-1)",
+                    "d(x^n)/dx = x^n",
+                    "d(x^n)/dx = (n-1)x"
+                ],
+                correct: 1
+            },
+            {
+                question: "The chain rule in calculus states that dz/dx equals:",
+                options: [
+                    "dz/dy + dy/dx",
+                    "(dz/dy)(dy/dx)",
+                    "dz/dx = dy/dx",
+                    "dz/dy ÷ dy/dx"
+                ],
+                correct: 1
+            },
+            {
+                question: "What do partial derivatives represent economically?",
+                options: [
+                    "The total change in all variables",
+                    "Changes in one variable while others are held constant (ceteris paribus)",
+                    "Only the long-run effects",
+                    "The average rate of change"
+                ],
+                correct: 1
+            },
+            {
+                question: "Consumers face tradeoffs because of:",
+                options: [
+                    "Government regulations",
+                    "Limited incomes and unlimited wants",
+                    "Market competition",
+                    "Production inefficiency"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which group seeks to maximize profits according to the optimization assumption?",
+                options: [
+                    "Consumers",
+                    "Workers",
+                    "Firms",
+                    "Government agencies"
+                ],
+                correct: 2
+            },
+            {
+                question: "An economic model is best described as:",
+                options: [
+                    "A perfect representation of reality",
+                    "A mathematical abstraction that aids understanding",
+                    "Only useful for historical analysis",
+                    "Never actually used in practice"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which of the following describes the ceteris paribus assumption's purpose?",
+                options: [
+                    "To make models more complicated",
+                    "To focus on effects of a few forces at a time",
+                    "To eliminate the need for data",
+                    "To guarantee accuracy"
+                ],
+                correct: 1
+            },
+            {
+                question: "In the demand function, what does 'I' represent?",
+                options: [
+                    "The index of prices",
+                    "Consumer income",
+                    "The interest rate",
+                    "Industrial output"
+                ],
+                correct: 1
+            },
+            {
+                question: "The supply curve shifts when there is a change in:",
+                options: [
+                    "Consumer preferences",
+                    "Technology or input prices",
+                    "Consumer income",
+                    "Number of consumers"
+                ],
+                correct: 1
+            },
+            {
+                question: "What happens when quantity demanded exceeds quantity supplied?",
+                options: [
+                    "Surplus occurs",
+                    "Equilibrium is reached",
+                    "Shortage occurs",
+                    "Prices must fall"
+                ],
+                correct: 2
+            },
+            {
+                question: "Which of the following would shift the demand curve rightward?",
+                options: [
+                    "Decrease in consumer income (normal goods)",
+                    "Change in consumer preferences favoring the good",
+                    "Decrease in complementary good prices",
+                    "Increase in the number of substitutes"
+                ],
+                correct: 1
+            },
+            {
+                question: "The product rule for derivatives states that d(fg)/dx equals:",
+                options: [
+                    "df/dx × dg/dx",
+                    "f(dg/dx) + g(df/dx)",
+                    "f + g",
+                    "(df/dx)(dg/dx)/f"
+                ],
+                correct: 1
+            },
+            {
+                question: "If the PPF equation is 2x² + y² = 225, what does this represent?",
+                options: [
+                    "A demand curve",
+                    "A supply function",
+                    "The maximum production combinations of two goods",
+                    "Consumer utility"
+                ],
+                correct: 2
+            },
+            {
+                question: "The derivative of y = 3x² with respect to x is:",
+                options: [
+                    "3x",
+                    "6x",
+                    "3",
+                    "6"
+                ],
+                correct: 1
+            },
+            {
+                question: "What is the key implication of scarce resources in economics?",
+                options: [
+                    "Unlimited consumption is possible",
+                    "Choices must be made with associated opportunity costs",
+                    "Everyone can have everything they want",
+                    "No economic decisions are necessary"
+                ],
+                correct: 1
+            },
+            {
+                question: "In the general supply-demand model, what is the formula for equilibrium price?",
+                options: [
+                    "P* = a - c",
+                    "P* = (a - c) / (d - b)",
+                    "P* = d/b",
+                    "P* = a + d"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which of the following is a normative economic statement?",
+                options: [
+                    "When price increases, quantity demanded decreases",
+                    "Governments should implement price controls",
+                    "Unemployment has risen this quarter",
+                    "Inflation affects purchasing power"
+                ],
+                correct: 1
+            },
+            {
+                question: "A firm's decision to maximize profits exemplifies which economic principle?",
+                options: [
+                    "Ceteris paribus",
+                    "Optimization assumption",
+                    "Positive analysis",
+                    "Comparative advantage"
+                ],
+                correct: 1
+            },
+            {
+                question: "What is the relationship between variables in a demand function?",
+                options: [
+                    "All are positively related to quantity demanded",
+                    "Price is positively related; income is negatively related",
+                    "Price is inversely related; most others vary based on context",
+                    "There is no relationship"
+                ],
+                correct: 2
+            },
+            {
+                question: "The sum rule of differentiation applies to:",
+                options: [
+                    "Only multiplication",
+                    "Addition and subtraction of functions",
+                    "Division of functions",
+                    "Exponential functions only"
+                ],
+                correct: 1
+            },
+            {
+                question: "An increase in the number of suppliers would:",
+                options: [
+                    "Shift demand to the right",
+                    "Shift supply to the right",
+                    "Increase the equilibrium price",
+                    "Decrease quantity demanded"
+                ],
+                correct: 1
+            },
+            {
+                question: "What does the intersection of supply and demand curves represent?",
+                options: [
+                    "Market shortage",
+                    "Market surplus",
+                    "Market equilibrium",
+                    "Price ceiling"
+                ],
+                correct: 2
+            },
+            {
+                question: "The derivative of y = x³ + 2x² - 5 is:",
+                options: [
+                    "3x² + 4x",
+                    "3x² + 2x - 5",
+                    "3x + 4 - 5",
+                    "x² + 4x"
+                ],
+                correct: 0
+            },
+            {
+                question: "Which factor is NOT typically included in the supply function?",
+                options: [
+                    "Price of inputs",
+                    "Technology",
+                    "Consumer income",
+                    "Number of firms"
+                ],
+                correct: 2
+            },
+            {
+                question: "An economic theory serves primarily to:",
+                options: [
+                    "Complicate economic analysis",
+                    "Explain phenomena and enable predictions",
+                    "Avoid mathematical analysis",
+                    "Ignore real-world data"
+                ],
+                correct: 1
+            },
+            {
+                question: "When an economic model assumes rational actors, it means:",
+                options: [
+                    "Actors always make perfect decisions",
+                    "Actors pursue consistent goals given constraints",
+                    "Emotions never affect decisions",
+                    "All decisions result in identical outcomes"
+                ],
+                correct: 1
+            },
+            {
+                question: "The effect of a change in consumer preferences on demand can be analyzed using:",
+                options: [
+                    "Only historical data",
+                    "Positive economic analysis",
+                    "Normative statements",
+                    "Technology forecasting"
+                ],
+                correct: 1
+            },
+            {
+                question: "A firm deciding between producing widgets or gadgets faces:",
+                options: [
+                    "No constraints",
+                    "Opportunity costs due to limited resources",
+                    "Guaranteed profitability",
+                    "No economic tradeoffs"
+                ],
+                correct: 1
+            },
+            {
+                question: "In partial differentiation of f(x,y) = 3x² + 4xy, ∂f/∂x equals:",
+                options: [
+                    "6x + 4y",
+                    "6x",
+                    "4x + y",
+                    "3x + 4y"
+                ],
+                correct: 0
+            },
+            {
+                question: "The demand curve typically slopes:",
+                options: [
+                    "Upward due to income effects",
+                    "Downward because of the inverse price-quantity relationship",
+                    "Horizontally at market price",
+                    "Vertically at a fixed quantity"
+                ],
+                correct: 1
+            },
+            {
+                question: "Expectations of consumers primarily affect which component of the market model?",
+                options: [
+                    "Supply only",
+                    "Demand only",
+                    "Both supply and demand",
+                    "Equilibrium price only"
+                ],
+                correct: 2
+            },
+            {
+                question: "What is the significance of testing a model's assumptions in economics?",
+                options: [
+                    "It proves the model is always correct",
+                    "It ensures the model perfectly matches reality",
+                    "It helps evaluate whether the model is useful for understanding",
+                    "Models don't need to be tested"
+                ],
+                correct: 2
+            },
+            {
+                question: "A worker deciding whether to enter the workforce faces tradeoffs with:",
+                options: [
+                    "Only monetary considerations",
+                    "Leisure time versus income and other factors",
+                    "No competing interests",
+                    "Only immediate consumption"
+                ],
+                correct: 1
+            },
+            {
+                question: "How does the opportunity cost change along a production possibility frontier?",
+                options: [
+                    "It remains constant",
+                    "It increases as production of one good increases",
+                    "It decreases along the frontier",
+                    "It's unrelated to the PPF"
+                ],
+                correct: 1
+            },
+            {
+                question: "In calculus, the quotient rule is used to find derivatives of:",
+                options: [
+                    "Products of functions",
+                    "Ratios of functions",
+                    "Powers of functions",
+                    "Sums of functions"
+                ],
+                correct: 1
+            }
+        ];
+
+        let currentQuiz = [];
+        let answers = {};
+        let submitted = false;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function startQuiz() {
+            currentQuiz = shuffleArray([...questionBank]).slice(0, 10);
+            answers = {};
+            submitted = false;
+            document.getElementById('quizStart').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('quizSummary').classList.remove('show');
+            renderQuestions();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsDisplay');
+            container.innerHTML = '';
+            
+            currentQuiz.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.innerHTML = `
+                    <div class="question-number">Question ${idx + 1}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div id="options-${idx}"></div>
+                    <div id="feedback-${idx}" class="feedback"></div>
+                `;
+                container.appendChild(card);
+
+                const optionsContainer = document.getElementById(`options-${idx}`);
+                q.options.forEach((opt, optIdx) => {
+                    const option = document.createElement('label');
+                    option.className = 'option';
+                    option.innerHTML = `
+                        <input type="radio" name="q${idx}" value="${optIdx}" onchange="selectOption(${idx}, ${optIdx})">
+                        <span>${opt}</span>
+                    `;
+                    optionsContainer.appendChild(option);
+                });
+            });
+        }
+
+        function selectOption(qIdx, optIdx) {
+            answers[qIdx] = optIdx;
+            updateProgress();
+            
+            if (submitted) {
+                checkAnswer(qIdx, optIdx);
+            }
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(answers).length;
+            const percent = (answered / 10) * 100;
+            document.getElementById('progressFill').style.width = percent + '%';
+        }
+
+        function checkAnswer(qIdx, userAnswer) {
+            const isCorrect = userAnswer === currentQuiz[qIdx].correct;
+            const options = document.querySelectorAll(`#options-${qIdx} .option`);
+            const feedback = document.getElementById(`feedback-${qIdx}`);
+            
+            options.forEach((opt, idx) => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+                const input = opt.querySelector('input');
+                
+                if (input.value == userAnswer) {
+                    opt.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else if (idx == currentQuiz[qIdx].correct && !isCorrect) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+            feedback.innerHTML = isCorrect ? 
+                '✓ Correct!' : 
+                '✗ Incorrect. The correct answer is: ' + currentQuiz[qIdx].options[currentQuiz[qIdx].correct];
+        }
+
+        function submitQuiz() {
+            submitted = true;
+            let correct = 0;
+
+            Object.keys(answers).forEach(qIdx => {
+                if (answers[qIdx] === currentQuiz[qIdx].correct) {
+                    correct++;
+                }
+                checkAnswer(parseInt(qIdx), answers[qIdx]);
+            });
+
+            document.getElementById('quizContainer').style.display = 'none';
+            showSummary(correct);
+        }
+
+        function showSummary(correct) {
+            const percent = Math.round((correct / 10) * 100);
+            const summary = document.getElementById('quizSummary');
+            summary.innerHTML = `
+                <div class="summary-score">${percent}%</div>
+                <div class="summary-text">
+                    ${percent >= 80 ? "Excellent work! You've mastered the material." : 
+                      percent >= 60 ? "Good effort! Review the material and try again." :
+                      "Keep studying! Review key concepts and retake the quiz."}
+                </div>
+                <div class="summary-breakdown">
+                    <div class="breakdown-item correct">
+                        <div class="breakdown-number">${correct}</div>
+                        <div class="breakdown-label">Correct</div>
+                    </div>
+                    <div class="breakdown-item incorrect">
+                        <div class="breakdown-number">${10 - correct}</div>
+                        <div class="breakdown-label">Incorrect</div>
+                    </div>
+                </div>
+                <button class="submit-btn" style="margin-top: 30px;" onclick="retakeQuiz()">Retake Quiz</button>
+            `;
+            summary.classList.add('show');
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('quizSummary').classList.remove('show');
+            document.getElementById('quizStart').style.display = 'block';
+            currentQuiz = [];
+            answers = {};
+            submitted = false;
+        }
+
+        function retakeQuiz() {
+            document.getElementById('quizSummary').classList.remove('show');
+            startQuiz();
+        }
+    </script>
+</body>
+</html>

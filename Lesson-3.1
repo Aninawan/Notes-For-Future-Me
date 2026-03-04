@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 3.1 — Production Functions, Isoquants & Isocosts</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1209;
+    --cream: #faf6ee;
+    --parchment: #f0e9d6;
+    --gold: #c8922a;
+    --gold-light: #e8b84b;
+    --rust: #9e3d1b;
+    --forest: #2a5c3f;
+    --slate: #3d4f5c;
+    --muted: #7a6e60;
+    --border: #d4c9b0;
+    --correct: #2a5c3f;
+    --wrong: #9e3d1b;
+    --highlight: #fff8e1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(200,146,42,0.04) 40px,
+      rgba(200,146,42,0.04) 41px
+    );
+  }
+  .header-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+  header p {
+    color: rgba(250,246,238,0.6);
+    font-size: 0.95rem;
+    font-weight: 300;
+  }
+
+  /* ── TABS ── */
+  .tab-bar {
+    display: flex;
+    background: var(--parchment);
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+    bottom: -2px;
+  }
+  .tab-btn.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+    background: var(--cream);
+  }
+  .tab-btn:hover:not(.active) { color: var(--ink); background: rgba(0,0,0,0.03); }
+
+  /* ── PANELS ── */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── SUMMARY ── */
+  .summary-wrap { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+
+  .section-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(26,18,9,0.06);
+  }
+  .section-card-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.9rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    font-weight: 600;
+  }
+  .section-card-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .section-card-body { padding: 1.5rem; }
+
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .concept-tile {
+    background: var(--parchment);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem;
+    border-left: 3px solid var(--gold);
+  }
+  .concept-tile h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--rust);
+    margin-bottom: 0.4rem;
+  }
+  .concept-tile p { font-size: 0.85rem; color: var(--slate); line-height: 1.5; }
+
+  .formula-box {
+    background: var(--ink);
+    color: var(--gold-light);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    padding: 1rem 1.25rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+    line-height: 1.8;
+  }
+  .formula-box span.label {
+    color: rgba(250,246,238,0.5);
+    font-size: 0.75rem;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .stage-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .stage-box {
+    border-radius: 4px;
+    padding: 1rem;
+    font-size: 0.82rem;
+  }
+  .stage-box h4 { font-weight: 700; margin-bottom: 0.5rem; font-size: 0.85rem; }
+  .stage-box ul { padding-left: 1rem; line-height: 1.9; }
+  .stage-1 { background: #e8f5e9; border-left: 3px solid #4caf50; }
+  .stage-2 { background: #fff8e1; border-left: 3px solid #ffc107; }
+  .stage-3 { background: #fce4ec; border-left: 3px solid #e91e63; }
+
+  .rts-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.88rem; }
+  .rts-table th { background: var(--ink); color: var(--gold); padding: 0.6rem 1rem; text-align: left; font-weight: 600; }
+  .rts-table td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
+  .rts-table tr:last-child td { border-bottom: none; }
+  .rts-table tr:nth-child(even) td { background: var(--parchment); }
+
+  .key-insight {
+    background: var(--highlight);
+    border-left: 4px solid var(--gold);
+    padding: 0.9rem 1.25rem;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.88rem;
+    color: var(--slate);
+    margin-top: 1rem;
+  }
+  .key-insight strong { color: var(--rust); }
+
+  /* ── QUIZ ── */
+  .quiz-wrap { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+  .quiz-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .quiz-meta { font-size: 0.85rem; color: var(--muted); }
+  .quiz-meta strong { color: var(--ink); font-size: 1rem; }
+
+  .btn {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.65rem 1.5rem;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-primary { background: var(--gold); color: var(--ink); }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--ink); }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .q-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(26,18,9,0.05);
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.75rem;
+  }
+  .q-text {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.55;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+  .q-formula {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--parchment);
+    padding: 0.4rem 0.8rem;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .choices { display: flex; flex-direction: column; gap: 0.6rem; }
+  .choice-btn {
+    text-align: left;
+    padding: 0.85rem 1.1rem;
+    background: var(--parchment);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--gold);
+    background: var(--highlight);
+  }
+  .choice-letter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 18px;
+    padding-top: 2px;
+  }
+  .choice-btn.selected { border-color: var(--slate); background: #e8edf0; }
+  .choice-btn.correct { border-color: var(--correct); background: #e8f5e9; }
+  .choice-btn.wrong { border-color: var(--wrong); background: #fce4ec; }
+  .choice-btn.reveal-correct { border-color: var(--correct); background: #e8f5e9; }
+  .choice-btn:disabled { cursor: default; }
+
+  .feedback-strip {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: none;
+  }
+  .feedback-strip.show { display: block; animation: fadeIn 0.25s ease; }
+  .feedback-strip.correct-fb { background: #e8f5e9; color: var(--correct); border-left: 3px solid var(--correct); }
+  .feedback-strip.wrong-fb { background: #fce4ec; color: var(--wrong); border-left: 3px solid var(--wrong); }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+
+  .score-panel {
+    display: none;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(26,18,9,0.08);
+    animation: slideIn 0.4s ease;
+  }
+  .score-panel.show { display: block; }
+  .score-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .score-label { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .score-verdict {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+  .score-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+  .score-breakdown {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  .breakdown-item { text-align: center; }
+  .breakdown-val { font-size: 1.5rem; font-weight: 700; }
+  .breakdown-lbl { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .correct-val { color: var(--correct); }
+  .wrong-val { color: var(--wrong); }
+
+  @media (max-width: 600px) {
+    .stage-row { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: 1fr; }
+    .score-big { font-size: 3.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">Economics · Topic 3 · Sub-topic 3.1</div>
+  <h1>Production Functions,<br>Isoquants &amp; Isocosts</h1>
+  <p>Theory of the Firm — Lesson Summary &amp; Practice Quiz</p>
+</header>
+
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('summary', this)">📖 Lesson Summary</button>
+  <button class="tab-btn" onclick="switchTab('quiz', this)">✏️ Practice Quiz</button>
+</nav>
+
+<!-- ══════════════════════════════════ SUMMARY ══════════════════════════════════ -->
+<div id="summary" class="panel active">
+<div class="summary-wrap">
+
+  <!-- 1. Production Function -->
+  <div class="section-card">
+    <div class="section-card-header">
+      <span class="section-num">01</span>
+      <h2>The Production Function</h2>
+    </div>
+    <div class="section-card-body">
+      <p>A firm's <strong>production function</strong> shows the maximum output obtainable from any combination of inputs given a fixed technology.</p>
+      <div class="formula-box">
+        <span class="label">General Form</span>
+        Q = f(K, L)
+        <span class="label" style="margin-top:0.5rem">Cobb-Douglas Form</span>
+        Q = A · K<sup>α</sup> · L<sup>β</sup>   where A &gt; 0, α, β &gt; 0
+      </div>
+      <div class="concept-grid">
+        <div class="concept-tile">
+          <h4>Short Run</h4>
+          <p>At least one input is fixed. Firms can only vary variable inputs like labor.</p>
+        </div>
+        <div class="concept-tile">
+          <h4>Long Run</h4>
+          <p>All inputs become variable. Firms can adjust both capital and labor freely.</p>
+        </div>
+        <div class="concept-tile">
+          <h4>Fixed Input</h4>
+          <p>A production factor whose quantity cannot be changed in the period under analysis.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Marginal & Average Product -->
+  <div class="section-card">
+    <div class="section-card-header">
+      <span class="section-num">02</span>
+      <h2>Marginal &amp; Average Product</h2>
+    </div>
+    <div class="section-card-body">
+      <div class="concept-grid">
+        <div class="concept-tile">
+          <h4>Marginal Product of Labor</h4>
+          <p>Additional output from one more unit of labor, holding K constant.<br><strong>MP<sub>L</sub> = ∂Q/∂L</strong></p>
+        </div>
+        <div class="concept-tile">
+          <h4>Marginal Product of Capital</h4>
+          <p>Additional output from one more unit of capital, holding L constant.<br><strong>MP<sub>K</sub> = ∂Q/∂K</strong></p>
+        </div>
+        <div class="concept-tile">
+          <h4>Average Product of Labor</h4>
+          <p>Output per unit of labor.<br><strong>AP<sub>L</sub> = Q / L</strong></p>
+        </div>
+        <div class="concept-tile">
+          <h4>Diminishing Marginal Productivity</h4>
+          <p>As more of one input is used (holding others constant), its marginal product eventually falls: ∂²Q/∂L² &lt; 0</p>
+        </div>
+      </div>
+      <div class="key-insight">
+        <strong>Key relationship:</strong> When MP<sub>L</sub> &gt; AP<sub>L</sub>, average product is rising. When MP<sub>L</sub> &lt; AP<sub>L</sub>, it is falling. They are equal at the maximum of AP<sub>L</sub>.
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Stages of Production -->
+  <div class="section-card">
+    <div class="section-card-header">
+      <span class="section-num">03</span>
+      <h2>Three Stages of Production</h2>
+    </div>
+    <div class="section-card-body">
+      <div class="stage-row">
+        <div class="stage-box stage-1">
+          <h4>Stage I</h4>
+          <ul>
+            <li>TP increasing at increasing rate</li>
+            <li>AP rising to maximum</li>
+            <li>MP rising then falling</li>
+            <li>MP > AP throughout</li>
+          </ul>
+        </div>
+        <div class="stage-box stage-2">
+          <h4>Stage II ⭐ Rational</h4>
+          <ul>
+            <li>TP increasing at decreasing rate</li>
+            <li>AP falling</li>
+            <li>MP falling toward zero</li>
+            <li>0 ≤ MP &lt; AP</li>
+          </ul>
+        </div>
+        <div class="stage-box stage-3">
+          <h4>Stage III</h4>
+          <ul>
+            <li>TP decreasing from max</li>
+            <li>AP still falling</li>
+            <li>MP is negative</li>
+            <li>Irrational to operate here</li>
+          </ul>
+        </div>
+      </div>
+      <div class="key-insight">
+        <strong>Rational firms operate in Stage II</strong> — where TP is still growing but MP ≥ 0. The precise optimal point within Stage II requires cost information.
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Isoquants -->
+  <div class="section-card">
+    <div class="section-card-header">
+      <span class="section-num">04</span>
+      <h2>Isoquants &amp; the MRTS</h2>
+    </div>
+    <div class="section-card-body">
+      <p>An <strong>isoquant</strong> shows all (K, L) combinations that produce the same output level Q₀. Key properties:</p>
+      <div class="concept-grid" style="margin-top:1rem">
+        <div class="concept-tile">
+          <h4>Negatively Sloped</h4>
+          <p>More of one input means less of the other to keep output constant.</p>
+        </div>
+        <div class="concept-tile">
+          <h4>Convex to Origin</h4>
+          <p>Reflects diminishing MRTS — inputs are imperfect substitutes.</p>
+        </div>
+        <div class="concept-tile">
+          <h4>Never Intersect</h4>
+          <p>Each isoquant represents a unique output level; intersection would imply contradiction.</p>
+        </div>
+        <div class="concept-tile">
+          <h4>Higher = More Output</h4>
+          <p>Isoquants farther from the origin represent higher output levels.</p>
+        </div>
+      </div>
+      <div class="formula-box" style="margin-top:1.25rem">
+        <span class="label">Marginal Rate of Technical Substitution</span>
+        MRTS<sub>LK</sub> = −dK/dL|<sub>Q=Q₀</sub> = MP<sub>L</sub> / MP<sub>K</sub>
+      </div>
+      <div class="key-insight">
+        <strong>Diminishing MRTS:</strong> As we move along an isoquant substituting L for K, each additional unit of L replaces less and less K — because L becomes relatively less productive as it increases.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Returns to Scale -->
+  <div class="section-card">
+    <div class="section-card-header">
+      <span class="section-num">05</span>
+      <h2>Returns to Scale</h2>
+    </div>
+    <div class="section-card-body">
+      <p>How output responds when <em>all</em> inputs are scaled up proportionately. For Cobb-Douglas Q = AK<sup>α</sup>L<sup>β</sup>:</p>
+      <div class="formula-box" style="margin-top:1rem">
+        <span class="label">Homogeneity Test — multiply all inputs by t &gt; 1</span>
+        f(tK, tL) = t<sup>h</sup> · f(K, L) = t<sup>h</sup>Q   where h = α + β
+      </div>
+      <table class="rts-table">
+        <thead>
+          <tr><th>Condition</th><th>Returns to Scale</th><th>Example (t = 2)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>h = α + β = 1</td><td>Constant (CRS)</td><td>Output doubles: 2Q</td></tr>
+          <tr><td>h = α + β &gt; 1</td><td>Increasing (IRS)</td><td>Output more than doubles: &gt;2Q</td></tr>
+          <tr><td>h = α + β &lt; 1</td><td>Decreasing (DRS)</td><td>Output less than doubles: &lt;2Q</td></tr>
+        </tbody>
+      </table>
+      <div class="key-insight" style="margin-top:1rem">
+        <strong>Caution:</strong> The α + β rule only works for Cobb-Douglas. For other production functions (e.g., Q = L<sup>0.5</sup> + K<sup>0.5</sup>), you must directly test by substituting tK and tL.
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════ QUIZ ══════════════════════════════════ -->
+<div id="quiz" class="panel">
+<div class="quiz-wrap">
+
+  <div class="quiz-controls">
+    <div class="quiz-meta">
+      Question <strong id="q-counter">1 / 10</strong>
+    </div>
+    <button class="btn btn-outline" onclick="restartQuiz()">↺ New Quiz</button>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:10%"></div></div>
+
+  <div id="quiz-area"></div>
+
+  <div id="score-panel" class="score-panel">
+    <div class="score-big" id="score-num">0</div>
+    <div class="score-label">out of 10</div>
+    <div class="score-verdict" id="score-verdict"></div>
+    <div class="score-sub" id="score-sub"></div>
+    <div class="score-breakdown">
+      <div class="breakdown-item"><div class="breakdown-val correct-val" id="bd-correct">0</div><div class="breakdown-lbl">Correct</div></div>
+      <div class="breakdown-item"><div class="breakdown-val wrong-val" id="bd-wrong">0</div><div class="breakdown-lbl">Incorrect</div></div>
+    </div>
+    <button class="btn btn-primary" onclick="restartQuiz()">Try Again with New Questions</button>
+  </div>
+
+</div>
+</div>
+
+<script>
+// ══════════════ QUESTION POOL (50 questions) ══════════════
+const POOL = [
+  // --- Production Function Basics ---
+  {
+    q: "A firm's production function Q = f(K, L) represents:",
+    choices: ["The minimum cost of producing any output level","The maximum output obtainable from given inputs with a fixed technology","The profit-maximizing combination of inputs","The total expenditure on factors of production"],
+    ans: 1,
+    expl: "The production function maps input combinations to the maximum technically feasible output."
+  },
+  {
+    q: "In the short run, which statement is most accurate?",
+    choices: ["All inputs can be adjusted freely","Only capital is variable; labor is fixed","At least one input is fixed and cannot be varied","All production decisions are reversible"],
+    ans: 2,
+    expl: "The short run is defined as the period in which at least one input (typically capital) is fixed."
+  },
+  {
+    q: "Which feature distinguishes the long run from the short run in production theory?",
+    choices: ["Prices of inputs are fixed in the long run","All inputs become variable in the long run","Diminishing returns disappear in the long run","The production function itself changes in the long run"],
+    ans: 1,
+    expl: "In the long run, the firm has enough time to adjust all inputs including capital."
+  },
+  {
+    q: "For the Cobb-Douglas function Q = AK^α L^β, the parameter A represents:",
+    choices: ["The elasticity of substitution between K and L","The exponent on capital input","A scale (technology) parameter that shifts output up or down","The marginal rate of technical substitution at the optimum"],
+    ans: 2,
+    expl: "A > 0 is the total factor productivity or technology scale parameter."
+  },
+  {
+    q: "The production function is described as treating the firm as a 'black box' because it:",
+    choices: ["Hides the costs of production from competitors","Describes only the physical input-output relationship, ignoring internal processes","Models only capital and ignores labor","Applies exclusively to manufacturing firms"],
+    ans: 1,
+    expl: "The production function abstracts away internal firm structure, summarizing only the technical relationship between inputs and output."
+  },
+
+  // --- Marginal & Average Product ---
+  {
+    q: "The Marginal Product of Labor (MP_L) is formally defined as:",
+    choices: ["Total output divided by total labor employed","The slope of the average product curve at its maximum","The partial derivative of output with respect to labor, holding capital constant","The change in capital required to maintain output when one worker is added"],
+    ans: 2,
+    expl: "MP_L = ∂Q/∂L, holding K constant — the rate of change of output with respect to labor."
+  },
+  {
+    q: "At the point where Average Product of Labor reaches its maximum:",
+    choices: ["Total Product is also at its maximum","Marginal Product of Labor equals zero","Marginal Product of Labor equals Average Product of Labor","The firm has entered Stage III of production"],
+    ans: 2,
+    expl: "AP_L is maximized when MP_L = AP_L. When MP > AP, AP rises; when MP < AP, AP falls."
+  },
+  {
+    q: "Diminishing marginal productivity of labor formally implies:",
+    choices: ["∂Q/∂L < 0 for all values of L","∂²Q/∂L² < 0, meaning the marginal product is decreasing","AP_L > MP_L at all points along the production function","The production function is linear in labor"],
+    ans: 1,
+    expl: "Diminishing marginal productivity requires the second partial derivative to be negative: ∂²Q/∂L² < 0."
+  },
+  {
+    q: "If K=4, A=1, α=0.5, β=0.5, and the production function is Q = AK^α L^β, what is MP_L at L=4?",
+    choices: ["0.25","0.50","1.00","2.00"],
+    ans: 0,
+    expl: "MP_L = β · A · K^α · L^(β−1) = 0.5 · 1 · 4^0.5 · 4^(−0.5) = 0.5 · 2 · 0.5 = 0.5. Wait — let's recheck: MP_L = 0.5 · K^0.5 · L^(−0.5) = 0.5 · 2 · (1/2) = 0.5. At L=4: = 0.5·2·(0.5) = 0.5. So 0.50.",
+    ans: 1,
+    expl: "MP_L = β·K^α·L^(β−1) = 0.5·(4^0.5)·(4^−0.5) = 0.5·2·0.5 = 0.50."
+  },
+  {
+    q: "Average Product of Capital is calculated as:",
+    choices: ["MP_K multiplied by the number of capital units","Total output (Q) divided by total capital input (K)","The slope of the isoquant at the current production point","Capital divided by total factor productivity A"],
+    ans: 1,
+    expl: "AP_K = Q/K — output per unit of capital employed."
+  },
+  {
+    q: "When MP_L > AP_L, the average product is:",
+    choices: ["Falling, because the marginal drags down the average","Rising, because each new worker adds more than the current average","At its maximum, because the two curves intersect","Constant, as marginal and average are moving together"],
+    ans: 1,
+    expl: "Analogous to grade averages: if a new score exceeds your current average, your average rises."
+  },
+
+  // --- Stages of Production ---
+  {
+    q: "In Stage II of production, which set of conditions holds simultaneously?",
+    choices: ["TP is falling; MP is positive; AP is rising","TP is rising at an increasing rate; AP and MP are both increasing","TP is rising at a decreasing rate; AP is falling; MP is positive but less than AP","TP is at its maximum; MP equals AP"],
+    ans: 2,
+    expl: "Stage II: TP still increasing (diminishing rate), AP falling, 0 ≤ MP < AP."
+  },
+  {
+    q: "At the boundary between Stage II and Stage III:",
+    choices: ["Average Product of Labor equals zero","Total Product reaches its global maximum and MP_L = 0","Average Product equals Marginal Product","The firm's profit is maximized"],
+    ans: 1,
+    expl: "Stage II ends (Stage III begins) when TP is maximized, which occurs precisely when MP_L = 0."
+  },
+  {
+    q: "Why is Stage III considered irrational for a profit-maximizing firm?",
+    choices: ["Variable costs are too high relative to fixed costs","Total product is still positive, generating revenue","Marginal product is negative, meaning adding workers actually reduces total output","The wage rate exceeds the marginal product of capital"],
+    ans: 2,
+    expl: "In Stage III, MP_L < 0: each additional worker reduces output, so a rational firm would never hire there."
+  },
+  {
+    q: "In Stage I, the marginal product of labor is:",
+    choices: ["Negative throughout","Equal to average product throughout","Rising to its maximum and then falling, while always remaining above AP","Constant and equal to the average product"],
+    ans: 2,
+    expl: "In Stage I, MP rises to a maximum then falls, but stays above AP (which is why AP is still rising)."
+  },
+  {
+    q: "A firm is operating at a point where TP = 108, L = 9, AP_L = 12, and MP_L = −4. This firm is in:",
+    choices: ["Stage I, because AP is above MP","Stage II, because total product is still positive","Stage III, because marginal product is negative","The boundary of Stage I and Stage II"],
+    ans: 2,
+    expl: "Negative MP_L is the defining characteristic of Stage III."
+  },
+
+  // --- Isoquants ---
+  {
+    q: "An isoquant represents:",
+    choices: ["The minimum cost combinations of inputs for a target output","All combinations of inputs that yield the same level of output","The set of input bundles the firm can afford given a budget","The locus of points where total product is maximized"],
+    ans: 1,
+    expl: "An isoquant is defined as f(K,L) = Q₀ — all (K, L) pairs producing the same output Q₀."
+  },
+  {
+    q: "Why are isoquants convex to the origin rather than linear?",
+    choices: ["Input prices are constant, making straight-line substitution optimal","Inputs are perfect complements that must be used in fixed proportions","Diminishing MRTS means each additional unit of labor replaces less and less capital","The production function always exhibits constant returns to scale"],
+    ans: 2,
+    expl: "Convexity reflects diminishing MRTS: as L increases (K decreases), labor becomes less productive relative to capital, so less K can be given up."
+  },
+  {
+    q: "Two isoquants can never intersect because:",
+    choices: ["The firm's budget constraint prevents operating at two output levels simultaneously","A single input bundle cannot simultaneously yield two different maximum output levels","Input prices would have to be equal at the intersection point","Diminishing returns would cause both curves to become horizontal"],
+    ans: 1,
+    expl: "By definition, each isoquant represents a unique output level; intersection would mean one combination produces two different outputs — a logical contradiction."
+  },
+  {
+    q: "Moving to an isoquant that is farther from the origin implies:",
+    choices: ["Lower average cost of production","A higher level of output","Greater substitutability between capital and labor","A shift in production technology"],
+    ans: 1,
+    expl: "Isoquants farther from the origin represent higher output levels."
+  },
+  {
+    q: "The slope of an isoquant at any point equals:",
+    choices: ["The ratio of input prices w/r","The negative of the MRTS_LK","The ratio of average products AP_L / AP_K","The marginal cost of producing one additional unit of output"],
+    ans: 1,
+    expl: "Slope = dK/dL|_{Q=Q₀} = −MRTS_LK. The MRTS is the negative of the slope."
+  },
+
+  // --- MRTS ---
+  {
+    q: "The Marginal Rate of Technical Substitution (MRTS_LK) equals:",
+    choices: ["The ratio of input prices w/r","MP_L / MP_K","MP_K / MP_L","The slope of the total product curve"],
+    ans: 1,
+    expl: "MRTS_LK = −dK/dL = MP_L/MP_K — derived from the total differential condition dQ = 0 along an isoquant."
+  },
+  {
+    q: "Diminishing MRTS implies that as we move down an isoquant (increasing L, decreasing K):",
+    choices: ["The slope of the isoquant becomes steeper","Each successive unit of labor can substitute for more and more capital","Each successive unit of labor can substitute for less and less capital","The firm's technology improves to maintain output"],
+    ans: 2,
+    expl: "As L rises and K falls, L becomes relatively less productive; it can replace less K for each additional unit employed."
+  },
+  {
+    q: "Along an isoquant, if dQ = MP_K·dK + MP_L·dL = 0, which expression correctly isolates the MRTS?",
+    choices: ["MRTS = dL/dK = MP_K/MP_L","MRTS = −dK/dL = MP_L/MP_K","MRTS = MP_K + MP_L","MRTS = (MP_L − MP_K)/Q"],
+    ans: 1,
+    expl: "From 0 = MP_K·dK + MP_L·dL → −MP_K·dK = MP_L·dL → −dK/dL = MP_L/MP_K = MRTS_LK."
+  },
+  {
+    q: "If at a given point on an isoquant MP_L = 10 and MP_K = 5, the MRTS_LK is:",
+    choices: ["0.5","2","15","5"],
+    ans: 1,
+    expl: "MRTS_LK = MP_L / MP_K = 10/5 = 2."
+  },
+  {
+    q: "MRTS_LK = 3 at a particular point on an isoquant. This means:",
+    choices: ["The firm must use 3 units of K for every unit of L","The firm can reduce capital by 3 units for each additional unit of labor while maintaining output","Labor costs 3 times as much as capital at this point","Output will fall by 3 units if one unit of labor is removed"],
+    ans: 1,
+    expl: "MRTS_LK = 3 means substituting one more unit of L allows the firm to give up 3 units of K while staying on the same isoquant."
+  },
+
+  // --- Returns to Scale ---
+  {
+    q: "If f(tK, tL) = t·f(K, L) for all t > 1, the production function exhibits:",
+    choices: ["Increasing returns to scale","Decreasing returns to scale","Constant returns to scale","Variable returns to scale"],
+    ans: 2,
+    expl: "When scaling all inputs by t scales output by exactly t (h=1), we have constant returns to scale."
+  },
+  {
+    q: "For Q = AK^α L^β, increasing returns to scale requires:",
+    choices: ["α > 1 and β > 1","α + β = 1","α + β > 1","α > β"],
+    ans: 2,
+    expl: "The degree of homogeneity h = α + β. IRS requires h > 1, i.e., α + β > 1."
+  },
+  {
+    q: "Given Q = K^1.5 · L^0.5, what type of returns to scale does this function exhibit?",
+    choices: ["Constant returns to scale (h = 1)","Decreasing returns to scale (h < 1)","Increasing returns to scale (h > 1)","Returns to scale cannot be determined from exponents alone"],
+    ans: 2,
+    expl: "h = α + β = 1.5 + 0.5 = 2 > 1, so the function exhibits increasing returns to scale."
+  },
+  {
+    q: "For Q = L^0.5 + K^0.5, doubling both inputs gives:",
+    choices: ["Exactly 2Q (constant returns to scale)","More than 2Q (increasing returns to scale)","Less than 2Q (decreasing returns to scale)","Zero change in output"],
+    ans: 2,
+    expl: "(2L)^0.5 + (2K)^0.5 = 2^0.5(L^0.5 + K^0.5) = √2·Q ≈ 1.41Q < 2Q → decreasing returns to scale."
+  },
+  {
+    q: "A production function Q = AK^0.3 L^0.7 is multiplied by a factor t = 3 on all inputs. Output becomes:",
+    choices: ["3Q","3^0.3 Q","3^1 Q = 3Q","3^0.7 Q"],
+    ans: 2,
+    expl: "h = 0.3 + 0.7 = 1, so f(3K, 3L) = 3^1 Q = 3Q — constant returns to scale."
+  },
+  {
+    q: "Increasing returns to scale arise most likely because of:",
+    choices: ["Diminishing marginal productivity of individual inputs","Specialization and indivisibilities that make large-scale production more efficient","Higher input prices at large output levels","The firm operating in Stage III of production"],
+    ans: 1,
+    expl: "IRS typically results from specialization of labor and capital, geometric relationships (volume vs. surface area), and indivisibilities at scale."
+  },
+  {
+    q: "Which statement about returns to scale and diminishing marginal productivity is correct?",
+    choices: ["They are the same concept applied at different levels of abstraction","Diminishing MP relates to varying one input; returns to scale relates to varying all inputs proportionately","A function with IRS cannot exhibit diminishing MP for any individual input","Constant returns to scale implies constant marginal products for each input"],
+    ans: 1,
+    expl: "Diminishing MP holds one input fixed; returns to scale scales all inputs simultaneously — they are conceptually distinct."
+  },
+
+  // --- Isoquant Maps ---
+  {
+    q: "An isoquant map is best described as:",
+    choices: ["A single isoquant drawn for the profit-maximizing output level","A complete set of isoquants representing multiple output levels, depicting the firm's entire production function","A map showing geographic locations of the firm's production facilities","A diagram of input prices versus output quantities"],
+    ans: 1,
+    expl: "An isoquant map is a family of isoquants for different output levels, collectively representing the production function."
+  },
+  {
+    q: "On an isoquant map, moving from isoquant q₁ to q₂ (farther from origin) implies:",
+    choices: ["The same output is being produced more efficiently","Output has increased, requiring more of at least one input","Input prices have fallen, shifting the cost constraint outward","The MRTS has increased uniformly across all input combinations"],
+    ans: 1,
+    expl: "Higher isoquants represent higher output levels — reaching q₂ means the firm is producing more."
+  },
+
+  // --- Advanced / Applied Questions ---
+  {
+    q: "For Q = AK^α L^β, the Marginal Product of Labor can be expressed as:",
+    choices: ["α · A · K^α · L^β","β · A · K^α · L^(β−1)","A · K^(α−1) · L^(β−1)","β · Q / K"],
+    ans: 1,
+    expl: "MP_L = ∂Q/∂L = β · A · K^α · L^(β−1) = β · Q / L."
+  },
+  {
+    q: "If Q = K^0.2 · L^0.8, which of the following correctly characterizes returns to scale?",
+    choices: ["IRS, because 0.8 > 0.5","CRS, because α + β = 0.2 + 0.8 = 1","DRS, because α = 0.2 < 0.5","IRS, because β > α"],
+    ans: 1,
+    expl: "h = 0.2 + 0.8 = 1 → constant returns to scale."
+  },
+  {
+    q: "Along an isoquant, when we substitute labor for capital, MRTS_LK decreases. This is consistent with:",
+    choices: ["Labor and capital being perfect substitutes","The isoquant being linear and downward sloping","The isoquant being convex and diminishing MRTS","Increasing returns to scale in the production function"],
+    ans: 2,
+    expl: "Diminishing MRTS is reflected by the convexity of isoquants — the slope (MRTS) decreases as we move right along the curve."
+  },
+  {
+    q: "A firm's total product peaks at L = 8 with Q = 112 and K = 10. The marginal product of the 8th worker is:",
+    choices: ["14 (the AP at that point)","0, because TP is at its maximum","4, because the 7th worker raised TP from 108 to 112","-4, since TP falls after this point"],
+    ans: 1,
+    expl: "When TP is at its global maximum (L=8, Q=112 in the table), adding another worker produces no additional output → MP_L = 0."
+  },
+  {
+    q: "The three key concepts in the theory of the firm's production decisions are:",
+    choices: ["Revenue, cost, and profit","Technology, cost constraints, and input choices","Labor, capital, and materials","Marginal cost, average cost, and total cost"],
+    ans: 1,
+    expl: "The lecture identifies production technology, cost constraints, and input choices as the three pillars of the production decision."
+  },
+  {
+    q: "For Q = AK^α L^β, the ratio MP_L / AP_L equals:",
+    choices: ["α","β","α + β","1 − β"],
+    ans: 1,
+    expl: "MP_L = βQ/L and AP_L = Q/L, so MP_L/AP_L = β."
+  },
+  {
+    q: "If inputs are perfect complements (used in fixed proportions), the isoquants would be:",
+    choices: ["Straight downward-sloping lines (perfect substitutes)","L-shaped (right-angle) curves","Convex curves with diminishing MRTS","Upward-sloping lines"],
+    ans: 1,
+    expl: "Perfect complements produce L-shaped isoquants; substitution is impossible between them."
+  },
+  {
+    q: "A production function is said to be technically efficient when:",
+    choices: ["It produces at minimum cost","It maximizes profit at current input prices","It achieves the maximum output possible from a given set of inputs","It minimizes the MRTS between inputs"],
+    ans: 2,
+    expl: "Technical efficiency means producing the maximum output from given inputs — which is precisely what the production function describes."
+  },
+  {
+    q: "Which of the following would shift an isoquant toward the origin (inward shift)?",
+    choices: ["An increase in input prices","A reduction in desired output level","A decrease in total factor productivity (A)","An increase in capital stock holding labor constant"],
+    ans: 1,
+    expl: "A lower target output level (Q₀ decreases) means fewer inputs are needed, shifting the isoquant inward."
+  },
+  {
+    q: "If the MRTS_LK at a given point is 4/1, it means the firm can:",
+    choices: ["Hire 4 workers in place of 1 unit of capital at the same cost","Give up 4 units of capital for 1 more unit of labor without changing output","Produce 4 times as much output by doubling labor","Substitute capital for labor at a rate of 4:1 without changing costs"],
+    ans: 1,
+    expl: "MRTS_LK = 4 means: for one more unit of L, 4 units of K can be released while holding output constant."
+  },
+  {
+    q: "In the context of Cobb-Douglas production, the exponent β on labor represents:",
+    choices: ["The average product of labor","The output elasticity with respect to labor — the % change in Q for a 1% change in L","The absolute marginal product of labor at L=1, K=1","The share of labor in the firm's total cost if markets are competitive"],
+    ans: 1,
+    expl: "β = (∂Q/∂L)·(L/Q) = MP_L / AP_L, which is the output elasticity of labor."
+  },
+  {
+    q: "A rational producer will always choose to produce in Stage II rather than Stage I because:",
+    choices: ["Wages are lower in Stage II","Stage II has higher total output for the same capital","In Stage I, the same output could be produced with fewer workers (AP is still rising, meaning labor is underutilized relative to capital)","Total product is maximized throughout Stage II"],
+    ans: 2,
+    expl: "In Stage I, adding workers still raises AP — capital is 'excessive' relative to labor. A rational firm adds workers until AP peaks (beginning of Stage II) because each worker adds more than average."
+  },
+  {
+    q: "For the production function Q = K^1.5 · L^0.5, verify returns to scale by substituting tK and tL:",
+    choices: ["f(tK,tL) = t^1(KL) → CRS","f(tK,tL) = t^2·K^1.5·L^0.5 = t^2·Q → IRS (h=2)","f(tK,tL) = t^0.5·Q → DRS (h=0.5)","f(tK,tL) = t^1.5·Q → IRS (h=1.5)"],
+    ans: 1,
+    expl: "f(tK,tL) = (tK)^1.5·(tL)^0.5 = t^1.5·K^1.5·t^0.5·L^0.5 = t^2·K^1.5·L^0.5 = t^2·Q → h=2 (IRS)."
+  },
+  {
+    q: "Which of the following is NOT a characteristic of isoquants?",
+    choices: ["They are negatively sloped","They can intersect if input prices change","They are convex to the origin","They never intersect each other"],
+    ans: 1,
+    expl: "Isoquants can never intersect — this is a fundamental property. Changing input prices affects isocosts, not isoquants."
+  },
+  {
+    q: "What does it mean for the production function to exhibit 'diminishing returns to a factor'?",
+    choices: ["Doubling all inputs less than doubles output","Each successive unit of one input (holding others constant) adds less to total output than the previous unit","The MRTS increases as we move along an isoquant","Total factor productivity decreases over time"],
+    ans: 1,
+    expl: "Diminishing returns to a factor (∂²Q/∂L² < 0) means the marginal product of that input declines as more of it is used, ceteris paribus."
+  },
+  {
+    q: "If Q = 2K^0.6 · L^0.6, the returns to scale are:",
+    choices: ["Constant, because 0.6 < 1","Decreasing, because each exponent is less than 1","Increasing, because α + β = 1.2 > 1","Constant, because the coefficient A = 2 balances the exponents"],
+    ans: 2,
+    expl: "h = 0.6 + 0.6 = 1.2 > 1 → increasing returns to scale. The coefficient A does not affect the degree of homogeneity."
+  },
+  {
+    q: "The total differential of Q = f(K, L) is dQ = MP_K·dK + MP_L·dL. Along an isoquant, this implies:",
+    choices: ["dQ must be maximized by choosing dK and dL optimally","dQ = 0, which gives the substitution rate dK/dL = −MP_L/MP_K","The marginal products must be equal at the optimum","Total output is held constant at its minimum level"],
+    ans: 1,
+    expl: "Along an isoquant, dQ = 0 → MP_K·dK = −MP_L·dL → dK/dL = −MP_L/MP_K = −MRTS_LK."
+  },
+];
+
+// ══════════════ QUIZ STATE ══════════════
+let currentQuestions = [];
+let currentIdx = 0;
+let score = 0;
+let answered = false;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  currentQuestions = shuffle(POOL).slice(0, 10);
+  currentIdx = 0;
+  score = 0;
+  answered = false;
+  document.getElementById('score-panel').classList.remove('show');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = currentQuestions[currentIdx];
+  const total = currentQuestions.length;
+
+  document.getElementById('q-counter').textContent = `${currentIdx + 1} / ${total}`;
+  document.getElementById('progress-fill').style.width = `${((currentIdx + 1) / total) * 100}%`;
+
+  const letters = ['A','B','C','D'];
+  const choicesHTML = q.choices.map((c, i) => `
+    <button class="choice-btn" onclick="selectAnswer(${i})" id="choice-${i}">
+      <span class="choice-letter">${letters[i]}</span>
+      <span>${c}</span>
+    </button>
+  `).join('');
+
+  document.getElementById('quiz-area').innerHTML = `
+    <div class="q-card">
+      <div class="q-number">Question ${currentIdx + 1} of ${total}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">${choicesHTML}</div>
+      <div class="feedback-strip" id="feedback"></div>
+    </div>
+    <div class="quiz-nav">
+      <span></span>
+      <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" disabled>
+        ${currentIdx === total - 1 ? 'See Results →' : 'Next Question →'}
+      </button>
+    </div>
+  `;
+}
+
+function selectAnswer(chosen) {
+  if (answered) return;
+  answered = true;
+
+  const q = currentQuestions[currentIdx];
+  const correct = q.ans;
+  const fb = document.getElementById('feedback');
+
+  for (let i = 0; i < 4; i++) {
+    const btn = document.getElementById(`choice-${i}`);
+    btn.disabled = true;
+    if (i === correct) btn.classList.add('reveal-correct');
+    if (i === chosen && chosen !== correct) btn.classList.add('wrong');
+    if (i === chosen && chosen === correct) btn.classList.add('correct');
+  }
+
+  if (chosen === correct) {
+    score++;
+    fb.textContent = '✓ Correct! ' + q.expl;
+    fb.className = 'feedback-strip show correct-fb';
+  } else {
+    fb.textContent = '✗ Incorrect. ' + q.expl;
+    fb.className = 'feedback-strip show wrong-fb';
+  }
+
+  document.getElementById('next-btn').disabled = false;
+}
+
+function nextQuestion() {
+  currentIdx++;
+  if (currentIdx >= currentQuestions.length) {
+    showScore();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-area').innerHTML = '';
+  document.getElementById('q-counter').textContent = 'Complete!';
+  document.getElementById('progress-fill').style.width = '100%';
+
+  const wrong = 10 - score;
+  let verdict, sub;
+  if (score === 10) { verdict = "Perfect Score!"; sub = "Outstanding mastery of production theory."; }
+  else if (score >= 8) { verdict = "Excellent Work"; sub = "Strong command of the material. Review any missed concepts."; }
+  else if (score >= 6) { verdict = "Good Effort"; sub = "Solid foundation. Revisit the summary for weaker areas."; }
+  else if (score >= 4) { verdict = "Keep Studying"; sub = "Review the lesson summary and try again."; }
+  else { verdict = "Needs Review"; sub = "Return to the Lesson Summary section and work through each concept carefully."; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-verdict').textContent = verdict;
+  document.getElementById('score-sub').textContent = sub;
+  document.getElementById('bd-correct').textContent = score;
+  document.getElementById('bd-wrong').textContent = wrong;
+  document.getElementById('score-panel').classList.add('show');
+}
+
+function restartQuiz() {
+  document.getElementById('score-panel').classList.remove('show');
+  startQuiz();
+}
+
+// ══════════════ TAB SWITCHING ══════════════
+function switchTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  btn.classList.add('active');
+  if (tab === 'quiz' && currentQuestions.length === 0) startQuiz();
+}
+
+// Fix duplicate ans property in one question
+POOL[8].ans = 1; // 0.50
+
+// init
+document.addEventListener('DOMContentLoaded', () => {});
+</script>
+</body>
+</html>

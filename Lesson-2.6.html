@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 2.6 — Efficiency in Exchange Among Consumers</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f4f0eb;
+    --paper:#fffffe;
+    --surf2:#f9f7f4;
+    --ink:#1e160a;
+    --muted:#5c4e3a;
+    --dim:#a89880;
+    --border:#e0d8cc;
+    --teal:#1a6b5a;
+    --teal-l:#e4f0ec;
+    --plum:#6b3068;
+    --plum-l:#f5eaf5;
+    --amber:#c47a10;
+    --amber-l:#fef4e3;
+    --slate:#2a4a6b;
+    --slate-l:#e8eef8;
+    --rust:#b83a1a;
+    --rust-l:#faeee9;
+    --correct:#1a6b4a;
+    --wrong:#b83a1a;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+
+  /* HEADER */
+  header{
+    background:var(--ink);
+    position:relative;overflow:hidden;
+  }
+  header::before{
+    content:'';
+    position:absolute;inset:0;
+    background:repeating-conic-gradient(rgba(255,255,255,0.02) 0deg 90deg, transparent 90deg 180deg);
+    background-size:40px 40px;
+  }
+  .hinner{padding:3.5rem 2rem 3rem;text-align:center;position:relative;z-index:1;}
+  .htag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.64rem;letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--amber);
+    background:rgba(196,122,16,0.12);border:1px solid rgba(196,122,16,0.28);
+    padding:0.3rem 1rem;border-radius:20px;
+    display:inline-block;margin-bottom:1.1rem;
+  }
+  header h1{
+    font-family:'Fraunces',serif;
+    font-size:clamp(1.9rem,5.5vw,3.4rem);
+    font-weight:900;color:#f4f0eb;line-height:1.1;margin-bottom:0.5rem;
+    font-style:italic;
+  }
+  header p{color:rgba(244,240,235,0.4);font-size:0.9rem;font-weight:300;}
+
+  /* TABS */
+  .tab-bar{display:flex;background:var(--paper);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:100;}
+  .tab-btn{
+    flex:1;padding:1rem 1.5rem;background:none;border:none;
+    font-family:'DM Sans',sans-serif;font-size:0.8rem;font-weight:600;
+    letter-spacing:0.07em;text-transform:uppercase;
+    cursor:pointer;color:var(--dim);
+    border-bottom:3px solid transparent;transition:all 0.2s;position:relative;bottom:-2px;
+  }
+  .tab-btn.active{color:var(--teal);border-bottom-color:var(--teal);}
+  .tab-btn:hover:not(.active){color:var(--ink);}
+
+  .panel{display:none;} .panel.active{display:block;}
+
+  /* SUMMARY */
+  .sw{max-width:940px;margin:0 auto;padding:3rem 1.5rem 5rem;}
+
+  .sc{background:var(--paper);border:1px solid var(--border);border-radius:10px;margin-bottom:2rem;overflow:hidden;box-shadow:0 2px 10px rgba(30,22,10,0.06);}
+  .sch{display:flex;align-items:center;gap:0.9rem;padding:0.9rem 1.5rem;border-bottom:1px solid var(--border);}
+  .sch.t{background:var(--teal-l);}
+  .sch.p{background:var(--plum-l);}
+  .sch.a{background:var(--amber-l);}
+  .sch.s{background:var(--slate-l);}
+  .sch.r{background:var(--rust-l);}
+  .snum{font-family:'JetBrains Mono',monospace;font-size:0.62rem;font-weight:500;padding:0.2rem 0.55rem;border-radius:3px;color:white;}
+  .t .snum{background:var(--teal);} .p .snum{background:var(--plum);}
+  .a .snum{background:var(--amber);} .s .snum{background:var(--slate);} .r .snum{background:var(--rust);}
+  .sch h2{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;color:var(--ink);}
+  .scb{padding:1.5rem;}
+
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;}
+  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
+
+  .tile{border-radius:7px;padding:1.1rem;border:1px solid var(--border);background:var(--surf2);}
+  .tile h4{font-size:0.71rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.45rem;}
+  .tile.t h4{color:var(--teal);} .tile.p h4{color:var(--plum);}
+  .tile.a h4{color:var(--amber);} .tile.s h4{color:var(--slate);} .tile.r h4{color:var(--rust);}
+  .tile p{font-size:0.85rem;color:var(--muted);line-height:1.6;}
+  .tile p strong{color:var(--ink);}
+
+  .eq{
+    font-family:'JetBrains Mono',monospace;
+    background:var(--ink);color:#e8dfc8;
+    padding:1.1rem 1.4rem;border-radius:7px;
+    font-size:0.83rem;margin:1rem 0;line-height:2.1;
+  }
+  .eq .el{font-family:'DM Sans',sans-serif;font-size:0.63rem;font-style:italic;text-transform:uppercase;letter-spacing:0.12em;color:#5a5040;display:block;margin-bottom:0.3rem;}
+  .eq .t{color:#80d0b8;} .eq .p{color:#d0a0d0;} .eq .a{color:#f0c070;} .eq .s{color:#90b8e0;} .eq .r{color:#f09080;}
+
+  .insight{background:var(--surf2);border-left:4px solid var(--teal);padding:0.9rem 1.2rem;border-radius:0 7px 7px 0;font-size:0.86rem;color:var(--muted);line-height:1.6;margin-top:1rem;}
+  .insight strong{color:var(--teal);}
+  .insight.p{border-color:var(--plum);} .insight.p strong{color:var(--plum);}
+  .insight.a{border-color:var(--amber);} .insight.a strong{color:var(--amber);}
+  .insight.s{border-color:var(--slate);} .insight.s strong{color:var(--slate);}
+
+  /* Pareto comparison cards */
+  .pareto-pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;}
+  .pc{border-radius:8px;padding:1.25rem;border:1px solid var(--border);}
+  .pc h4{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;}
+  .pc p{font-size:0.85rem;color:var(--muted);line-height:1.6;}
+  .pc.imp{background:var(--teal-l);border-color:#b0d8d0;} .pc.imp h4{color:var(--teal);}
+  .pc.opt{background:var(--plum-l);border-color:#d0b8d0;} .pc.opt h4{color:var(--plum);}
+
+  /* Three efficiency pillars */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1rem;}
+  .pillar{border-radius:8px;padding:1.25rem;text-align:center;}
+  .pillar .pi{font-size:1.8rem;margin-bottom:0.5rem;}
+  .pillar h4{font-family:'Fraunces',serif;font-size:0.95rem;font-weight:700;margin-bottom:0.4rem;}
+  .pillar p{font-size:0.8rem;color:var(--muted);line-height:1.5;}
+  .pillar .pcond{font-family:'JetBrains Mono',monospace;font-size:0.74rem;margin-top:0.5rem;padding:0.3rem 0.5rem;border-radius:4px;display:inline-block;}
+  .pl1{background:var(--teal-l);border:1px solid #b0d8d0;} .pl1 h4{color:var(--teal);} .pl1 .pcond{background:rgba(26,107,90,0.12);color:var(--teal);}
+  .pl2{background:var(--slate-l);border:1px solid #b8cce0;} .pl2 h4{color:var(--slate);} .pl2 .pcond{background:rgba(42,74,107,0.12);color:var(--slate);}
+  .pl3{background:var(--plum-l);border:1px solid #d0b8d0;} .pl3 h4{color:var(--plum);} .pl3 .pcond{background:rgba(107,48,104,0.12);color:var(--plum);}
+
+  /* Edgeworth box SVG */
+  .ebox-wrap{margin:1.25rem 0;background:var(--surf2);border:1px solid var(--border);border-radius:8px;padding:1.25rem;text-align:center;}
+  .ebox-wrap h5{font-family:'Fraunces',serif;font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:0.75rem;}
+  .ebox-svg{max-width:480px;margin:0 auto;display:block;}
+  .ebox-note{font-size:0.8rem;color:var(--muted);margin-top:0.75rem;font-style:italic;}
+
+  /* Numerical example table */
+  .ntable{width:100%;border-collapse:collapse;margin-top:1rem;font-size:0.82rem;}
+  .ntable th{padding:0.6rem 0.8rem;background:var(--ink);color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:0.68rem;text-align:center;letter-spacing:0.05em;}
+  .ntable td{padding:0.6rem 0.8rem;border-bottom:1px solid var(--border);color:var(--muted);text-align:center;}
+  .ntable tr:last-child td{border-bottom:none;}
+  .ntable tr.hi td{background:rgba(26,107,90,0.1);color:var(--ink);font-weight:600;}
+  .ntable tr:nth-child(even):not(.hi) td{background:var(--surf2);}
+
+  /* QUIZ */
+  .qw{max-width:780px;margin:0 auto;padding:2.5rem 1.5rem 5rem;}
+  .qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem;}
+  .qctr{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--muted);}
+  .qctr strong{color:var(--ink);}
+
+  .btn{font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.79rem;letter-spacing:0.07em;text-transform:uppercase;padding:0.6rem 1.4rem;border-radius:5px;border:none;cursor:pointer;transition:all 0.15s;}
+  .btn-t{background:var(--teal);color:white;} .btn-t:hover{background:#1f8068;}
+  .btn-out{background:transparent;border:1.5px solid var(--border);color:var(--muted);} .btn-out:hover{border-color:var(--teal);color:var(--teal);}
+  .btn:disabled{opacity:0.35;cursor:not-allowed;}
+
+  .pb{height:4px;background:var(--border);border-radius:2px;margin-bottom:2rem;overflow:hidden;}
+  .pf{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--teal),var(--plum));transition:width 0.4s ease;}
+
+  .qcard{background:var(--paper);border:1px solid var(--border);border-radius:9px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 2px 10px rgba(30,22,10,0.05);animation:up 0.3s ease;}
+  @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .qtag{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--teal);text-transform:uppercase;letter-spacing:0.18em;margin-bottom:0.75rem;}
+  .qtext{font-size:0.98rem;font-weight:500;line-height:1.65;color:var(--ink);margin-bottom:1.5rem;font-family:'Fraunces',serif;font-weight:400;}
+
+  .choices{display:flex;flex-direction:column;gap:0.55rem;}
+  .cbtn{text-align:left;padding:0.85rem 1.1rem;background:var(--surf2);border:1.5px solid var(--border);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--muted);cursor:pointer;transition:all 0.15s;display:flex;gap:0.85rem;align-items:flex-start;}
+  .cbtn:hover:not(:disabled){border-color:var(--teal);color:var(--ink);background:var(--teal-l);}
+  .cl{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--dim);min-width:18px;padding-top:2px;font-weight:500;}
+  .cbtn.correct{border-color:var(--correct);background:#e4f0ec;color:var(--ink);}
+  .cbtn.correct .cl{color:var(--correct);}
+  .cbtn.wrong{border-color:var(--wrong);background:var(--rust-l);color:var(--ink);}
+  .cbtn.wrong .cl{color:var(--wrong);}
+  .cbtn.reveal{border-color:var(--correct);background:#e4f0ec;}
+  .cbtn.reveal .cl{color:var(--correct);}
+  .cbtn:disabled{cursor:default;}
+
+  .fb{margin-top:1rem;padding:0.8rem 1rem;border-radius:7px;font-size:0.85rem;font-weight:500;display:none;line-height:1.5;}
+  .fb.show{display:block;animation:up 0.2s ease;}
+  .fb.ok{background:#e4f0ec;border-left:3px solid var(--correct);color:#124a32;}
+  .fb.no{background:var(--rust-l);border-left:3px solid var(--wrong);color:#7a2010;}
+
+  .qnav{display:flex;justify-content:flex-end;margin-top:1.5rem;}
+
+  /* Score */
+  .sp{display:none;background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:3.5rem 2rem;text-align:center;box-shadow:0 4px 20px rgba(30,22,10,0.08);animation:up 0.4s ease;}
+  .sp.show{display:block;}
+  .sdial{width:130px;height:130px;border-radius:50%;margin:0 auto 1.25rem;background:conic-gradient(var(--teal) calc(var(--p)*1%),var(--border) 0%);display:flex;align-items:center;justify-content:center;position:relative;}
+  .sdial::before{content:'';position:absolute;inset:12px;background:var(--paper);border-radius:50%;}
+  .sin{position:relative;z-index:1;}
+  .sbig{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:900;color:var(--teal);line-height:1;}
+  .sof{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--dim);}
+  .stitle{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:900;margin-bottom:0.4rem;font-style:italic;}
+  .ssub{color:var(--muted);font-size:0.88rem;margin-bottom:1.75rem;}
+  .sstats{display:flex;justify-content:center;gap:2.5rem;margin-bottom:2rem;}
+  .ss .ssv{font-size:1.6rem;font-weight:700;}
+  .ss .ssl{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--dim);}
+  .ss.ok .ssv{color:var(--correct);} .ss.no .ssv{color:var(--wrong);}
+
+  @media(max-width:620px){.g2,.g3,.pillars,.pareto-pair{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hinner">
+    <div class="htag">Economics · Topic 2 · Sub-topic 2.6</div>
+    <h1>Efficiency in Exchange<br>Among Consumers</h1>
+    <p>Consumer Choice and Demand — Lesson Summary &amp; Practice Quiz</p>
+  </div>
+</header>
+
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="sw('summary',this)">📖 Lesson Summary</button>
+  <button class="tab-btn" onclick="sw('quiz',this)">✏️ Practice Quiz</button>
+</nav>
+
+<!-- ════ SUMMARY ════ -->
+<div id="summary" class="panel active">
+<div class="sw">
+
+  <!-- 1. Three Pillars of Economic Efficiency -->
+  <div class="sc">
+    <div class="sch t"><span class="snum">01</span><h2>Three Pillars of Economic Efficiency</h2></div>
+    <div class="scb">
+      <p>Economic efficiency (≈ Pareto efficiency) requires three conditions to hold simultaneously across the entire economy.</p>
+      <div class="pillars">
+        <div class="pillar pl1">
+          <div class="pi">🔄</div>
+          <h4>Exchange Efficiency</h4>
+          <p>Goods X and Y are allocated between consumers so that no reallocation can make someone better off without harming another.</p>
+          <div class="pcond">MRS_XY^A = MRS_XY^B</div>
+        </div>
+        <div class="pillar pl2">
+          <div class="pi">⚙️</div>
+          <h4>Production Efficiency</h4>
+          <p>Labor and capital are used efficiently across industries — no reallocation of inputs can raise one good's output without reducing another's.</p>
+          <div class="pcond">MRTS_LK^X = MRTS_LK^Y</div>
+        </div>
+        <div class="pillar pl3">
+          <div class="pi">⚖️</div>
+          <h4>Product-Mix Efficiency</h4>
+          <p>The rate of substitution in production equals the rate of substitution in consumption — the right mix of goods is produced.</p>
+          <div class="pcond">MRT_XY = MRS_XY</div>
+        </div>
+      </div>
+      <div class="insight"><strong>This topic covers only Exchange Efficiency.</strong> Production and product-mix efficiency are addressed in later topics (Topic 3+).</div>
+    </div>
+  </div>
+
+  <!-- 2. Pareto Concepts -->
+  <div class="sc">
+    <div class="sch p"><span class="snum">02</span><h2>Pareto Improvement &amp; Pareto Optimality</h2></div>
+    <div class="scb">
+      <div class="pareto-pair">
+        <div class="pc imp">
+          <h4>Pareto Improvement</h4>
+          <p>A reallocation of resources that makes <strong>at least one person better off</strong> without making anyone else worse off. Implies the initial allocation was not efficient.</p>
+        </div>
+        <div class="pc opt">
+          <h4>Pareto Optimal (Efficient)</h4>
+          <p>An allocation where <strong>no Pareto improvement is possible</strong> — it is impossible to improve one person's welfare without harming another's.</p>
+        </div>
+      </div>
+      <div class="insight p"><strong>Economic efficiency ≈ Pareto efficiency.</strong> A competitive equilibrium achieves Pareto optimality under ideal conditions — this is the First Welfare Theorem.</div>
+    </div>
+  </div>
+
+  <!-- 3. Exchange Efficiency Condition -->
+  <div class="sc">
+    <div class="sch a"><span class="snum">03</span><h2>The Exchange Efficiency Condition</h2></div>
+    <div class="scb">
+      <p>Consider two consumers A and B with fixed total supplies of goods X and Y:</p>
+      <div class="eq">
+        <span class="el">Fixed endowments (supply)</span>
+        X̄ = X_A + X_B &nbsp;&nbsp;|&nbsp;&nbsp; Ȳ = Y_A + Y_B
+        <span class="el" style="margin-top:0.5rem">Utility functions (no consumption externalities)</span>
+        U_A = U_A(X_A, Y_A) &nbsp;&nbsp;&nbsp; U_B = U_B(X_B, Y_B)
+        <span class="el" style="margin-top:0.5rem">Exchange Efficiency Condition</span>
+        <span class="a">MRS_XY^A = MRS_XY^B</span>
+        <span class="el" style="margin-top:0.5rem">Recall from utility maximization: MRS = p_X / p_Y</span>
+        At competitive equilibrium, both consumers face the same prices → MRS_A = MRS_B ✓
+      </div>
+      <div class="g2">
+        <div class="tile a">
+          <h4>Why MRS_A ≠ MRS_B implies inefficiency</h4>
+          <p>If A values X relative to Y more than B does, they can trade — A gives Y to B in exchange for X — and <strong>both benefit</strong>. This is a Pareto improvement, so the initial allocation was not efficient.</p>
+        </div>
+        <div class="tile a">
+          <h4>What happens through reallocation</h4>
+          <p>As goods are reallocated, each consumer's MRS changes (moving along their indifference curves). The MRS values converge until <strong>MRS_A = MRS_B</strong> — no further gains from trade.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Numerical Example -->
+  <div class="sc">
+    <div class="sch s"><span class="snum">04</span><h2>Numerical Example</h2></div>
+    <div class="scb">
+      <div class="eq">
+        <span class="el">Setup: Total supply X̄ = 1000, Ȳ = 1000</span>
+        U_A = X_A^(2/3) · Y_A^(1/3) &nbsp;→&nbsp; MRS_A = (2/3)(Y_A/X_A) = 2Y_A/X_A
+        U_B = X_B^(1/3) · Y_B^(2/3) &nbsp;→&nbsp; MRS_B = (1/3)(Y_B/X_B)·2 = Y_B/(2X_B) · ... 
+        Actually: MRS_B = (1/3)(Y_B/X_B) · (X_B/Y_B)^... = <span class="s">2Y_B / (2·2X_B)... </span>
+        <span class="el" style="margin-top:0.4rem">Simplified: MRS_A = 2(Y_A/X_A) &nbsp;|&nbsp; MRS_B = (1/2)(Y_B/X_B)</span>
+      </div>
+      <table class="ntable">
+        <thead>
+          <tr><th>X_A</th><th>Y_A</th><th>X_B</th><th>Y_B</th><th>MRS_A</th><th>MRS_B</th><th>U_A</th><th>U_B</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>500</td><td>500</td><td>500</td><td>500</td><td>2.00</td><td>0.50</td><td>500.00</td><td>500.00</td></tr>
+          <tr><td>600</td><td>500</td><td>400</td><td>500</td><td>1.67</td><td>0.63</td><td>564.62</td><td>464.16</td></tr>
+          <tr><td>600</td><td>400</td><td>400</td><td>600</td><td>1.33</td><td>0.75</td><td>524.15</td><td>524.15</td></tr>
+          <tr class="hi"><td>666.7</td><td>333.3</td><td>333.3</td><td>666.7</td><td>1.00</td><td>1.00</td><td>529.13</td><td>529.13</td></tr>
+          <tr><td>700</td><td>300</td><td>300</td><td>700</td><td>0.86</td><td>1.17</td><td>527.76</td><td>527.76</td></tr>
+          <tr><td>800</td><td>200</td><td>200</td><td>800</td><td>0.50</td><td>2.00</td><td>503.97</td><td>503.97</td></tr>
+        </tbody>
+      </table>
+      <div class="insight s"><strong>Highlighted row (MRS_A = MRS_B = 1.00):</strong> Exchange efficiency is achieved at X_A=666.7, Y_A=333.3. Both consumers reach a higher utility than the initial equal split (500, 500).</div>
+    </div>
+  </div>
+
+  <!-- 5. Edgeworth Box & Contract Curve -->
+  <div class="sc">
+    <div class="sch r"><span class="snum">05</span><h2>The Edgeworth Box &amp; Contract Curve</h2></div>
+    <div class="scb">
+      <div class="ebox-wrap">
+        <h5>Edgeworth–Bowley Box Diagram</h5>
+        <svg class="ebox-svg" viewBox="0 0 480 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Box -->
+          <rect x="50" y="30" width="380" height="280" fill="#f9f7f4" stroke="#e0d8cc" stroke-width="1.5"/>
+          <!-- Consumer A axes labels -->
+          <text x="50" y="22" font-family="JetBrains Mono" font-size="11" fill="#1a6b5a" font-weight="500">0ᴬ</text>
+          <text x="22" y="175" font-family="JetBrains Mono" font-size="10" fill="#1a6b5a" transform="rotate(-90,22,175)">Yᴬ →</text>
+          <text x="200" y="328" font-family="JetBrains Mono" font-size="10" fill="#1a6b5a">Xᴬ →</text>
+          <!-- Consumer B axes labels (rotated origin) -->
+          <text x="428" y="320" font-family="JetBrains Mono" font-size="11" fill="#6b3068" font-weight="500">0ᴮ</text>
+          <text x="456" y="175" font-family="JetBrains Mono" font-size="10" fill="#6b3068" transform="rotate(90,456,175)">Yᴮ →</text>
+          <text x="200" y="18" font-family="JetBrains Mono" font-size="10" fill="#6b3068">← Xᴮ</text>
+          <!-- Contract curve (S-shaped) -->
+          <path d="M 80 290 C 110 260 160 240 200 190 S 290 130 390 60" stroke="#b83a1a" stroke-width="2.5" stroke-dasharray="none" fill="none"/>
+          <text x="392" y="55" font-family="DM Sans" font-size="11" fill="#b83a1a" font-weight="600">Contract</text>
+          <text x="392" y="68" font-family="DM Sans" font-size="11" fill="#b83a1a" font-weight="600">Curve</text>
+          <!-- Indifference curves A (teal) -->
+          <path d="M 60 310 Q 120 200 260 80" stroke="#1a6b5a" stroke-width="1.5" fill="none" opacity="0.5"/>
+          <path d="M 60 290 Q 140 200 310 90" stroke="#1a6b5a" stroke-width="1.5" fill="none" opacity="0.8"/>
+          <text x="310" y="86" font-family="DM Sans" font-size="10" fill="#1a6b5a">Uᴬ</text>
+          <!-- Indifference curves B (plum) -->
+          <path d="M 430 40 Q 360 150 200 270" stroke="#6b3068" stroke-width="1.5" fill="none" opacity="0.5"/>
+          <path d="M 430 60 Q 340 160 170 280" stroke="#6b3068" stroke-width="1.5" fill="none" opacity="0.8"/>
+          <text x="164" y="290" font-family="DM Sans" font-size="10" fill="#6b3068">Uᴮ</text>
+          <!-- Point P (initial, off contract curve) -->
+          <circle cx="170" cy="230" r="5" fill="#c47a10"/>
+          <text x="178" y="226" font-family="DM Sans" font-size="12" fill="#c47a10" font-weight="600">P</text>
+          <!-- Point Q (both better off) -->
+          <circle cx="220" cy="188" r="5" fill="#1a6b5a"/>
+          <text x="228" y="184" font-family="DM Sans" font-size="12" fill="#1a6b5a" font-weight="600">Q</text>
+          <!-- Point R (A better, B same) -->
+          <circle cx="195" cy="205" r="5" fill="#6b3068"/>
+          <text x="202" y="201" font-family="DM Sans" font-size="12" fill="#6b3068" font-weight="600">R</text>
+          <!-- Lens area shading -->
+          <path d="M 60 290 Q 140 200 310 90 Q 340 160 170 280 Z" fill="rgba(196,122,16,0.07)" stroke="none"/>
+          <text x="195" y="248" font-family="DM Sans" font-size="10" fill="#c47a10" font-style="italic">Pareto-improving</text>
+          <text x="203" y="261" font-family="DM Sans" font-size="10" fill="#c47a10" font-style="italic">region ("lens")</text>
+        </svg>
+        <div class="ebox-note">P = initial allocation (MRS_A ≠ MRS_B). Q = both better off (Pareto improvement). R = A better off, B unchanged. The contract curve connects all Pareto-optimal allocations.</div>
+      </div>
+      <div class="g2">
+        <div class="tile r">
+          <h4>The "Lens" Region</h4>
+          <p>The area bounded by the two indifference curves passing through P. Any point inside the lens <strong>Pareto dominates P</strong> — both can be made better off by moving there.</p>
+        </div>
+        <div class="tile r">
+          <h4>The Contract Curve</h4>
+          <p>The locus of all Pareto-optimal allocations where <strong>MRS_A = MRS_B</strong>. It connects 0ᴬ to 0ᴮ. All efficient allocations lie on this curve — only distributional choices remain.</p>
+        </div>
+      </div>
+      <div class="insight s"><strong>Key insight:</strong> Starting from any off-curve point like P, trade between A and B will move the allocation into the lens and eventually onto the contract curve. Competitive markets achieve this automatically via the price mechanism.</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ════ QUIZ ════ -->
+<div id="quiz" class="panel">
+<div class="qw">
+  <div class="qtop">
+    <div class="qctr">Question <strong id="qctr">1 / 10</strong></div>
+    <button class="btn btn-out" onclick="restart()">↺ New Quiz</button>
+  </div>
+  <div class="pb"><div class="pf" id="pf" style="width:10%"></div></div>
+  <div id="qa"></div>
+  <div id="sp" class="sp">
+    <div class="sdial" id="sdial"><div class="sin"><div class="sbig" id="sbig">0</div><div class="sof">/ 10</div></div></div>
+    <div class="stitle" id="stitle">—</div>
+    <div class="ssub" id="ssub"></div>
+    <div class="sstats">
+      <div class="ss ok"><div class="ssv" id="ssok">0</div><div class="ssl">Correct</div></div>
+      <div class="ss no"><div class="ssv" id="ssno">0</div><div class="ssl">Incorrect</div></div>
+    </div>
+    <button class="btn btn-t" onclick="restart()">Try Again — New Questions</button>
+  </div>
+</div>
+</div>
+
+<script>
+const POOL = [
+  // --- Three Pillars of Efficiency ---
+  {q:"Economic efficiency in competitive markets requires three conditions. Which of the following correctly lists all three?",
+   c:["Profit maximization, cost minimization, and utility maximization","Exchange efficiency, production efficiency, and product-mix (overall) efficiency","Price efficiency, quantity efficiency, and income efficiency","Pareto improvement, Nash equilibrium, and market clearing"],
+   a:1,e:"The three pillars of economic efficiency are: (1) exchange (consumption) efficiency, (2) production efficiency, and (3) product-mix or overall efficiency."},
+
+  {q:"The condition for exchange efficiency states that:",
+   c:["All consumers must have identical utility functions","The marginal rate of substitution between X and Y must be equal across all consumers: MRS_A = MRS_B","The price of X must equal the price of Y","Total consumption of X must equal total production of X"],
+   a:1,e:"Exchange efficiency requires MRS_XY^A = MRS_XY^B — each consumer values the last unit of X relative to Y in the same way, so no mutually beneficial trade is possible."},
+
+  {q:"Production efficiency is achieved when:",
+   c:["Output is maximized by using only labor","The marginal rate of technical substitution of labor for capital is equal across all industries: MRTS_LK^X = MRTS_LK^Y","Firms are earning zero economic profit","The expansion path is linear through the origin"],
+   a:1,e:"Production efficiency: MRTS_LK^X = MRTS_LK^Y — inputs K and L are allocated so that no reallocation can increase one good's output without decreasing another's."},
+
+  {q:"Product-mix (overall) efficiency requires:",
+   c:["MRS = MRT — the rate at which consumers are willing to substitute goods in consumption equals the rate at which they can be substituted in production","MRS_A = MRS_B and MRTS^X = MRTS^Y simultaneously","All firms produce equal quantities of each good","The slope of the production possibilities frontier equals one"],
+   a:0,e:"Product-mix efficiency: MRS_XY = MRT_XY. The consumer's willingness to trade X for Y (MRS) must equal the economy's technological ability to transform X into Y (MRT)."},
+
+  // --- Pareto Concepts ---
+  {q:"A Pareto improvement is best defined as:",
+   c:["Any change that increases total GDP","A reallocation that makes at least one person better off without making anyone else worse off","A reallocation that equalizes welfare across all individuals","Any trade that reduces prices in the economy"],
+   a:1,e:"A Pareto improvement makes at least one person strictly better off and no one worse off. It implies the original allocation was Pareto suboptimal."},
+
+  {q:"An allocation is Pareto optimal (Pareto efficient) when:",
+   c:["All individuals have equal utility levels","No further Pareto improvements are possible — improving one person's welfare necessarily harms another","Total output is at its production possibility frontier","Every individual is consuming their most preferred bundle regardless of budget"],
+   a:1,e:"Pareto optimality: the allocation from which no further Pareto improvements can be made. Any change that helps one person must hurt someone else."},
+
+  {q:"If MRS_XY^A ≠ MRS_XY^B at the current allocation, which statement is correct?",
+   c:["The allocation is Pareto optimal since both consumers are maximizing utility","A Pareto improvement is possible — reallocation can make at least one consumer better off without harming the other","The allocation is only inefficient if one consumer has more goods than the other","Exchange is already complete and no further trade can occur"],
+   a:1,e:"Unequal MRS values mean the consumers value the goods differently — mutually beneficial trade exists. A Pareto improvement is possible through reallocation."},
+
+  {q:"Pareto efficiency is sometimes described as a 'weak' welfare criterion because:",
+   c:["It only applies to economies with two goods and two consumers","It does not address distributional fairness — a highly unequal allocation can be Pareto optimal if no trade can improve it","It requires perfect information about consumer preferences","It cannot be applied to production decisions, only consumption"],
+   a:1,e:"Pareto optimality says nothing about equity. A situation where one person has everything and others have nothing is Pareto optimal if you cannot make any redistribution without harming the wealthy person."},
+
+  {q:"Starting from an allocation where MRS_A = 3 and MRS_B = 1 (for goods X and Y), which trade would be mutually beneficial?",
+   c:["A gives X to B and receives Y in return — A values X more, B values Y more","B gives X to A and A compensates B with Y — A values X relatively more (MRS_A > MRS_B)","No trade is possible since both consumers have positive MRS values","A gives Y to B with no compensation since B's MRS is lower"],
+   a:1,e:"MRS_A = 3 > MRS_B = 1: A is willing to give up 3Y per X gained; B only needs 1Y per X given up. Trade: B gives X to A; A compensates B with between 1 and 3 units of Y — both gain."},
+
+  {q:"In the numerical example with U_A = X_A^(2/3) Y_A^(1/3) and U_B = X_B^(1/3) Y_B^(2/3), starting at (X_A=500, Y_A=500, X_B=500, Y_B=500), MRS_A = 2 and MRS_B = 0.5. This implies:",
+   c:["The allocation is Pareto optimal — both MRS values are positive","A values X in terms of Y twice as highly as B does — mutually beneficial trade is possible","The allocation maximizes total welfare since incomes are equal","B should give Y to A since B's MRS is lower"],
+   a:1,e:"MRS_A = 2 ≠ MRS_B = 0.5 → allocation is not exchange-efficient. Reallocation (A gets more X, B gets more Y) can improve welfare for both."},
+
+  // --- Exchange Efficiency in the Simple Model ---
+  {q:"In the simple exchange model, the total supply of goods is fixed at X̄ and Ȳ. The feasibility constraints are:",
+   c:["X_A = X_B and Y_A = Y_B","X_A + X_B = X̄ and Y_A + Y_B = Ȳ","X_A · X_B = X̄ and Y_A · Y_B = Ȳ","X_A ≤ X̄ and Y_A ≤ Ȳ independently"],
+   a:1,e:"Goods are fixed in total supply, so any gain by A must come from B: X_A + X_B = X̄ and Y_A + Y_B = Ȳ."},
+
+  {q:"The assumption 'no consumption externality' (∂U_A/∂X_B = 0, etc.) in the exchange model means:",
+   c:["Consumers cannot observe each other's consumption","Consumer A's utility depends only on their own consumption — not on how much B consumes","Goods cannot be shared between consumers","The price of each good is fixed and unaffected by consumption"],
+   a:1,e:"No externalities: A's utility is a function only of X_A and Y_A — not X_B or Y_B. Each consumer's welfare is determined solely by their own bundle."},
+
+  {q:"For U_A = X_A^(2/3) · Y_A^(1/3), the MRS_XY^A equals:",
+   c:["(2/3)X_A^(-1/3) Y_A^(1/3)","2Y_A / X_A (= (2/3)/(1/3) · Y_A/X_A)","X_A/(2Y_A)","1/3 · Y_A/X_A"],
+   a:1,e:"MRS = MU_X/MU_Y = [(2/3)X_A^(-1/3)Y_A^(1/3)] / [(1/3)X_A^(2/3)Y_A^(-2/3)] = (2/3)/(1/3) · Y_A/X_A = 2Y_A/X_A."},
+
+  {q:"In the numerical example, exchange efficiency is achieved at X_A ≈ 666.7, Y_A ≈ 333.3. At this point, MRS_A = MRS_B = 1. This means:",
+   c:["Both consumers are willing to give up 1 unit of Y for 1 unit of X — no further trade is beneficial","Total utility is maximized and equals 1000","Both consumers are on their highest possible indifference curves","The allocation cannot be improved by production changes"],
+   a:0,e:"MRS_A = MRS_B = 1 means both consumers value X and Y equally at the margin. Any trade would benefit one consumer at the expense of the other — exchange efficiency is achieved."},
+
+  // --- Edgeworth Box ---
+  {q:"The Edgeworth Box (Edgeworth–Bowley Box) is a graphical tool that:",
+   c:["Shows the production possibilities of an economy with two goods","Represents all feasible allocations of two goods between two consumers in a fixed-supply economy, with each consumer's preferences shown by indifference curves from opposite corners","Displays the budget constraints of two consumers side by side","Shows how market prices adjust to clear supply and demand"],
+   a:1,e:"The Edgeworth Box is a rectangle where the dimensions are the total supply of X (width) and Y (height). Consumer A's origin is the bottom-left corner and B's is the top-right corner."},
+
+  {q:"In the Edgeworth Box, the 'lens-shaped' region between the two indifference curves through an initial point P represents:",
+   c:["The set of allocations where both consumers are worse off than at P","All allocations that are Pareto superior to P — both consumers are strictly better off anywhere inside the lens","The contract curve connecting all Pareto-optimal allocations","Allocations where only one consumer benefits from a reallocation"],
+   a:1,e:"The lens (the overlap region between the two indifference curves through P) contains all allocations where both consumers are on higher indifference curves than at P — all are Pareto improvements over P."},
+
+  {q:"In the Edgeworth Box, a movement from point P to point R where Consumer B's utility is unchanged but Consumer A's utility rises is:",
+   c:["Not a Pareto improvement since only one person gains","A Pareto improvement — A is better off and B is no worse off","A Pareto-worsening allocation — it violates the exchange efficiency condition","Impossible without a change in total supply"],
+   a:1,e:"A Pareto improvement requires at least one person to be better off and no one to be worse off. R satisfies this: U_A rises, U_B unchanged → valid Pareto improvement."},
+
+  {q:"The contract curve in the Edgeworth Box connects:",
+   c:["The initial endowment point to the competitive equilibrium","All Pareto-optimal allocations where MRS_A = MRS_B — it runs from 0_A to 0_B","Only the Pareto-optimal allocations that are also equitable","Points where the budget line is tangent to both indifference curves simultaneously"],
+   a:1,e:"The contract curve is the locus of all points where indifference curves for A and B are tangent (MRS_A = MRS_B). It represents every Pareto-optimal allocation in the economy."},
+
+  {q:"Along the contract curve, every point satisfies MRS_A = MRS_B. Points off the contract curve satisfy MRS_A ≠ MRS_B. What follows from this?",
+   c:["Off-curve points are preferable to on-curve points since they allow more trade","Any allocation not on the contract curve has unexploited gains from trade — a Pareto improvement exists","The contract curve is the only allocation consistent with equal incomes","Points on the contract curve are always preferred by both consumers to all off-curve points"],
+   a:1,e:"Off-curve: MRS_A ≠ MRS_B → trade is mutually beneficial → Pareto improvement exists. On-curve: MRS_A = MRS_B → no trade can benefit one without harming the other → Pareto optimal."},
+
+  {q:"In a competitive equilibrium, both consumers face the same prices p_X and p_Y and maximize utility. The individual optimum condition is MRS = p_X/p_Y. This implies:",
+   c:["Competitive prices are always equal to each consumer's MRS","Since both consumers face the same price ratio, MRS_A = p_X/p_Y = MRS_B — exchange efficiency is automatically achieved","Competitive markets are Pareto optimal only if incomes are equal","Prices must change until MRS_A ≠ MRS_B to generate trade"],
+   a:1,e:"Each utility-maximizing consumer sets MRS = p_X/p_Y. Since both face identical prices in a competitive market, MRS_A = p_X/p_Y = MRS_B → exchange efficiency holds at competitive equilibrium (First Welfare Theorem)."},
+
+  {q:"If MRS_XY^A = 4 and MRS_XY^B = 2 in an economy with fixed supplies, which allocation is Pareto-improving?",
+   c:["Transfer some Y from A to B and some X from B to A — B gives X to A in exchange for Y","Transfer some X from A to B at a price between 2 and 4 units of Y per unit of X — A gives X to B; B gives Y to A","Leave the allocation unchanged — any trade would create a zero-sum outcome","Transfer both goods proportionally between A and B"],
+   a:1,e:"MRS_A=4: A gives up 4Y to gain 1X. MRS_B=2: B gives up 1X to gain 2Y. Mutually beneficial range: trade 1X from B to A for between 2 and 4 units of Y. Both gain."},
+
+  {q:"The contract curve differs from a single Pareto-optimal point because:",
+   c:["There is only one Pareto-optimal allocation in any economy","There are infinitely many Pareto-optimal allocations, each with different distributional outcomes — the contract curve traces all of them","The contract curve shows only the allocation that maximizes aggregate welfare","Every point on the contract curve yields the same utility for both consumers"],
+   a:1,e:"There are infinitely many Pareto-optimal allocations (the entire contract curve). Each represents a different distribution of welfare. Economics cannot rank them without additional value judgments."},
+
+  {q:"Consumer A has utility U_A = X_A · Y_A. Their MRS_XY^A at (X_A=4, Y_A=6) is:",
+   c:["1.5 (= Y_A/X_A = 6/4)","0.67 (= X_A/Y_A = 4/6)","24 (= X_A · Y_A)","2 (= 2Y_A/X_A)"],
+   a:0,e:"For U = X·Y: MU_X = Y, MU_Y = X. MRS = MU_X/MU_Y = Y_A/X_A = 6/4 = 1.5."},
+
+  {q:"In the exchange model, if both consumers have identical preferences and identical allocations (X_A = X_B, Y_A = Y_B), the MRS condition is:",
+   c:["Not satisfied — identical preferences always lead to inefficiency","Automatically satisfied — MRS_A = MRS_B when both are at the same bundle","Irrelevant since identical consumers don't trade","Only satisfied if the common allocation maximizes total utility"],
+   a:1,e:"If X_A=X_B and Y_A=Y_B, then by identical preferences MRS_A = MRS_B automatically. However, this is just one point on the contract curve — not the only Pareto-optimal allocation."},
+
+  {q:"The assumption of 'diminishing MRS' in the exchange model ensures that:",
+   c:["The contract curve is always a straight line through the origin","Indifference curves are convex, so the tangency condition MRS_A = MRS_B gives a genuine utility maximum rather than a minimum or saddle point","Consumers always demand more of every good when income rises","The MRS increases as more of one good is consumed"],
+   a:1,e:"Diminishing MRS → convex indifference curves → tangency of two indifference curves defines a Pareto-optimal interior allocation (not a corner solution or a minimum)."},
+
+  {q:"Suppose the contract curve runs along the diagonal of the Edgeworth Box. This means:",
+   c:["Both consumers always consume equal amounts of X and Y","The Pareto-optimal allocations always involve each consumer consuming goods in the same ratio (consistent with equal-exponent Cobb-Douglas utilities)","Only one Pareto-optimal allocation exists","The two consumers have perfectly substitutable preferences"],
+   a:1,e:"For symmetric preferences (e.g., U_A = U_B = X^(1/2)Y^(1/2)), MRS_A = MRS_B = Y/X. This is satisfied whenever Y_A/X_A = Y_B/X_B — both consumers consume goods in the same ratio → contract curve is the diagonal."},
+
+  {q:"Which of the following statements about the relationship between competitive equilibrium and Pareto efficiency is correct (in an ideal competitive market)?",
+   c:["Competitive markets always maximize total welfare and achieve the most equitable outcome","The First Welfare Theorem states that a competitive equilibrium is Pareto efficient — the price mechanism leads both consumers to set MRS = p_X/p_Y, achieving exchange efficiency","Competitive markets are efficient only if consumers have identical incomes","Pareto efficiency in competitive markets requires government intervention to set the right prices"],
+   a:1,e:"The First Welfare Theorem: under ideal conditions (no externalities, no public goods, competitive markets), the equilibrium allocation is Pareto efficient. Both consumers set MRS = p/p → MRS_A = MRS_B."},
+
+  {q:"In the numerical example, the initial allocation (X_A=500, Y_A=500, X_B=500, Y_B=500) gives U_A = U_B = 500. After moving to the efficient allocation (X_A≈667, Y_A≈333), U_A ≈ 529 and U_B ≈ 529. This demonstrates:",
+   c:["That equal distribution is always optimal","That reallocation through trade from an inefficient point can make both consumers better off simultaneously — a Pareto improvement","That efficiency always requires equal consumption of each good","That utility functions must be identical for trade to generate gains"],
+   a:1,e:"Both consumers improved from U=500 to U≈529 through reallocation alone — demonstrating that the initial equal split was not Pareto optimal, and that exchange efficiency brings mutual gains."},
+
+  {q:"If a social planner wanted to move the economy from one Pareto-optimal allocation to another (both on the contract curve), they would need to:",
+   c:["Simply reallocate goods since both points are efficient","Make a redistribution (lump-sum transfer) that necessarily harms one consumer to benefit another — Pareto improvements are no longer possible on the contract curve","Increase total production of both goods","Introduce a new price system to change relative prices"],
+   a:1,e:"On the contract curve, all allocations are Pareto optimal — no Pareto improvement exists. Moving from one contract curve point to another must make at least one consumer worse off. It requires a value judgment (e.g., equity concern)."},
+
+  {q:"The Edgeworth Box model assumes no consumption externalities. If we relax this (e.g., A's utility rises when B consumes more Y), then:",
+   c:["Exchange efficiency would still require MRS_A = MRS_B with no modification","The efficiency condition would change — A's MRS would now depend on B's consumption, requiring a different optimality condition","Trade between A and B would become impossible","The contract curve would become a straight line"],
+   a:1,e:"With externalities, ∂U_A/∂Y_B ≠ 0, so A's optimal decision depends on B's allocation. The simple MRS_A = MRS_B condition is insufficient — a more complex Samuelson-type condition is needed."},
+
+  {q:"The contract curve in the Edgeworth Box is traced by finding all allocations where indifference curves for A and B are tangent. At each such tangency point:",
+   c:["The budget line passes through the point with slope = p_X/p_Y","The slopes of U_A and U_B are equal: MRS_A = MRS_B","Both consumers are on their highest possible indifference curve simultaneously","The total utility U_A + U_B is at its global maximum"],
+   a:1,e:"Tangency of indifference curves means their slopes are equal: MRS_A = MRS_B. This is the definition of exchange efficiency — and every such point lies on the contract curve."},
+
+  {q:"At point P in the Edgeworth Box (off the contract curve), Consumer A has a higher indifference curve available within the lens region. Why doesn't A just 'take' goods from B to reach it?",
+   c:["The Pareto criterion allows unilateral transfers if one person gains","The Pareto framework requires that no one be made worse off — A can only reach higher utility through voluntary trade with B that also leaves B at least as well off","A's indifference curves are higher everywhere in the box","Government regulations prevent voluntary exchange"],
+   a:1,e:"The Pareto criterion is defined by mutual gain (or at least no harm). A cannot unilaterally take from B (that harms B) — only voluntary exchange within the lens satisfies the Pareto improvement condition."},
+
+  {q:"Suppose consumer B in the Edgeworth Box refuses to trade, even though MRS_A ≠ MRS_B. From a Pareto efficiency standpoint:",
+   c:["The allocation is Pareto optimal since no trade occurred voluntarily","The allocation remains Pareto suboptimal — voluntary refusal doesn't change the efficiency status. Unexploited gains from trade still exist.","The allocation becomes efficient over time through market forces","Pareto optimality is only defined for involuntary allocations"],
+   a:1,e:"Pareto optimality is a property of the allocation itself, not of the process. If MRS_A ≠ MRS_B, the allocation is not exchange-efficient regardless of whether trade occurs voluntarily."},
+
+  {q:"Which pair of statements is consistent with each other?",
+   c:["'The allocation is Pareto optimal' AND 'a Pareto improvement is still possible'","'MRS_A = MRS_B' AND 'the allocation lies on the contract curve'","'The allocation is inside the lens' AND 'MRS_A = MRS_B'","'The contract curve point is reached' AND 'both consumers can still be made better off'"],
+   a:1,e:"MRS_A = MRS_B ↔ exchange efficiency ↔ lying on the contract curve. These three statements are equivalent and fully consistent."},
+];
+
+let qs=[],idx=0,score=0,answered=false;
+function shuf(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function start(){
+  qs=shuf(POOL).slice(0,10);idx=0;score=0;answered=false;
+  document.getElementById('sp').classList.remove('show');
+  render();
+}
+
+function render(){
+  answered=false;
+  const q=qs[idx],tot=qs.length;
+  document.getElementById('qctr').innerHTML=`<strong>${idx+1} / ${tot}</strong>`;
+  document.getElementById('pf').style.width=`${((idx+1)/tot)*100}%`;
+  const L=['A','B','C','D'];
+  const ch=q.c.map((c,i)=>`<button class="cbtn" onclick="pick(${i})" id="cb${i}"><span class="cl">${L[i]}</span><span>${c}</span></button>`).join('');
+  document.getElementById('qa').innerHTML=`
+    <div class="qcard">
+      <div class="qtag">Question ${idx+1} of ${tot}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="choices">${ch}</div>
+      <div class="fb" id="fb"></div>
+    </div>
+    <div class="qnav"><button class="btn btn-t" id="nxt" onclick="nxt()" disabled>${idx===tot-1?'See Results →':'Next →'}</button></div>`;
+}
+
+function pick(chosen){
+  if(answered)return;answered=true;
+  const q=qs[idx];
+  const fb=document.getElementById('fb');
+  for(let i=0;i<4;i++){
+    const b=document.getElementById('cb'+i);
+    b.disabled=true;
+    if(i===q.a)b.classList.add('reveal');
+    if(i===chosen&&chosen!==q.a)b.classList.add('wrong');
+    if(i===chosen&&chosen===q.a){b.classList.remove('reveal');b.classList.add('correct');}
+  }
+  if(chosen===q.a){score++;fb.textContent='✓ Correct! '+q.e;fb.className='fb show ok';}
+  else{fb.textContent='✗ Incorrect. '+q.e;fb.className='fb show no';}
+  document.getElementById('nxt').disabled=false;
+}
+
+function nxt(){idx++;if(idx>=qs.length)showScore();else render();}
+
+function showScore(){
+  document.getElementById('qa').innerHTML='';
+  document.getElementById('qctr').innerHTML='<strong>Complete!</strong>';
+  document.getElementById('pf').style.width='100%';
+  const wrong=10-score,pct=score*10;
+  let t,s;
+  if(score===10){t='Flawless!';s:'Complete command of Pareto efficiency and the Edgeworth Box.';}
+  else if(score>=8){t='Excellent';s='Strong grasp. Review any missed items.';}
+  else if(score>=6){t='Good Work';s='Solid foundation — revisit the contract curve and Pareto concepts.';}
+  else if(score>=4){t='Keep Studying';s='Review sections 2–5 on Pareto efficiency and the Edgeworth Box.';}
+  else{t='Needs Review';s='Work through all five summary sections, then retry.';}
+  // fix the typo in score=10
+  if(score===10)s='Complete command of Pareto efficiency and the Edgeworth Box.';
+  document.getElementById('sbig').textContent=score;
+  document.getElementById('sdial').style.setProperty('--p',pct);
+  document.getElementById('stitle').textContent=t;
+  document.getElementById('ssub').textContent=s;
+  document.getElementById('ssok').textContent=score;
+  document.getElementById('ssno').textContent=wrong;
+  document.getElementById('sp').classList.add('show');
+}
+
+function restart(){document.getElementById('sp').classList.remove('show');start();}
+
+function sw(tab,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  btn.classList.add('active');
+  if(tab==='quiz'&&qs.length===0)start();
+}
+</script>
+</body>
+  </html>

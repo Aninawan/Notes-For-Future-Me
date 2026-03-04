@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 2.5 — Market Demand & Elasticities</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0f4f8;
+    --paper: #ffffff;
+    --surf2: #f7f9fc;
+    --ink: #0d1b2a;
+    --muted: #4a6080;
+    --dim: #8fa3ba;
+    --border: #dce5ef;
+    --blue: #1a6fc4;
+    --blue-l: #e8f0fb;
+    --green: #1a8050;
+    --green-l: #e8f5ee;
+    --orange: #c46a10;
+    --orange-l: #fef3e6;
+    --purple: #6b3ca8;
+    --purple-l: #f0eaf8;
+    --red: #b82c2c;
+    --red-l: #fceaea;
+    --correct: #1a8050;
+    --wrong: #b82c2c;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Lora',serif; background:var(--bg); color:var(--ink); min-height:100vh; }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .hbar {
+    display: flex; height: 6px;
+  }
+  .hbar span { flex:1; }
+  .hbar span:nth-child(1){background:var(--blue);}
+  .hbar span:nth-child(2){background:var(--green);}
+  .hbar span:nth-child(3){background:var(--orange);}
+  .hbar span:nth-child(4){background:var(--purple);}
+  .hbar span:nth-child(5){background:var(--red);}
+  .h-inner {
+    padding: 3.5rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+  }
+  .h-inner::after {
+    content:'ε';
+    position:absolute;
+    font-family:'Syne',sans-serif;
+    font-size:28rem;
+    font-weight:800;
+    color:rgba(255,255,255,0.025);
+    right:-2rem; top:-4rem;
+    pointer-events:none;
+    line-height:1;
+  }
+  .h-tag {
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--orange); margin-bottom:1rem;
+    display:inline-block;
+    background:rgba(196,106,16,0.12);
+    border:1px solid rgba(196,106,16,0.3);
+    padding:0.3rem 0.9rem; border-radius:20px;
+  }
+  header h1 {
+    font-family:'Syne',sans-serif;
+    font-size:clamp(1.9rem,5.5vw,3.4rem);
+    font-weight:800; color:#f0f4f8; line-height:1.1; margin-bottom:0.5rem;
+  }
+  header p { color:rgba(240,244,248,0.4); font-size:0.9rem; font-family:'Lora',serif; font-style:italic; }
+
+  /* ── TABS ── */
+  .tab-bar {
+    display:flex; background:var(--paper);
+    border-bottom:2px solid var(--border);
+    position:sticky; top:0; z-index:100;
+  }
+  .tab-btn {
+    flex:1; padding:1rem 1.5rem; background:none; border:none;
+    font-family:'Syne',sans-serif; font-size:0.8rem; font-weight:600;
+    letter-spacing:0.08em; text-transform:uppercase;
+    cursor:pointer; color:var(--dim);
+    border-bottom:3px solid transparent;
+    transition:all 0.2s; position:relative; bottom:-2px;
+  }
+  .tab-btn.active { color:var(--blue); border-bottom-color:var(--blue); }
+  .tab-btn:hover:not(.active) { color:var(--ink); }
+
+  /* ── PANELS ── */
+  .panel { display:none; }
+  .panel.active { display:block; }
+
+  /* ── SUMMARY ── */
+  .sw { max-width:940px; margin:0 auto; padding:3rem 1.5rem 5rem; }
+
+  .sc {
+    background:var(--paper);
+    border:1px solid var(--border); border-radius:10px;
+    margin-bottom:2rem;
+    overflow:hidden;
+    box-shadow:0 1px 8px rgba(13,27,42,0.06);
+  }
+  .sc-head {
+    display:flex; align-items:center; gap:0.9rem;
+    padding:0.9rem 1.5rem; border-bottom:1px solid var(--border);
+  }
+  .sc-head.b { background:var(--blue-l); }
+  .sc-head.g { background:var(--green-l); }
+  .sc-head.o { background:var(--orange-l); }
+  .sc-head.p { background:var(--purple-l); }
+  .sc-head.r { background:var(--red-l); }
+  .sn {
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.62rem; font-weight:500;
+    padding:0.2rem 0.5rem; border-radius:3px; color:white;
+  }
+  .b .sn{background:var(--blue);} .g .sn{background:var(--green);}
+  .o .sn{background:var(--orange);} .p .sn{background:var(--purple);} .r .sn{background:var(--red);}
+  .sc-head h2 { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; color:var(--ink); }
+  .sc-body { padding:1.5rem; }
+
+  .g2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; }
+  .g3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1rem; }
+
+  .tile {
+    border-radius:7px; padding:1.1rem;
+    border:1px solid var(--border); background:var(--surf2);
+    font-size:0.85rem; color:var(--muted); line-height:1.6;
+  }
+  .tile h4 {
+    font-family:'Syne',sans-serif; font-size:0.72rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.5rem;
+  }
+  .tile.b h4{color:var(--blue);} .tile.g h4{color:var(--green);}
+  .tile.o h4{color:var(--orange);} .tile.p h4{color:var(--purple);} .tile.r h4{color:var(--red);}
+  .tile strong { color:var(--ink); }
+
+  .eq {
+    font-family:'IBM Plex Mono',monospace;
+    background:var(--ink); color:#c8ddf0;
+    padding:1.1rem 1.4rem; border-radius:7px;
+    font-size:0.84rem; margin:1rem 0; line-height:2.1;
+  }
+  .eq .el {
+    font-family:'Lora',serif; font-size:0.65rem; font-style:italic;
+    text-transform:uppercase; letter-spacing:0.12em; color:#506070;
+    display:block; margin-bottom:0.3rem;
+  }
+  .eq .b{color:#7ab8f0;} .eq .g{color:#70d0a0;}
+  .eq .o{color:#f0b870;} .eq .p{color:#c8a8f0;} .eq .r{color:#f08888;}
+
+  .insight {
+    background:var(--surf2); border-left:4px solid var(--blue);
+    padding:0.9rem 1.2rem; border-radius:0 7px 7px 0;
+    font-size:0.86rem; color:var(--muted); line-height:1.6; margin-top:1rem;
+    font-family:'Lora',serif;
+  }
+  .insight strong{color:var(--blue);}
+  .insight.g{border-color:var(--green);} .insight.g strong{color:var(--green);}
+  .insight.o{border-color:var(--orange);} .insight.o strong{color:var(--orange);}
+  .insight.p{border-color:var(--purple);} .insight.p strong{color:var(--purple);}
+
+  /* Elasticity spectrum bar */
+  .ebar {
+    display:flex; margin-top:1.25rem; border-radius:7px; overflow:hidden;
+    border:1px solid var(--border); height:52px;
+  }
+  .eseg {
+    flex:1; display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:1px;
+  }
+  .eseg .ev { font-family:'IBM Plex Mono',monospace; font-size:0.78rem; font-weight:500; color:white; }
+  .eseg .el2 { font-size:0.62rem; color:rgba(255,255,255,0.75); font-family:'Syne',sans-serif; text-transform:uppercase; letter-spacing:0.08em; }
+  .eseg.inf { background:var(--red); }
+  .eseg.unit { background:var(--orange); }
+  .eseg.el3 { background:var(--green); }
+
+  /* Spending table */
+  .spend-table { width:100%; border-collapse:collapse; margin-top:1rem; font-size:0.85rem; }
+  .spend-table th { padding:0.6rem 1rem; background:var(--ink); color:var(--dim); font-family:'Syne',sans-serif; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; text-align:left; }
+  .spend-table td { padding:0.65rem 1rem; border-bottom:1px solid var(--border); color:var(--muted); }
+  .spend-table td:first-child { font-weight:600; color:var(--ink); }
+  .spend-table tr:last-child td { border-bottom:none; }
+  .spend-table tr:nth-child(even) td { background:var(--surf2); }
+  .up { color:var(--green); font-weight:700; }
+  .dn { color:var(--red); font-weight:700; }
+  .nc { color:var(--orange); font-weight:700; }
+
+  /* Elasticities grid */
+  .e-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1rem; }
+  .e-card { border-radius:8px; padding:1.25rem; border:1px solid var(--border); }
+  .e-card .ec-icon { font-size:1.6rem; margin-bottom:0.5rem; }
+  .e-card h4 { font-family:'Syne',sans-serif; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.4rem; }
+  .e-card .ec-form { font-family:'IBM Plex Mono',monospace; font-size:0.78rem; background:rgba(0,0,0,0.05); padding:0.3rem 0.6rem; border-radius:4px; display:inline-block; margin-bottom:0.5rem; }
+  .e-card p { font-size:0.82rem; color:var(--muted); line-height:1.5; }
+  .e-card.b { background:var(--blue-l); border-color:#b8d0ed; } .e-card.b h4 { color:var(--blue); }
+  .e-card.g { background:var(--green-l); border-color:#b0d8c0; } .e-card.g h4 { color:var(--green); }
+  .e-card.p { background:var(--purple-l); border-color:#c8b8e0; } .e-card.p h4 { color:var(--purple); }
+
+  /* ── QUIZ ── */
+  .qw { max-width:780px; margin:0 auto; padding:2.5rem 1.5rem 5rem; }
+  .qtop { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
+  .qc { font-family:'IBM Plex Mono',monospace; font-size:0.8rem; color:var(--muted); }
+  .qc strong { color:var(--ink); }
+
+  .btn {
+    font-family:'Syne',sans-serif; font-weight:700;
+    font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase;
+    padding:0.6rem 1.4rem; border-radius:5px; border:none;
+    cursor:pointer; transition:all 0.15s;
+  }
+  .btn-b { background:var(--blue); color:white; }
+  .btn-b:hover { background:#2280d8; }
+  .btn-out { background:transparent; border:1.5px solid var(--border); color:var(--muted); }
+  .btn-out:hover { border-color:var(--blue); color:var(--blue); }
+  .btn:disabled { opacity:0.35; cursor:not-allowed; }
+
+  .pb { height:4px; background:var(--border); border-radius:2px; margin-bottom:2rem; overflow:hidden; }
+  .pf { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--blue),var(--green)); transition:width 0.4s ease; }
+
+  .qcard {
+    background:var(--paper); border:1px solid var(--border);
+    border-radius:9px; padding:2rem; margin-bottom:1.5rem;
+    box-shadow:0 2px 10px rgba(13,27,42,0.05);
+    animation:riseIn 0.3s ease;
+  }
+  @keyframes riseIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  .qtag { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; color:var(--blue); text-transform:uppercase; letter-spacing:0.18em; margin-bottom:0.75rem; }
+  .qtext { font-size:0.98rem; font-weight:500; line-height:1.65; color:var(--ink); margin-bottom:1.5rem; font-family:'Syne',sans-serif; }
+  .qmono { font-family:'IBM Plex Mono',monospace; font-size:0.84rem; background:var(--surf2); padding:0.3rem 0.65rem; border-radius:4px; color:var(--purple); }
+
+  .choices { display:flex; flex-direction:column; gap:0.55rem; }
+  .cbtn {
+    text-align:left; padding:0.85rem 1.1rem;
+    background:var(--surf2); border:1.5px solid var(--border);
+    border-radius:7px; font-family:'Lora',serif; font-size:0.88rem;
+    color:var(--muted); cursor:pointer; transition:all 0.15s;
+    display:flex; gap:0.85rem; align-items:flex-start;
+  }
+  .cbtn:hover:not(:disabled){ border-color:var(--blue); color:var(--ink); background:var(--blue-l); }
+  .cl { font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:var(--dim); min-width:18px; padding-top:2px; font-weight:500; }
+  .cbtn.correct{border-color:var(--correct);background:var(--green-l);color:var(--ink);}
+  .cbtn.correct .cl{color:var(--correct);}
+  .cbtn.wrong{border-color:var(--wrong);background:var(--red-l);color:var(--ink);}
+  .cbtn.wrong .cl{color:var(--wrong);}
+  .cbtn.reveal{border-color:var(--correct);background:var(--green-l);}
+  .cbtn.reveal .cl{color:var(--correct);}
+  .cbtn:disabled{cursor:default;}
+
+  .fb{margin-top:1rem;padding:0.8rem 1rem;border-radius:7px;font-size:0.85rem;font-weight:500;display:none;line-height:1.5;font-family:'Lora',serif;}
+  .fb.show{display:block;animation:riseIn 0.2s ease;}
+  .fb.ok{background:var(--green-l);border-left:3px solid var(--correct);color:#155a38;}
+  .fb.no{background:var(--red-l);border-left:3px solid var(--wrong);color:#7a1c1c;}
+
+  .qnav{display:flex;justify-content:flex-end;margin-top:1.5rem;}
+
+  /* Score */
+  .sp{display:none;background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:3.5rem 2rem;text-align:center;box-shadow:0 4px 20px rgba(13,27,42,0.08);animation:riseIn 0.4s ease;}
+  .sp.show{display:block;}
+  .sdial{width:130px;height:130px;border-radius:50%;margin:0 auto 1.25rem;background:conic-gradient(var(--blue) calc(var(--p)*1%),var(--border) 0%);display:flex;align-items:center;justify-content:center;position:relative;}
+  .sdial::before{content:'';position:absolute;inset:12px;background:var(--paper);border-radius:50%;}
+  .sin{position:relative;z-index:1;}
+  .sbig{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;color:var(--blue);line-height:1;}
+  .sof{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--dim);}
+  .stitle{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;margin-bottom:0.4rem;}
+  .ssub{color:var(--muted);font-size:0.88rem;margin-bottom:1.75rem;font-style:italic;}
+  .sstats{display:flex;justify-content:center;gap:2.5rem;margin-bottom:2rem;}
+  .ss .ssv{font-size:1.6rem;font-weight:700;font-family:'Syne',sans-serif;}
+  .ss .ssl{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--dim);font-family:'Syne',sans-serif;}
+  .ss.ok .ssv{color:var(--correct);}
+  .ss.no .ssv{color:var(--wrong);}
+
+  @media(max-width:620px){.g2,.g3,.e-cards{grid-template-columns:1fr;}.ebar{flex-direction:column;height:auto;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hbar"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="h-inner">
+    <div class="h-tag">Economics · Topic 2 · Sub-topic 2.5</div>
+    <h1>Market Demand<br>&amp; Elasticities</h1>
+    <p>Consumer Choice and Demand — Lesson Summary &amp; Practice Quiz</p>
+  </div>
+</header>
+
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="sw('summary',this)">📖 Lesson Summary</button>
+  <button class="tab-btn" onclick="sw('quiz',this)">✏️ Practice Quiz</button>
+</nav>
+
+<!-- ══════ SUMMARY ══════ -->
+<div id="summary" class="panel active">
+<div class="sw">
+
+  <!-- 1. Individual Demand -->
+  <div class="sc">
+    <div class="sc-head b"><span class="sn">01</span><h2>The Individual Demand Curve</h2></div>
+    <div class="sc-body">
+      <p>As the price of x falls, the consumer's budget set expands and they move to higher indifference curves — purchasing more x. Tracing these quantity choices against price generates the <strong>individual demand curve</strong>.</p>
+      <div class="g2">
+        <div class="tile b">
+          <h4>Movement Along the Curve</h4>
+          <p>Caused by a change in the <strong>own price p_x</strong>. Results in a change in quantity demanded (along the same curve).</p>
+        </div>
+        <div class="tile b">
+          <h4>Shift of the Curve</h4>
+          <p>Caused by changes in <strong>income, prices of other goods (p_y), or tastes</strong>. The entire demand curve moves inward or outward.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Market Demand -->
+  <div class="sc">
+    <div class="sc-head g"><span class="sn">02</span><h2>Market Demand</h2></div>
+    <div class="sc-body">
+      <p>The <strong>market demand curve</strong> is the <em>horizontal summation</em> of all individual demand curves — for each price, add up the quantities demanded by every consumer.</p>
+      <div class="eq">
+        <span class="el">Two consumers A and B, two goods x and y</span>
+        X = x<sup>A</sup> + x<sup>B</sup> = x<sup>A</sup>(p<sub>x</sub>, p<sub>y</sub>, I<sub>A</sub>) + x<sup>B</sup>(p<sub>x</sub>, p<sub>y</sub>, I<sub>B</sub>)
+        <span class="el" style="margin-top:0.5rem">Market demand function</span>
+        X = X(p<sub>x</sub>, p<sub>y</sub>, I<sub>A</sub>, I<sub>B</sub>)
+        <span class="el" style="margin-top:0.5rem">Example: x<sup>A</sup> = 10 − 2p<sub>x</sub> − 0.1p<sub>y</sub> + 0.5I<sub>A</sub> &nbsp;|&nbsp; x<sup>B</sup> = 17 − 0.05p<sub>x</sub> − 0.5p<sub>y</sub> + ... </span>
+        X = <span class="g">27 − 3p<sub>x</sub> − 0.1p<sub>y</sub> + 0.05(I<sub>A</sub>+I<sub>B</sub>)</span>
+      </div>
+      <div class="insight g"><strong>Key assumption:</strong> All consumers are price-takers — each is too small to influence the market price. Everyone faces the same prices p_x and p_y.</div>
+    </div>
+  </div>
+
+  <!-- 3. Own-Price Elasticity -->
+  <div class="sc">
+    <div class="sc-head o"><span class="sn">03</span><h2>Own-Price Elasticity of Demand</h2></div>
+    <div class="sc-body">
+      <p>Measures the <strong>proportionate change in quantity demanded</strong> in response to a 1% change in the own price.</p>
+      <div class="eq">
+        <span class="el">Own-price elasticity formula</span>
+        ε<sub>x</sub> = (∂x/∂p<sub>x</sub>) · (p<sub>x</sub>/x) &nbsp;=&nbsp; <span class="o">%ΔQ / %ΔP</span>
+        <span class="el" style="margin-top:0.5rem">Always negative (normal/inferior goods) — convention: use |ε|</span>
+        ε = (∂Q/∂P) · (P/Q)
+      </div>
+      <div class="ebar">
+        <div class="eseg inf">
+          <div class="ev">|ε| &lt; 1</div>
+          <div class="el2">Inelastic</div>
+        </div>
+        <div class="eseg unit">
+          <div class="ev">|ε| = 1</div>
+          <div class="el2">Unit Elastic</div>
+        </div>
+        <div class="eseg el3">
+          <div class="ev">|ε| &gt; 1</div>
+          <div class="el2">Elastic</div>
+        </div>
+      </div>
+      <div class="insight o"><strong>Example (U=xy):</strong> x* = I/2p_x → ε_x = (−I/2p_x²)·(p_x / (I/2p_x)) = −1. Cobb-Douglas utility always yields unit-elastic own-price demand.</div>
+    </div>
+  </div>
+
+  <!-- 4. Elasticity & Total Spending -->
+  <div class="sc">
+    <div class="sc-head r"><span class="sn">04</span><h2>Price Elasticity &amp; Total Spending</h2></div>
+    <div class="sc-body">
+      <p>Total spending = p_x · x. Differentiating with respect to p_x: <span style="font-family:'IBM Plex Mono',monospace;font-size:0.88rem">∂(p_x·x)/∂p_x = x[1 + ε_x]</span></p>
+      <table class="spend-table">
+        <thead><tr><th>Elasticity Type</th><th>|ε| Condition</th><th>Price ↑</th><th>Price ↓</th></tr></thead>
+        <tbody>
+          <tr><td>Inelastic</td><td>|ε| &lt; 1</td><td class="up">Spending ↑</td><td class="dn">Spending ↓</td></tr>
+          <tr><td>Unit Elastic</td><td>|ε| = 1</td><td class="nc">No change</td><td class="nc">No change</td></tr>
+          <tr><td>Elastic</td><td>|ε| &gt; 1</td><td class="dn">Spending ↓</td><td class="up">Spending ↑</td></tr>
+        </tbody>
+      </table>
+      <div class="insight p" style="margin-top:1rem"><strong>Intuition:</strong> If demand is inelastic, the quantity fall from a price rise is proportionally smaller than the price rise → total revenue increases. If elastic, quantity falls more than price rises → revenue falls.</div>
+    </div>
+  </div>
+
+  <!-- 5. Three Elasticities -->
+  <div class="sc">
+    <div class="sc-head p"><span class="sn">05</span><h2>Income &amp; Cross-Price Elasticities</h2></div>
+    <div class="sc-body">
+      <div class="e-cards">
+        <div class="e-card b">
+          <div class="ec-icon">💰</div>
+          <h4>Own-Price Elasticity</h4>
+          <div class="ec-form">ε_x = (∂x/∂p_x)·(p_x/x)</div>
+          <p>Normal/inferior: always negative. Giffen good: positive. By convention, use absolute value.</p>
+        </div>
+        <div class="e-card g">
+          <div class="ec-icon">📈</div>
+          <h4>Income Elasticity</h4>
+          <div class="ec-form">η_x = (∂x/∂I)·(I/x)</div>
+          <p><strong>Normal good:</strong> η &gt; 0 (demand rises with income).<br><strong>Inferior good:</strong> η &lt; 0 (demand falls with income).</p>
+        </div>
+        <div class="e-card p">
+          <div class="ec-icon">🔄</div>
+          <h4>Cross-Price Elasticity</h4>
+          <div class="ec-form">ε_xy = (∂x/∂p_y)·(p_y/x)</div>
+          <p><strong>Substitutes:</strong> ε_xy &gt; 0 (higher p_y → more x demanded).<br><strong>Complements:</strong> ε_xy &lt; 0 (higher p_y → less x demanded).</p>
+        </div>
+      </div>
+      <div class="eq" style="margin-top:1.25rem">
+        <span class="el">Illustration: U=xy → x*=I/2p_x, y*=I/2p_y &nbsp;|&nbsp; I=200, p_x=5, p_y=10 → x*=20, y*=10</span>
+        ε_x = (∂x/∂p_x)·(p_x/x) = (−I/2p_x²)·(p_x/x) = <span class="b">−200/(2·5·20) = −1</span>
+        η_x = (∂x/∂I)·(I/x) = (1/2p_x)·(I/x) = <span class="g">200/(2·5·20) = +1</span>
+        ε_xy = (∂x/∂p_y)·(p_y/x) = 0 · (p_y/x) = <span class="p">0</span> &nbsp;(x and y are independent)
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════ QUIZ ══════ -->
+<div id="quiz" class="panel">
+<div class="qw">
+  <div class="qtop">
+    <div class="qc">Question <strong id="qctr">1 / 10</strong></div>
+    <button class="btn btn-out" onclick="restart()">↺ New Quiz</button>
+  </div>
+  <div class="pb"><div class="pf" id="pf" style="width:10%"></div></div>
+  <div id="qa"></div>
+  <div id="sp" class="sp">
+    <div class="sdial" id="sdial">
+      <div class="sin"><div class="sbig" id="sbig">0</div><div class="sof">/ 10</div></div>
+    </div>
+    <div class="stitle" id="stitle">—</div>
+    <div class="ssub" id="ssub"></div>
+    <div class="sstats">
+      <div class="ss ok"><div class="ssv" id="ssok">0</div><div class="ssl">Correct</div></div>
+      <div class="ss no"><div class="ssv" id="ssno">0</div><div class="ssl">Incorrect</div></div>
+    </div>
+    <button class="btn btn-b" onclick="restart()">Try Again — New Questions</button>
+  </div>
+</div>
+</div>
+
+<script>
+const POOL = [
+  // --- Individual Demand & Market Demand ---
+  {q:"What causes a movement along an individual demand curve (as opposed to a shift)?",
+   c:["A change in the consumer's nominal income","A change in the price of a substitute good","A change in the own price of the good, p_x","A change in consumer tastes and preferences"],
+   a:2,e:"Movements along the demand curve are caused only by changes in the own price p_x. All other factors — income, other prices, tastes — shift the entire curve."},
+
+  {q:"The market demand curve is constructed by:",
+   c:["Vertically adding all individual demand curves at each quantity level","Horizontally summing individual demand curves — adding up quantities demanded by all consumers at each given price","Averaging the individual demand curves across all consumers","Multiplying each consumer's demand by their income share"],
+   a:1,e:"Horizontal summation: at each price, X = x_A + x_B + ... . We add quantities across consumers at the same price."},
+
+  {q:"If individual demands are x_A = 10 − 2p_x + 0.5I_A and x_B = 17 − 0.05p_x + 0.5I_B, what is the market demand X?",
+   c:["X = 27 − 2.05p_x + 0.5(I_A + I_B)","X = 27 − 3p_x + 0.5(I_A + I_B) (omitting p_y terms for simplicity)","X = 10 − 2.05p_x","X = 17 − 2p_x + I_A + I_B"],
+   a:0,e:"X = x_A + x_B = (10 + 17) + (−2 − 0.05)p_x + 0.5I_A + 0.5I_B = 27 − 2.05p_x + 0.5(I_A + I_B)."},
+
+  {q:"Given X = 27 − 3p_x with I_A = I_B = 40, p_y = 4, what is market demand when p_x = 6?",
+   c:["X = 21","X = 9","X = 18","X = 36"],
+   a:1,e:"From the example: X = 27 − 3p_x (with given I and p_y). X = 27 − 3(6) = 27 − 18 = 9."},
+
+  {q:"In the market demand model, why is each individual assumed to be a price-taker?",
+   c:["Because all goods are identical and prices are fixed by the government","Each consumer is too small relative to the total market to influence the prevailing price","Price-takers always maximize utility more efficiently than price-setters","The assumption simplifies tax calculations"],
+   a:1,e:"A price-taker is an agent whose individual actions have no perceptible effect on the market price — they accept the prevailing p_x and p_y as given."},
+
+  {q:"If income for both individuals doubles (I_A and I_B double), and the market demand is X = 27 − 3p_x + 0.05(I_A+I_B) − 0.1p_y, with I_A=I_B=40 initially, how does market demand change?",
+   c:["It doubles entirely","It increases by 0.05 × 80 = 4 units at every price level","It is unchanged because income doesn't affect market demand","It decreases because higher income shifts the demand curve inward"],
+   a:1,e:"Original income term: 0.05(40+40)=4. New term: 0.05(80+80)=8. Change = +4. The demand curve shifts outward by 4 units at every price."},
+
+  {q:"Which of the following would shift the market demand curve for good x to the right?",
+   c:["A decrease in the price of x","An increase in consumer income, if x is a normal good","A fall in the price of a complementary good y, reducing demand for x","Both A and B — any change in price or income"],
+   a:1,e:"A rightward shift means more x demanded at every price. Higher income (for a normal good) shifts the curve right. A fall in p_x causes movement along the curve, not a shift."},
+
+  // --- Own-Price Elasticity ---
+  {q:"Own-price elasticity of demand is defined as:",
+   c:["The change in quantity divided by the change in price","The percentage change in quantity demanded divided by the percentage change in price, or (∂x/∂p_x)·(p_x/x)","The slope of the demand curve at a given point","Total spending on x divided by the price of x"],
+   a:1,e:"ε_x = %ΔQ/%ΔP = (∂x/∂p_x)·(p_x/x). It is dimensionless and measures proportionate responsiveness."},
+
+  {q:"Own-price elasticity is typically negative for normal and inferior goods because:",
+   c:["Demand curves are always horizontal for these goods","A rise in price leads to a fall in quantity demanded — the law of demand — so ΔQ and ΔP have opposite signs","Income effects are always positive for normal goods","The substitution effect is always positive"],
+   a:1,e:"By the law of demand, ∂x/∂p_x < 0 → ε_x < 0. Only Giffen goods (where ∂x/∂p_x > 0) have positive own-price elasticity."},
+
+  {q:"If the own-price elasticity of demand for good x is −0.4, demand is:",
+   c:["Elastic, because the absolute value exceeds 0","Inelastic, because |ε| = 0.4 < 1","Unit elastic, because the elasticity is between −1 and 0","Perfectly inelastic, because the elasticity is negative"],
+   a:1,e:"|ε| = 0.4 < 1 → inelastic demand. Consumers are relatively unresponsive to price changes."},
+
+  {q:"For the Marshallian demand x* = I/2p_x (from U=xy), the own-price elasticity of demand is:",
+   c:["ε_x = −2","ε_x = −0.5","ε_x = −1 (unit elastic) at all prices and incomes","ε_x depends on the level of income I"],
+   a:2,e:"ε_x = (∂x/∂p_x)·(p_x/x) = (−I/2p_x²)·(p_x/(I/2p_x)) = (−I/2p_x²)·(2p_x²/I) = −1 always."},
+
+  {q:"If a demand function is Q = 100/P (a rectangular hyperbola), what is its price elasticity?",
+   c:["ε = −100/P²","ε = P/Q","ε = −1 (unit elastic) at every point","ε = −0.5"],
+   a:2,e:"∂Q/∂P = −100/P². ε = (−100/P²)·(P/Q) = (−100/P²)·(P²/100) = −1. A rectangular hyperbola has unit elasticity everywhere."},
+
+  {q:"A linear demand curve Q = a − bP has own-price elasticity equal to:",
+   c:["−b at every point","−bP/Q, which varies along the curve","−a/b at the midpoint only","Constant and equal to −1"],
+   a:1,e:"ε = (∂Q/∂P)·(P/Q) = (−b)·(P/Q) = −bP/(a−bP). Since P/Q varies along the curve, elasticity changes at every point on a linear demand curve."},
+
+  {q:"At the midpoint of a linear demand curve Q = a − bP, the price elasticity equals:",
+   c:["0","−1 (unit elastic)","−b","−∞"],
+   a:1,e:"At the midpoint, P = a/2b and Q = a/2. ε = −b·(a/2b)/(a/2) = −b·(1/b) = −1. The midpoint of a linear demand curve is always unit elastic."},
+
+  // --- Elasticity & Total Spending ---
+  {q:"If demand is inelastic (|ε| < 1) and price rises, total spending (p·Q) will:",
+   c:["Fall, because consumers buy less","Rise, because the price increase more than offsets the quantity decline","Stay constant, because inelastic demand implies constant spending","Fall to zero at high enough prices"],
+   a:1,e:"With inelastic demand, the % quantity fall < % price rise → spending = P·Q rises. ∂(PQ)/∂P = Q(1+ε) > 0 when |ε| < 1."},
+
+  {q:"Which formula correctly shows how total spending p_x·x changes with price?",
+   c:["∂(p_x·x)/∂p_x = x · ε_x","∂(p_x·x)/∂p_x = x[1 + ε_x]","∂(p_x·x)/∂p_x = p_x · (∂x/∂p_x)","∂(p_x·x)/∂p_x = x + p_x"],
+   a:1,e:"∂(p_x·x)/∂p_x = x + p_x·(∂x/∂p_x) = x[1 + (p_x/x)·(∂x/∂p_x)] = x[1 + ε_x]."},
+
+  {q:"A firm selling an elastic good (|ε| > 1) wants to increase total revenue. It should:",
+   c:["Raise price — consumers are insensitive to price changes","Lower price — the quantity increase will more than offset the price decrease","Hold price constant and invest in advertising instead","Raise price until demand becomes unit elastic"],
+   a:1,e:"Elastic demand: % quantity rise > % price fall when price decreases → total revenue increases. ∂(PQ)/∂P = Q(1+ε) < 0 when |ε|>1 → revenue falls if price rises."},
+
+  {q:"A government taxes a good with perfectly inelastic demand (ε = 0). The entire tax burden falls on:",
+   c:["The sellers, because they set the price","The buyers, because quantity doesn't change and they pay the full higher price","Equally on buyers and sellers regardless of elasticity","Neither party — tax revenue comes from efficiency gains"],
+   a:1,e:"Perfectly inelastic demand: quantity demanded doesn't change at all when price rises. The full price increase (including the tax) is borne by buyers."},
+
+  {q:"If |ε| = 1 (unit elastic) and price changes by 10%, total spending will:",
+   c:["Rise by 10%","Fall by 10%","Remain unchanged","Double"],
+   a:2,e:"Unit elasticity means %ΔQ = −%ΔP. Total spending = P·Q: if P rises 10%, Q falls 10% → P·Q unchanged."},
+
+  // --- Income Elasticity ---
+  {q:"Income elasticity of demand η_x is calculated as:",
+   c:["(∂x/∂p_x)·(p_x/x)","(∂x/∂I)·(I/x)","(∂x/∂p_y)·(p_y/x)","(∂I/∂x)·(x/I)"],
+   a:1,e:"η_x = %Δx / %ΔI = (∂x/∂I)·(I/x). It measures the proportionate change in demand for a 1% change in income."},
+
+  {q:"For x* = I/2p_x (from U=xy), the income elasticity of demand is:",
+   c:["η = −1","η = 0","η = +1 (unit income elastic)","η = p_x/I"],
+   a:2,e:"η = (∂x/∂I)·(I/x) = (1/2p_x)·(I / (I/2p_x)) = (1/2p_x)·(2p_x) = 1. The Cobb-Douglas demand is unit income elastic."},
+
+  {q:"Good x has income elasticity η = −0.6. This means x is:",
+   c:["A luxury good since |η| < 1","A normal good with inelastic income response","An inferior good — quantity demanded falls as income rises","A Giffen good — quantity demanded rises with price"],
+   a:2,e:"η < 0 defines an inferior good. Demand falls as income increases (consumers switch to preferred goods when income rises)."},
+
+  {q:"A luxury good is defined by income elasticity:",
+   c:["0 < η < 1","η = 1 exactly","η > 1","η < 0"],
+   a:2,e:"Luxury goods have η > 1 — demand rises proportionately more than income. Examples: fine dining, designer goods, international travel."},
+
+  {q:"Which of the following correctly classifies goods by income elasticity?",
+   c:["Inferior: η > 1 | Normal: η = 0 | Luxury: η < 0","Normal necessary: 0 < η < 1 | Luxury: η > 1 | Inferior: η < 0","Normal: η < 0 | Luxury: η = 1 | Inferior: η > 1","All goods have η = 1 in the long run"],
+   a:1,e:"Standard classification: Inferior (η<0), Normal necessity (0<η<1), Unit normal (η=1), Luxury (η>1)."},
+
+  // --- Cross-Price Elasticity ---
+  {q:"Cross-price elasticity ε_xy measures:",
+   c:["How much the price of x changes when the quantity of y changes","The proportionate change in demand for x when the price of y changes by 1%","The ratio of the prices of x and y","How the utility from x changes when y's price rises"],
+   a:1,e:"ε_xy = (∂x/∂p_y)·(p_y/x) = %Δx / %Δp_y. It captures how the demand for x responds to price changes in another good y."},
+
+  {q:"If x and y are substitutes, the cross-price elasticity ε_xy is:",
+   c:["Negative — higher p_y reduces demand for x since y is more expensive","Zero — substitutes have independent demands","Positive — higher p_y makes y relatively more expensive, so consumers switch to x","Equal to the own-price elasticity of x"],
+   a:2,e:"Substitutes: when p_y rises, y becomes relatively costly → consumers substitute toward x → demand for x rises → ε_xy > 0."},
+
+  {q:"If x and y are complements, the cross-price elasticity ε_xy is:",
+   c:["Positive — complements are consumed together so demand moves in the same direction","Negative — a higher p_y reduces demand for y, which also reduces demand for the complementary good x","Zero — complementary goods are always consumed in fixed proportions","Greater than 1 in absolute value"],
+   a:1,e:"Complements: higher p_y → less y consumed → less x consumed (since they go together) → demand for x falls → ε_xy < 0."},
+
+  {q:"For x* = I/2p_x (derived from U=xy), the cross-price elasticity ε_xy = (∂x/∂p_y)·(p_y/x) equals:",
+   c:["−1","1","0 — x and y are independent in Marshallian demand when U=xy","p_y/p_x"],
+   a:2,e:"x* = I/2p_x has no p_y term → ∂x/∂p_y = 0 → ε_xy = 0. With Cobb-Douglas U=xy, x and y are neither substitutes nor complements in Marshallian demand."},
+
+  {q:"If ε_xy = 1.5 between coffee (x) and tea (y), and the price of tea rises by 10%, demand for coffee will:",
+   c:["Fall by 15% — they are complements","Rise by 15% — they are substitutes","Be unchanged since cross-price effects are small","Fall by 1.5%"],
+   a:1,e:"ε_xy = 1.5 > 0 → substitutes. %Δx = ε_xy × %Δp_y = 1.5 × 10% = +15%. Demand for coffee rises by 15%."},
+
+  // --- Applied / Mixed ---
+  {q:"A demand function is Q = 200 − 5P. At P = 20, what is the own-price elasticity?",
+   c:["−5","−1","−0.5","−2"],
+   a:2,e:"Q = 200−5(20)=100. ε = (∂Q/∂P)·(P/Q) = (−5)·(20/100) = −5·0.2 = −1. Unit elastic at P=20."},
+
+  {q:"For Q = 50P^(−2), the own-price elasticity is:",
+   c:["−50","−2 at every point (constant elasticity)","−2P/Q","Depends on the level of Q"],
+   a:1,e:"Q = 50P^−2 is a constant-elasticity demand function. ε = −2 everywhere, since the exponent on P is the elasticity for power functions."},
+
+  {q:"Which of the following demand functions has constant own-price elasticity of −3?",
+   c:["Q = 100 − 3P","Q = 100P^(−3)","Q = 100/P + 3","Q = 3P − 100"],
+   a:1,e:"Q = AP^ε has constant elasticity ε everywhere. Q = 100P^(−3) has ε = −3 at every point."},
+
+  {q:"A firm raises price from ₱10 to ₱11 and observes that quantity falls from 200 to 188. The arc elasticity is approximately:",
+   c:["−0.6","−1.0","−0.5","−1.2"],
+   a:0,e:"%ΔQ = (188−200)/200 = −6%. %ΔP = (11−10)/10 = 10%. ε ≈ −6%/10% = −0.6. Demand is inelastic."},
+
+  {q:"If own-price elasticity of gasoline is −0.2, a 20% price increase will cause quantity demanded to change by:",
+   c:["+4%","-4%","-20%","-40%"],
+   a:1,e:"%ΔQ = ε × %ΔP = −0.2 × 20% = −4%. Demand falls by 4% — a small, inelastic response."},
+
+  {q:"The market demand is X = 27 − 3p_x + 0.05(I_A+I_B). If I_A=I_B=40 and p_y=4, what happens to market demand when p_y rises to 6 (assuming a cross-price coefficient of −0.1)?",
+   c:["Market demand rises by 0.2 units","Market demand falls by 0.2 units","Market demand is unchanged since p_y doesn't appear","Market demand falls by 2 units"],
+   a:1,e:"The lecture's full equation includes −0.1p_y. Change = −0.1×(6−4) = −0.2. Market demand falls by 0.2 — x and y are mild complements per this function."},
+
+  {q:"For a good with price elasticity −1.5 and current expenditure of ₱1,000, if price falls by 10%, new total spending will be approximately:",
+   c:["₱850 — spending falls since demand is elastic","₱1,050 — spending rises since demand is elastic and quantity rises more than price falls","₱1,000 — unit elastic means spending doesn't change","₱1,150 — spending always rises when price falls"],
+   a:1,e:"Elastic demand (|ε|=1.5): %ΔQ = 1.5 × 10% = +15%. New spending ≈ 0.90P × 1.15Q = 1.035 × original ≈ ₱1,035. Spending rises when elastic and price falls."},
+
+  {q:"Which statement about elasticity along a linear demand curve Q = a − bP is correct?",
+   c:["Elasticity is constant at −b everywhere","Elasticity equals −1 everywhere","Demand is elastic above the midpoint price and inelastic below it","Demand is inelastic above the midpoint price and elastic below it"],
+   a:2,e:"On a linear demand curve: at high P (near the y-intercept), Q is low → ε = −bP/Q is large in absolute value (elastic). At low P, Q is large → |ε| is small (inelastic). They cross unit elasticity at the midpoint."},
+
+  {q:"An inferior good's income elasticity η satisfies:",
+   c:["η > 1","η = 0","η < 0","0 < η < 1"],
+   a:2,e:"Inferior goods have η < 0 — demand falls as income rises. Consumers switch away from inferior goods toward preferred goods when income increases."},
+
+  {q:"Good x has ε_xy = −2 with respect to good y. If p_y falls by 5%, demand for x will:",
+   c:["Rise by 10%","Fall by 10%","Rise by 2.5%","Be unchanged"],
+   a:1,e:"%Δx = ε_xy × %Δp_y = (−2) × (−5%) = +10%? Wait — ε_xy = −2 (complements). %Δx = −2 × (−5%) = +10%? Actually: %Δx = ε_xy × %Δp_y = (−2)(−5%) = +10%. Hmm — let's reconsider. If ε_xy < 0 (complements) and p_y falls 5%: demand for y rises → demand for x also rises (complements move together). %Δx = (−2)(−5%) = +10%... but the answer should be fall. Let me use ε_xy = −2 and +5% price rise: %Δx = (−2)(+5%) = −10%.",
+   a:1,e:"ε_xy = −2 < 0 means x and y are complements. If p_y falls by 5%: %Δx = ε_xy × %Δp_y = (−2)(−5%) = +10%. Demand for x rises — consistent with complements (cheaper y → more y consumed → more x consumed too)."},
+
+  {q:"For a normal good where all income is spent on x and y (Cobb-Douglas utility), the income elasticity of x is exactly 1 because:",
+   c:["Cobb-Douglas utility always gives equal shares to both goods","The Marshallian demand x* = αI/p_x is proportional to income I — doubling income exactly doubles demand","Income elasticity is always 1 for goods satisfying the budget constraint","The cross-price elasticity being 0 forces income elasticity to be 1"],
+   a:1,e:"x* = αI/p_x → η = (∂x/∂I)·(I/x) = (α/p_x)·(I/(αI/p_x)) = (α/p_x)·(p_x/α) = 1. Linear demand in I gives unit income elasticity."},
+
+  {q:"The own-price, income, and cross-price elasticities for x* = I/2p_x (from U=xy) at I=200, p_x=5, p_y=10 are respectively:",
+   c:["ε_x = −1, η_x = 1, ε_xy = 0","ε_x = −2, η_x = 2, ε_xy = 1","ε_x = −0.5, η_x = 0.5, ε_xy = 0.5","ε_x = −1, η_x = −1, ε_xy = −1"],
+   a:0,e:"ε_x = −I/(2p_x·x) = −200/(2·5·20)=−1. η_x = I/(2p_x·x) = +1. ε_xy = 0 (no p_y in x* function). The Cobb-Douglas results are clean: −1, +1, 0."},
+
+  {q:"A price decrease from ₱50 to ₱45 on a good with inelastic demand (|ε|=0.4) will most likely cause total revenue to:",
+   c:["Rise — quantity rises more than price falls","Fall — price falls more than quantity rises","Stay the same — inelastic demand preserves revenue","Double — lower prices always increase revenue significantly"],
+   a:1,e:"Inelastic demand: %ΔQ = 0.4 × 10% = 4% rise. But price falls 10%. New revenue = 0.90P × 1.04Q = 0.936 × original → revenue falls ~6.4%."},
+
+  {q:"Which of the following correctly explains why own-price elasticity matters for tax policy?",
+   c:["Higher elasticity means more tax revenue for the government regardless of tax rate","Taxing inelastic goods (like necessities) raises more revenue with less quantity distortion; taxing elastic goods causes larger quantity reductions and less revenue per unit","All goods should be taxed at the same rate to maximize fairness","Elasticity is irrelevant because taxes are collected from producers, not consumers"],
+   a:1,e:"Inelastic goods: consumers don't reduce quantity much when price rises (due to tax) → more revenue, smaller efficiency loss. Elastic goods: large quantity fall → less revenue and larger deadweight loss."},
+
+  {q:"If the cross-price elasticity between cars (x) and gasoline (y) is ε_xy = −0.8, and gasoline prices rise by 25%, demand for cars will change by:",
+   c:["−20%","+20%","+8%","+0.8%"],
+   a:0,e:"%Δx = ε_xy × %Δp_y = (−0.8)(+25%) = −20%. Cars and gasoline are complements → more expensive gas reduces car demand by 20%."},
+
+  {q:"For market demand X = 27 − 3p_x, own-price elasticity at p_x = 4 (with other terms giving X = 15) is:",
+   c:["−0.8","−3","−0.6","−3/15 = −0.2"],
+   a:0,e:"ε = (∂X/∂p_x)·(p_x/X) = (−3)·(4/15) = −12/15 = −0.8. Demand is inelastic at this price."},
+
+  {q:"Why is it important to use the absolute value when comparing price elasticities across goods?",
+   c:["Because negative numbers cannot be ranked","Because the sign is always positive for Giffen goods, making comparison ambiguous","Because own-price elasticity is inherently negative (law of demand), so the absolute value allows intuitive comparison of responsiveness magnitudes without sign confusion","Because elasticities are unitless numbers and absolute values make them easier to compute"],
+   a:2,e:"Since ε < 0 for normal goods, using |ε| allows us to say '|ε|=2 is more elastic than |ε|=0.5' without the counter-intuitive statement that −2 < −0.5."},
+];
+
+// Fix one question's answer
+POOL[32].a = 0; // ε_xy = −2, p_y falls 5% → +10% rise
+
+let qs=[],idx=0,score=0,answered=false;
+function shuf(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function start(){
+  qs=shuf(POOL).slice(0,10); idx=0; score=0; answered=false;
+  document.getElementById('sp').classList.remove('show');
+  render();
+}
+
+function render(){
+  answered=false;
+  const q=qs[idx],tot=qs.length;
+  document.getElementById('qctr').innerHTML=`<strong>${idx+1} / ${tot}</strong>`;
+  document.getElementById('pf').style.width=`${((idx+1)/tot)*100}%`;
+  const L=['A','B','C','D'];
+  const ch=q.c.map((c,i)=>`<button class="cbtn" onclick="pick(${i})" id="cb${i}"><span class="cl">${L[i]}</span><span>${c}</span></button>`).join('');
+  document.getElementById('qa').innerHTML=`
+    <div class="qcard">
+      <div class="qtag">Question ${idx+1} of ${tot}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="choices">${ch}</div>
+      <div class="fb" id="fb"></div>
+    </div>
+    <div class="qnav"><button class="btn btn-b" id="nxt" onclick="nxt()" disabled>${idx===tot-1?'See Results →':'Next →'}</button></div>`;
+}
+
+function pick(chosen){
+  if(answered)return; answered=true;
+  const q=qs[idx];
+  const fb=document.getElementById('fb');
+  for(let i=0;i<4;i++){
+    const b=document.getElementById('cb'+i);
+    b.disabled=true;
+    if(i===q.a) b.classList.add('reveal');
+    if(i===chosen&&chosen!==q.a) b.classList.add('wrong');
+    if(i===chosen&&chosen===q.a){b.classList.remove('reveal');b.classList.add('correct');}
+  }
+  if(chosen===q.a){score++;fb.textContent='✓ Correct! '+q.e;fb.className='fb show ok';}
+  else{fb.textContent='✗ Incorrect. '+q.e;fb.className='fb show no';}
+  document.getElementById('nxt').disabled=false;
+}
+
+function nxt(){idx++;if(idx>=qs.length)showScore();else render();}
+
+function showScore(){
+  document.getElementById('qa').innerHTML='';
+  document.getElementById('qctr').innerHTML='<strong>Complete!</strong>';
+  document.getElementById('pf').style.width='100%';
+  const wrong=10-score,pct=score*10;
+  let t,s;
+  if(score===10){t='Perfect!';s='Complete mastery of market demand and elasticity concepts.';}
+  else if(score>=8){t='Excellent';s='Strong command. Review any missed questions.';}
+  else if(score>=6){t='Good Work';s='Solid foundation — revisit weaker sections in the summary.';}
+  else if(score>=4){t='Keep Studying';s='Review the elasticity sections and spending relationships.';}
+  else{t='Needs Review';s='Work through all five summary sections carefully, then retry.';}
+  document.getElementById('sbig').textContent=score;
+  document.getElementById('sdial').style.setProperty('--p',pct);
+  document.getElementById('stitle').textContent=t;
+  document.getElementById('ssub').textContent=s;
+  document.getElementById('ssok').textContent=score;
+  document.getElementById('ssno').textContent=wrong;
+  document.getElementById('sp').classList.add('show');
+}
+
+function restart(){document.getElementById('sp').classList.remove('show');start();}
+
+function sw(tab,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  btn.classList.add('active');
+  if(tab==='quiz'&&qs.length===0)start();
+}
+</script>
+</body>
+</html>

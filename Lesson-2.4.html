@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 2.4 — Demand Curves & the Slutsky Equation</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f3ee;
+    --paper: #ffffff;
+    --paper2: #faf8f5;
+    --ink: #1c1810;
+    --muted: #6b6155;
+    --dim: #a89e92;
+    --border: #e2dbd2;
+    --rose: #b5414a;
+    --rose-light: #f5e8e9;
+    --teal: #2a6b6b;
+    --teal-light: #e4f0f0;
+    --amber: #b07020;
+    --amber-light: #fdf3e3;
+    --violet: #5a3d8a;
+    --violet-light: #ede8f5;
+    --correct: #2a6b4a;
+    --wrong: #b5414a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-stripe {
+    height: 5px;
+    background: linear-gradient(90deg, var(--rose) 0%, var(--amber) 33%, var(--teal) 66%, var(--violet) 100%);
+  }
+  .header-inner {
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    position: relative;
+  }
+  .header-inner::before {
+    content: 'S L U T S K Y';
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.03);
+    letter-spacing: 1rem;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .h-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 3.8rem);
+    font-weight: 700;
+    color: #f7f3ee;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  header p { color: rgba(247,243,238,0.45); font-size: 0.9rem; font-weight: 300; }
+
+  /* ── TABS ── */
+  .tab-bar {
+    display: flex;
+    background: var(--paper);
+    border-bottom: 2px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .tab-btn {
+    flex: 1; padding: 1rem 1.5rem;
+    background: none; border: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; color: var(--dim);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s; position: relative; bottom: -2px;
+  }
+  .tab-btn.active { color: var(--rose); border-bottom-color: var(--rose); }
+  .tab-btn:hover:not(.active) { color: var(--ink); }
+
+  /* ── PANELS ── */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── SUMMARY ── */
+  .sum-wrap { max-width: 940px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+  .scard {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(28,24,16,0.05);
+  }
+  .scard-head {
+    display: flex; align-items: center; gap: 0.9rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .scard-head.rose { background: var(--rose-light); }
+  .scard-head.teal { background: var(--teal-light); }
+  .scard-head.amber { background: var(--amber-light); }
+  .scard-head.violet { background: var(--violet-light); }
+  .snum {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; font-weight: 700;
+    padding: 0.2rem 0.55rem; border-radius: 3px;
+  }
+  .rose .snum { background: var(--rose); color: white; }
+  .teal .snum { background: var(--teal); color: white; }
+  .amber .snum { background: var(--amber); color: white; }
+  .violet .snum { background: var(--violet); color: white; }
+  .scard-head h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; font-weight: 700;
+    color: var(--ink);
+  }
+  .scard-body { padding: 1.5rem; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 1rem; }
+
+  .tile {
+    border-radius: 6px; padding: 1.1rem;
+    border: 1px solid var(--border);
+    background: var(--paper2);
+  }
+  .tile h4 {
+    font-size: 0.72rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  .tile.r h4 { color: var(--rose); }
+  .tile.t h4 { color: var(--teal); }
+  .tile.a h4 { color: var(--amber); }
+  .tile.v h4 { color: var(--violet); }
+  .tile p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+  .tile p strong { color: var(--ink); }
+
+  .eq {
+    font-family: 'Space Mono', monospace;
+    background: var(--ink);
+    color: #f0e8d8;
+    padding: 1.1rem 1.4rem;
+    border-radius: 6px;
+    font-size: 0.84rem;
+    margin: 1rem 0;
+    line-height: 2.1;
+  }
+  .eq .elbl {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.65rem; text-transform: uppercase;
+    letter-spacing: 0.15em; color: var(--dim);
+    display: block; margin-bottom: 0.3rem;
+  }
+  .eq .rose { color: #f08090; }
+  .eq .teal { color: #80d0c0; }
+  .eq .amber { color: #f0c070; }
+  .eq .violet { color: #c0a0f0; }
+
+  .insight {
+    background: var(--paper2);
+    border-left: 4px solid var(--rose);
+    padding: 0.9rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.87rem; color: var(--muted);
+    line-height: 1.6; margin-top: 1rem;
+  }
+  .insight strong { color: var(--rose); }
+  .insight.t { border-color: var(--teal); }
+  .insight.t strong { color: var(--teal); }
+  .insight.a { border-color: var(--amber); }
+  .insight.a strong { color: var(--amber); }
+  .insight.v { border-color: var(--violet); }
+  .insight.v strong { color: var(--violet); }
+
+  /* Comparison table */
+  .ctable { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85rem; }
+  .ctable th {
+    padding: 0.65rem 1rem; text-align: left;
+    font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .ctable th:first-child { background: var(--ink); color: var(--dim); }
+  .ctable th.rh { background: var(--rose); color: white; }
+  .ctable th.th { background: var(--teal); color: white; }
+  .ctable td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); color: var(--muted); }
+  .ctable td:first-child { font-weight: 500; color: var(--ink); font-size: 0.8rem; }
+  .ctable tr:last-child td { border-bottom: none; }
+  .ctable tr:nth-child(even) td { background: var(--paper2); }
+
+  /* Slutsky breakdown */
+  .slutsky-vis {
+    display: flex; gap: 0.5rem; align-items: stretch; margin-top: 1rem; flex-wrap: wrap;
+  }
+  .sv-box {
+    flex: 1; min-width: 160px; border-radius: 6px; padding: 1.1rem;
+    text-align: center;
+  }
+  .sv-box .sv-eq { font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .sv-box .sv-lbl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+  .sv-box .sv-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+  .sv-box.total { background: var(--paper2); border: 1px solid var(--border); }
+  .sv-box.total .sv-eq { color: var(--ink); }
+  .sv-box.total .sv-lbl { color: var(--dim); }
+  .sv-sep { display: flex; align-items: center; font-size: 1.3rem; color: var(--dim); font-weight: 300; }
+  .sv-box.sub { background: var(--teal-light); border: 1px solid #b0d8d8; }
+  .sv-box.sub .sv-eq { color: var(--teal); }
+  .sv-box.sub .sv-lbl { color: var(--teal); }
+  .sv-box.inc { background: var(--rose-light); border: 1px solid #e0b8bc; }
+  .sv-box.inc .sv-eq { color: var(--rose); }
+  .sv-box.inc .sv-lbl { color: var(--rose); }
+
+  .goods-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 1rem;
+  }
+  .good-card {
+    border-radius: 6px; padding: 1rem; border: 1px solid var(--border);
+  }
+  .good-card h5 { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .good-card .arrow { font-size: 1.4rem; margin-bottom: 0.4rem; display: block; }
+  .good-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+  .gc-normal { background: #e8f5e9; border-color: #b8d8b8; }
+  .gc-normal h5 { color: #2a6b4a; }
+  .gc-inferior { background: var(--amber-light); border-color: #e8c880; }
+  .gc-inferior h5 { color: var(--amber); }
+  .gc-giffen { background: var(--rose-light); border-color: #e0b8bc; }
+  .gc-giffen h5 { color: var(--rose); }
+
+  /* Derivation steps */
+  .steps { margin-top: 1rem; }
+  .step {
+    display: flex; gap: 1rem; padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border); align-items: flex-start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-n {
+    font-family: 'Space Mono', monospace; font-size: 0.72rem;
+    background: var(--violet); color: white;
+    border-radius: 50%; width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-t { font-size: 0.86rem; color: var(--muted); line-height: 1.6; }
+  .step-t strong { color: var(--ink); }
+
+  /* ── QUIZ ── */
+  .quiz-wrap { max-width: 780px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+  .q-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem; }
+  .q-ctr { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--muted); }
+  .q-ctr strong { color: var(--ink); }
+
+  .btn {
+    font-family: 'Outfit', sans-serif; font-weight: 600;
+    font-size: 0.8rem; letter-spacing: 0.07em; text-transform: uppercase;
+    padding: 0.6rem 1.4rem; border-radius: 5px; border: none;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn-rose { background: var(--rose); color: white; }
+  .btn-rose:hover { background: #c5515a; }
+  .btn-out { background: transparent; border: 1.5px solid var(--border); color: var(--muted); }
+  .btn-out:hover { border-color: var(--rose); color: var(--rose); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .pbar { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 2rem; overflow: hidden; }
+  .pfill {
+    height: 100%; border-radius: 2px;
+    background: linear-gradient(90deg, var(--rose), var(--amber));
+    transition: width 0.4s ease;
+  }
+
+  .qcard {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 12px rgba(28,24,16,0.04);
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .qtag { font-family: 'Space Mono', monospace; font-size: 0.62rem; color: var(--rose); text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 0.75rem; }
+  .qtext { font-size: 1rem; font-weight: 500; line-height: 1.6; color: var(--ink); margin-bottom: 1.5rem; }
+  .qcode { font-family: 'Space Mono', monospace; background: var(--paper2); color: var(--teal); padding: 0.3rem 0.6rem; border-radius: 3px; font-size: 0.82rem; }
+
+  .choices { display: flex; flex-direction: column; gap: 0.55rem; }
+  .cbtn {
+    text-align: left; padding: 0.85rem 1.1rem;
+    background: var(--paper2); border: 1.5px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif; font-size: 0.88rem;
+    color: var(--muted); cursor: pointer;
+    transition: all 0.15s;
+    display: flex; gap: 0.85rem; align-items: flex-start;
+  }
+  .cbtn:hover:not(:disabled) { border-color: var(--rose); color: var(--ink); background: var(--rose-light); }
+  .cltr { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--dim); min-width: 18px; padding-top: 2px; font-weight: 700; }
+  .cbtn.correct { border-color: var(--correct); background: #e8f5ee; color: var(--ink); }
+  .cbtn.correct .cltr { color: var(--correct); }
+  .cbtn.wrong { border-color: var(--wrong); background: var(--rose-light); color: var(--ink); }
+  .cbtn.wrong .cltr { color: var(--wrong); }
+  .cbtn.reveal { border-color: var(--correct); background: #e8f5ee; }
+  .cbtn.reveal .cltr { color: var(--correct); }
+  .cbtn:disabled { cursor: default; }
+
+  .fb { margin-top: 1rem; padding: 0.8rem 1rem; border-radius: 6px; font-size: 0.86rem; font-weight: 500; display: none; line-height: 1.5; }
+  .fb.show { display: block; animation: slideUp 0.2s ease; }
+  .fb.ok { background: #e8f5ee; border-left: 3px solid var(--correct); color: #1a5e38; }
+  .fb.no { background: var(--rose-light); border-left: 3px solid var(--wrong); color: #8a2530; }
+
+  .qnav { display: flex; justify-content: flex-end; margin-top: 1.5rem; }
+
+  /* Score */
+  .score-panel { display: none; background: var(--paper); border: 1px solid var(--border); border-radius: 10px; padding: 3.5rem 2rem; text-align: center; box-shadow: 0 4px 20px rgba(28,24,16,0.08); animation: slideUp 0.4s ease; }
+  .score-panel.show { display: block; }
+  .score-dial {
+    width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 1.25rem;
+    background: conic-gradient(var(--rose) calc(var(--p)*1%), var(--border) 0%);
+    display: flex; align-items: center; justify-content: center; position: relative;
+  }
+  .score-dial::before { content: ''; position: absolute; inset: 12px; background: var(--paper); border-radius: 50%; }
+  .score-inner { position: relative; z-index: 1; }
+  .score-big { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 700; color: var(--rose); line-height: 1; }
+  .score-of { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--dim); }
+  .score-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .score-sub { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.75rem; }
+  .score-stats { display: flex; justify-content: center; gap: 2.5rem; margin-bottom: 2rem; }
+  .ss .ssv { font-size: 1.6rem; font-weight: 700; }
+  .ss .ssl { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--dim); }
+  .ss.ok .ssv { color: var(--correct); }
+  .ss.no .ssv { color: var(--wrong); }
+
+  @media(max-width:620px){
+    .grid2,.grid3,.goods-grid { grid-template-columns: 1fr; }
+    .slutsky-vis { flex-direction: column; }
+    .sv-sep { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-stripe"></div>
+  <div class="header-inner">
+    <div class="h-label">Economics · Topic 2 · Sub-topic 2.4</div>
+    <h1>Demand Curves &amp;<br>the Slutsky Equation</h1>
+    <p>Consumer Choice and Demand — Lesson Summary &amp; Practice Quiz</p>
+  </div>
+</header>
+
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('summary',this)">📖 Lesson Summary</button>
+  <button class="tab-btn" onclick="switchTab('quiz',this)">✏️ Practice Quiz</button>
+</nav>
+
+<!-- ══════════ SUMMARY ══════════ -->
+<div id="summary" class="panel active">
+<div class="sum-wrap">
+
+  <!-- 1. Marshallian Demand -->
+  <div class="scard">
+    <div class="scard-head rose"><span class="snum">01</span><h2>Marshallian (Ordinary/Uncompensated) Demand</h2></div>
+    <div class="scard-body">
+      <p>The solution to the utility maximization problem yields the consumer's <strong>Marshallian demand functions</strong> — demand for each good as a function of all prices and nominal income.</p>
+      <div class="eq">
+        <span class="elbl">From Max U(x,y) s.t. I = pₓx + p_y·y</span>
+        x* = x<sup>m</sup>(p<sub>x</sub>, p<sub>y</sub>, I) &nbsp;&nbsp;—&nbsp;&nbsp; <span class="rose">Marshallian demand for x</span>
+        y* = y<sup>m</sup>(p<sub>x</sub>, p<sub>y</sub>, I) &nbsp;&nbsp;—&nbsp;&nbsp; <span class="rose">Marshallian demand for y</span>
+        <span class="elbl" style="margin-top:0.5rem">Example: U = xy &nbsp;→</span>
+        x* = I / 2p<sub>x</sub> &nbsp;&nbsp;&nbsp;&nbsp; y* = I / 2p<sub>y</sub>
+      </div>
+      <div class="grid2">
+        <div class="tile r">
+          <h4>What it holds constant</h4>
+          <p>Nominal income <strong>I</strong> and prices of other goods. As p<sub>x</sub> rises, real purchasing power falls.</p>
+        </div>
+        <div class="tile r">
+          <h4>What varies along the curve</h4>
+          <p>The utility level — as p<sub>x</sub> rises the consumer moves to a <strong>lower indifference curve</strong>. Both income and substitution effects are at play.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Hicksian Demand -->
+  <div class="scard">
+    <div class="scard-head teal"><span class="snum">02</span><h2>Hicksian (Compensated) Demand</h2></div>
+    <div class="scard-body">
+      <p>The <strong>Hicksian demand function</strong> holds <em>real income (utility)</em> constant. Income is "compensated" so the consumer stays on the same indifference curve — only the substitution effect is captured.</p>
+      <div class="eq">
+        <span class="elbl">Hicksian demand function</span>
+        x<sup>h</sup> = x<sup>h</sup>(p<sub>x</sub>, p<sub>y</sub>, <span class="teal">U</span>) &nbsp;&nbsp; ← depends on utility U, not income I
+        <span class="elbl" style="margin-top:0.5rem">Identity linking both curves</span>
+        x<sup>m</sup>[p<sub>x</sub>, p<sub>y</sub>, E(p<sub>x</sub>,p<sub>y</sub>,U)] &nbsp;=&nbsp; x<sup>h</sup>(p<sub>x</sub>, p<sub>y</sub>, U)
+      </div>
+      <div class="insight t"><strong>Key:</strong> The Hicksian demand curve isolates only the substitution effect. It is always downward-sloping (substitution effect is always negative).</div>
+    </div>
+  </div>
+
+  <!-- 3. Comparison -->
+  <div class="scard">
+    <div class="scard-head amber"><span class="snum">03</span><h2>Marshallian vs. Hicksian: Comparison</h2></div>
+    <div class="scard-body">
+      <table class="ctable">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="rh">Marshallian (x<sup>m</sup>)</th>
+            <th class="th">Hicksian (x<sup>h</sup>)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Also called</td><td>Ordinary / Uncompensated</td><td>Compensated</td></tr>
+          <tr><td>Held constant</td><td>Nominal income I, other prices</td><td>Utility U, other prices</td></tr>
+          <tr><td>Varies along curve</td><td>Utility level (falls as p<sub>x</sub> ↑)</td><td>Income (compensated to keep U fixed)</td></tr>
+          <tr><td>Effects captured</td><td>Substitution + Income effect</td><td>Substitution effect only</td></tr>
+          <tr><td>Arguments</td><td>x<sup>m</sup>(p<sub>x</sub>, p<sub>y</sub>, I)</td><td>x<sup>h</sup>(p<sub>x</sub>, p<sub>y</sub>, U)</td></tr>
+          <tr><td>Intersection point</td><td colspan="2">Both pass through x₀ at initial price p₀</td></tr>
+        </tbody>
+      </table>
+      <div class="goods-grid" style="margin-top:1.25rem">
+        <div class="good-card gc-normal">
+          <h5>Normal Good</h5>
+          <span class="arrow">↙</span>
+          <p>x<sup>m</sup> is <strong>flatter</strong> than x<sup>h</sup>. Income effect reinforces the substitution effect. At p₁ > p₀: x<sub>m</sub> &lt; x<sub>h</sub>.</p>
+        </div>
+        <div class="good-card gc-inferior">
+          <h5>Inferior Good</h5>
+          <span class="arrow">↙↗</span>
+          <p>x<sup>m</sup> is <strong>steeper</strong> than x<sup>h</sup>. Income effect partially offsets substitution effect.</p>
+        </div>
+        <div class="good-card gc-giffen">
+          <h5>Giffen Good</h5>
+          <span class="arrow">↗</span>
+          <p>x<sup>m</sup> slopes <strong>upward</strong> — income effect dominates. x<sup>h</sup> still slopes downward.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Indirect Utility & Expenditure -->
+  <div class="scard">
+    <div class="scard-head violet"><span class="snum">04</span><h2>Indirect Utility &amp; Expenditure Functions</h2></div>
+    <div class="scard-body">
+      <div class="grid2">
+        <div class="tile v">
+          <h4>Indirect Utility Function V</h4>
+          <p>Substitute optimal x* and y* into U(·) to get the <strong>maximum attainable utility</strong> as a function of prices and income.<br><br>
+          V = V(p₁, p₂, …, pₙ, I)</p>
+        </div>
+        <div class="tile v">
+          <h4>Expenditure Function E</h4>
+          <p>Shows the <strong>minimum expenditure</strong> needed to achieve a given utility level U at prevailing prices.<br><br>
+          E = E(p₁, p₂, …, pₙ, U)</p>
+        </div>
+      </div>
+      <div class="eq">
+        <span class="elbl">Example: U = xy &nbsp;→&nbsp; x* = I/2pₓ, y* = I/2p_y</span>
+        V(pₓ, p_y, I) = x* · y* = <span class="violet">I² / (4pₓ p_y)</span>
+        <span class="elbl" style="margin-top:0.5rem">V and E are inverse functions of each other</span>
+        V(pₓ, p_y, E) = U₀ &nbsp;⟺&nbsp; E(pₓ, p_y, U₀) = I
+      </div>
+      <div class="insight v"><strong>Shephard's Lemma:</strong> ∂E/∂pₓ = x<sup>h</sup>. A ₱1 rise in pₓ increases minimum required expenditure by exactly x<sup>h</sup> pesos (the amount of x currently consumed).</div>
+    </div>
+  </div>
+
+  <!-- 5. Slutsky Equation -->
+  <div class="scard">
+    <div class="scard-head rose"><span class="snum">05</span><h2>The Slutsky Equation</h2></div>
+    <div class="scard-body">
+      <p>Decomposes the total effect of a price change into <strong>substitution</strong> and <strong>income</strong> effects.</p>
+      <div class="slutsky-vis">
+        <div class="sv-box total">
+          <div class="sv-eq">∂x/∂pₓ</div>
+          <div class="sv-lbl">Total Price Effect</div>
+          <div class="sv-desc">Marshallian: how x<sup>m</sup> changes when pₓ changes (nominal I fixed)</div>
+        </div>
+        <div class="sv-sep">=</div>
+        <div class="sv-box sub">
+          <div class="sv-eq">∂x<sup>h</sup>/∂pₓ</div>
+          <div class="sv-lbl">Substitution Effect</div>
+          <div class="sv-desc">Hicksian slope; always ≤ 0 (diminishing MRS)</div>
+        </div>
+        <div class="sv-sep">−</div>
+        <div class="sv-box inc">
+          <div class="sv-eq">x · ∂x/∂I</div>
+          <div class="sv-lbl">Income Effect</div>
+          <div class="sv-desc">x times the income slope; sign depends on good type</div>
+        </div>
+      </div>
+      <div class="eq" style="margin-top:1.25rem">
+        <span class="elbl">Slutsky Equation (full form)</span>
+        ∂x/∂pₓ &nbsp;=&nbsp; <span class="teal">∂x<sup>h</sup>/∂pₓ</span> &nbsp;−&nbsp; <span class="rose">x · (∂x/∂I)</span>
+        <span class="elbl" style="margin-top:0.6rem">Signs by good type (when pₓ rises)</span>
+        Normal: &nbsp; <span class="amber">(−)</span> = <span class="teal">(−)</span> − <span class="rose">(+)</span> &nbsp;&nbsp; → both effects reduce x
+        Inferior: (−) = (−) − (−) &nbsp;&nbsp; → SE dominates, IE partially offsets
+        Giffen: &nbsp; <span class="violet">(+)</span> = <span class="teal">(−)</span> − <span class="rose">(−)</span> &nbsp;&nbsp; → IE dominates SE
+      </div>
+      <div class="insight"><strong>Key property:</strong> The substitution effect ∂x<sup>h</sup>/∂pₓ is always negative — higher price always reduces compensated demand. Only the income effect can reverse the total response.</div>
+    </div>
+  </div>
+
+  <!-- 6. Deriving Hicksian from Marshallian -->
+  <div class="scard">
+    <div class="scard-head violet"><span class="snum">06</span><h2>Deriving Hicksian from Marshallian Demand</h2></div>
+    <div class="scard-body">
+      <div class="steps">
+        <div class="step"><div class="step-n">1</div><div class="step-t"><strong>Start with Marshallian demand:</strong> x* = x(pₓ, p_y, I) and y* = y(pₓ, p_y, I)</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t"><strong>Derive the indirect utility function:</strong> Substitute x* and y* into U(x,y) to get V(pₓ, p_y, I) = U₀</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t"><strong>Solve for I:</strong> Invert V to express income as a function of prices and utility → this is the expenditure function E(pₓ, p_y, U₀)</div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-t"><strong>Substitute E for I:</strong> Replace I in the Marshallian demand with E(pₓ, p_y, U₀). The result is the Hicksian demand x<sup>h</sup>(pₓ, p_y, U₀).</div></div>
+      </div>
+      <div class="eq" style="margin-top:1.25rem">
+        <span class="elbl">Example: U=xy → V = I²/4pₓp_y = U₀ → Solve for I</span>
+        I = E = 2√(U₀ · pₓ · p_y)
+        <span class="elbl" style="margin-top:0.5rem">Substitute into x* = I/2pₓ</span>
+        x<sup>h</sup> = 2√(U₀ pₓ p_y) / 2pₓ = <span class="violet">√(U₀ p_y / pₓ)</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ QUIZ ══════════ -->
+<div id="quiz" class="panel">
+<div class="quiz-wrap">
+  <div class="q-topbar">
+    <div class="q-ctr">Question <strong id="qctr">1 / 10</strong></div>
+    <button class="btn btn-out" onclick="restartQuiz()">↺ New Quiz</button>
+  </div>
+  <div class="pbar"><div class="pfill" id="pfill" style="width:10%"></div></div>
+  <div id="quiz-area"></div>
+  <div id="score-panel" class="score-panel">
+    <div class="score-dial" id="sdial">
+      <div class="score-inner">
+        <div class="score-big" id="sbig">0</div>
+        <div class="score-of">/ 10</div>
+      </div>
+    </div>
+    <div class="score-title" id="stitle">—</div>
+    <div class="score-sub" id="ssub"></div>
+    <div class="score-stats">
+      <div class="ss ok"><div class="ssv" id="ssok">0</div><div class="ssl">Correct</div></div>
+      <div class="ss no"><div class="ssv" id="ssno">0</div><div class="ssl">Incorrect</div></div>
+    </div>
+    <button class="btn btn-rose" onclick="restartQuiz()">Try Again — New Questions</button>
+  </div>
+</div>
+</div>
+
+<script>
+const POOL = [
+  // --- Marshallian Demand ---
+  {q:"The Marshallian demand function x*(pₓ, p_y, I) is obtained by:",
+   c:["Minimizing expenditure subject to a utility constraint","Solving the utility maximization problem and expressing the optimal x as a function of prices and income","Differentiating the expenditure function with respect to income","Setting the Hicksian demand equal to zero and solving for quantity"],
+   a:1,e:"The Marshallian demand arises directly from the utility maximization FOCs — it tells us x* as a function of p_x, p_y, and I."},
+
+  {q:"For the utility function U = xy, the Marshallian demand for x is x* = I/2p_x. This implies that if income doubles:",
+   c:["Demand for x is unchanged since prices haven't changed","Demand for x also doubles — x is a normal good with income elasticity of 1","Demand for x falls by half — the denominator effect dominates","The price of x must rise to maintain budget balance"],
+   a:1,e:"x* = I/2p_x is linear in I → doubling I doubles x*. Income elasticity = 1 (unit elastic in income)."},
+
+  {q:"Along the Marshallian demand curve, as p_x rises:",
+   c:["Nominal income rises to compensate the consumer","The consumer remains on the same indifference curve since utility is held constant","The consumer moves to a lower indifference curve and both income and substitution effects operate","Only the substitution effect operates since utility is fixed"],
+   a:2,e:"Marshallian demand holds nominal I constant. As p_x rises, real purchasing power falls → lower indifference curve. Both effects are at work."},
+
+  {q:"The Marshallian demand curve is also called 'uncompensated' because:",
+   c:["Consumers are not paid for changes in their buying behavior","Nominal income is held fixed, so consumers are not compensated for the loss in real income when p_x rises","The demand curve does not account for substitution between goods","Only compensated demand curves slope downward"],
+   a:1,e:"No income compensation is made — nominal I is constant, so the consumer's real income (and utility) declines as p_x rises."},
+
+  // --- Hicksian Demand ---
+  {q:"The Hicksian (compensated) demand curve isolates only the substitution effect because:",
+   c:["It assumes the price of the other good is fixed at zero","Nominal income is held constant along the curve","The consumer's utility level is held constant — income is adjusted to keep the consumer on the same indifference curve","It uses average prices rather than market prices"],
+   a:2,e:"Hicksian demand fixes U constant. Any income change that would occur from a price change is compensated away, leaving only the substitution effect."},
+
+  {q:"The Hicksian demand function is written as x^h(p_x, p_y, U). The argument 'U' (utility level) replaces which argument in the Marshallian demand?",
+   c:["The price of the other good p_y","The initial quantity x₀","Nominal income I","The marginal utility of income λ"],
+   a:2,e:"Marshallian: x^m(p_x, p_y, I). Hicksian: x^h(p_x, p_y, U). Income I is replaced by utility U as the constraint."},
+
+  {q:"The Hicksian demand curve is always downward-sloping because:",
+   c:["Consumers always prefer to substitute cheaper goods for more expensive ones, regardless of income effects","The substitution effect is always negative — diminishing MRS guarantees that as p_x rises, less x is demanded when utility is held fixed","Nominal income declines as prices rise under the Hicksian framework","The expenditure function is concave in prices"],
+   a:1,e:"With utility fixed, the substitution effect always works against the price change: ∂x^h/∂p_x ≤ 0 always."},
+
+  {q:"At the initial price p₀, which statement about the Marshallian and Hicksian demand curves is correct?",
+   c:["Hicksian demand always lies to the right of Marshallian demand at p₀","They intersect — both yield the same quantity x₀ at the initial price p₀","Marshallian demand gives higher quantity than Hicksian at p₀","They are parallel lines that never intersect"],
+   a:1,e:"Both demand curves pass through the same point (x₀, p₀) since the consumer's optimal choice at the initial price is the same under either framework."},
+
+  // --- Marshallian vs. Hicksian Comparison ---
+  {q:"For a normal good, when p_x rises above p₀, the Marshallian demand (x^m) gives a lower quantity than the Hicksian demand (x^h). This is because:",
+   c:["Normal goods always have a larger substitution effect than inferior goods","The income effect for a normal good reinforces the substitution effect, causing an additional reduction in demand beyond the substitution effect alone","The Marshallian curve is steeper than the Hicksian curve for normal goods","Hicksian demand fails to account for the true market price of the good"],
+   a:1,e:"For normal goods, ∂x/∂I > 0 and a price rise lowers real I → income effect reduces x further. So x^m < x^h above p₀."},
+
+  {q:"For an inferior good, the Marshallian demand curve is steeper than the Hicksian demand curve because:",
+   c:["Inferior goods are always Giffen goods","The substitution effect is larger for inferior goods","The income effect partially offsets the substitution effect — as p_x rises, lower real income actually increases demand for the inferior good, partially reversing the substitution effect reduction","Both effects push demand in the same direction for inferior goods"],
+   a:2,e:"Inferior good: ∂x/∂I < 0. A price rise lowers real I, which raises demand (since it's inferior) → IE partially cancels SE → Marshallian falls less steeply."},
+
+  {q:"Which of the following correctly describes the Marshallian demand curve for a Giffen good?",
+   c:["Downward-sloping but steeper than the Hicksian demand curve","Identical to the Hicksian demand curve since income effects do not exist for Giffen goods","Upward-sloping — the income effect dominates and outweighs the substitution effect","Vertical — quantity demanded does not change with price"],
+   a:2,e:"A Giffen good has ∂x/∂I < 0 (inferior) and the income effect is so large it exceeds the substitution effect → Marshallian demand slopes upward."},
+
+  {q:"The Hicksian demand curve is unaffected by whether x is a normal, inferior, or Giffen good because:",
+   c:["The Hicksian curve uses constant prices rather than constant income","It does not depend on the type of good — it only captures the substitution effect, which is always negative regardless of income effects","Hicksian demand assumes perfectly elastic supply","For all types of goods, the substitution and income effects are equal in magnitude"],
+   a:1,e:"Hicksian demand holds U constant, so it never encounters income effects. The substitution effect is always negative regardless of the good's income classification."},
+
+  // --- Indirect Utility & Expenditure Function ---
+  {q:"The indirect utility function V(p_x, p_y, I) gives:",
+   c:["The minimum expenditure needed to reach a given utility level","The maximum utility attainable given prices and income, after optimal consumption choices are made","The Lagrange multiplier from the utility maximization problem","The marginal utility of an additional unit of income"],
+   a:1,e:"V is constructed by substituting optimal x* and y* into U(·) — it gives the best achievable utility given prices and income."},
+
+  {q:"For U = xy with x* = I/2p_x and y* = I/2p_y, the indirect utility function is:",
+   c:["V = I/(p_x + p_y)","V = I/(4 p_x p_y)","V = I²/(4 p_x p_y)","V = (2p_x)(2p_y)/I²"],
+   a:2,e:"V = x*·y* = (I/2p_x)(I/2p_y) = I²/(4p_x p_y)."},
+
+  {q:"The expenditure function E(p_x, p_y, U) is best described as:",
+   c:["The consumer's total spending on goods x and y at any price","The minimum income needed to achieve utility level U at prices p_x and p_y","The maximum utility the consumer can reach with income I","The total cost of producing the consumer's optimal bundle"],
+   a:1,e:"E shows the minimum expenditure necessary to reach utility U given market prices — it is the dual of the indirect utility function."},
+
+  {q:"The expenditure function and the indirect utility function are related by:",
+   c:["E(p, U) = V(p, I) for all prices and income levels","They are inverse functions: V(p, E(p,U)) = U and E(p, V(p,I)) = I","E is the derivative of V with respect to income","E equals V multiplied by the marginal utility of income"],
+   a:1,e:"They are mutual inverses: substituting E into V returns U, and substituting V into E returns I. One 'undoes' the other."},
+
+  {q:"Shephard's Lemma states that ∂E/∂p_x = x^h. The economic interpretation is:",
+   c:["A one-unit increase in quantity demanded raises the expenditure function by x^h","A one-peso increase in p_x raises minimum required expenditure by exactly x^h — the amount of x currently consumed","The Hicksian demand is the shadow price of the expenditure constraint","The marginal utility of p_x equals the Hicksian quantity of x"],
+   a:1,e:"Each unit of x must now cost ₱1 more → minimum spending rises by x^h × ₱1. Shephard's Lemma formalizes this intuition."},
+
+  // --- Slutsky Equation ---
+  {q:"The Slutsky Equation decomposes ∂x/∂p_x into two components. Which of the following is the correct decomposition?",
+   c:["∂x/∂p_x = (∂x/∂p_x)|_{I=const} + x·(∂x/∂I)","∂x/∂p_x = ∂x^h/∂p_x − x·(∂x/∂I)","∂x/∂p_x = ∂x^h/∂p_x + x·(∂x/∂I)","∂x/∂p_x = x·(∂x^h/∂p_x) − (∂x/∂I)"],
+   a:1,e:"Slutsky: ∂x/∂p_x = ∂x^h/∂p_x − x·(∂x/∂I). Minus sign because the income effect is measured as a real income loss (x units × price change)."},
+
+  {q:"In the Slutsky Equation, the term x · (∂x/∂I) represents:",
+   c:["The substitution effect of the price change","The income effect — how much demand changes due to the real income loss caused by the price rise, scaled by the quantity purchased","The cross-price effect of p_y on x","The total expenditure effect on utility"],
+   a:1,e:"A ₱1 rise in p_x costs the consumer x pesos more (they buy x units). This real income loss of x pesos times the income effect ∂x/∂I gives the income effect component."},
+
+  {q:"The substitution effect ∂x^h/∂p_x is always negative because:",
+   c:["Higher prices always reduce nominal income","The consumer always substitutes away from the relatively more expensive good along the indifference curve, under the assumption of diminishing MRS","Hicksian demand curves are always steeper than Marshallian demand curves","Normal goods always have larger substitution effects than inferior goods"],
+   a:1,e:"With utility fixed, a rise in p_x makes x relatively more expensive → the consumer substitutes toward y. Diminishing MRS ensures this effect is strictly negative."},
+
+  {q:"For a normal good, the signs in the Slutsky Equation when p_x rises are:",
+   c:["Total (−) = Substitution (−) + Income (−)","Total (−) = Substitution (−) − Income (+)","Total (+) = Substitution (−) − Income (−)","Total (−) = Substitution (+) − Income (+)"],
+   a:1,e:"For a normal good: SE < 0 and ∂x/∂I > 0 (higher income → more x). So income effect = x·(∂x/∂I) > 0, and total = (−) − (+) = (−)."},
+
+  {q:"For a Giffen good, the Slutsky Equation gives:",
+   c:["Total (−) = Substitution (−) − Income (−)","Total (+) = Substitution (−) − Income (−), where |Income effect| > |Substitution effect|","Total (0) = Substitution (−) − Income (−)","Total (+) = Substitution (+) + Income (+)"],
+   a:1,e:"Giffen: ∂x/∂I < 0 (inferior good), and income effect term x·(∂x/∂I) < 0. Slutsky: ∂x/∂p_x = (−) − (−) = (−) + (+). If income effect dominates, total > 0 → Giffen."},
+
+  {q:"Which condition is necessary for a good to be a Giffen good according to the Slutsky Equation?",
+   c:["The substitution effect must be positive","The good must be normal with a very high income elasticity","The good must be inferior (∂x/∂I < 0) and the income effect must dominate the substitution effect in magnitude","The price of the other good must fall when p_x rises"],
+   a:2,e:"Giffen requires: (1) inferior good so income effect is positive when p rises, and (2) income effect large enough to outweigh the always-negative substitution effect."},
+
+  {q:"According to the Slutsky Equation, for an inferior good the total effect of a price rise is:",
+   c:["Positive — more is demanded as price rises (Giffen behavior)","Always larger in absolute value than the substitution effect alone","Smaller in absolute value than the substitution effect alone — income effect partially offsets the substitution effect","Zero — the two effects exactly cancel for inferior goods"],
+   a:2,e:"Inferior: income effect partially reverses the substitution effect. The total price response is less negative than the substitution effect alone (but still negative, unless Giffen)."},
+
+  // --- Mixed / Applications ---
+  {q:"The identity x^m[p_x, p_y, E(p_x,p_y,U)] = x^h(p_x,p_y,U) states that:",
+   c:["Marshallian and Hicksian demand are always equal at every price","When the consumer's income is set exactly to the minimum needed to achieve utility U (i.e., income = E), the Marshallian and Hicksian demands coincide","The expenditure function equals income at all times","Marshallian demand is a special case of Hicksian demand with U = 0"],
+   a:1,e:"If income equals the minimum expenditure needed to reach U, the consumer is exactly on indifference curve U → both demand concepts yield the same quantity."},
+
+  {q:"A consumer's Marshallian demand for gasoline is x^m = I/(2p_x). As gas prices rise, this consumer:",
+   c:["Increases spending on gasoline since it is likely a Giffen good","Maintains the same expenditure share of income on gasoline (income share = 1/2) regardless of price","Reduces quantity of gasoline consumed but maintains a constant utility level","Spends more in total on gasoline since the price elasticity of demand is greater than one"],
+   a:1,e:"Total spending = p_x · x^m = p_x · I/(2p_x) = I/2 — constant share of income regardless of price → unit elastic demand."},
+
+  {q:"The Slutsky Equation was derived by differentiating the identity x^m[p_x, p_y, E(p_x,p_y,U)] = x^h with respect to p_x and using Shephard's Lemma. This derivation is important because it:",
+   c:["Proves that Giffen goods cannot exist in theory","Shows that all demand curves must be downward-sloping","Provides a rigorous mathematical link between observable Marshallian demand and the unobservable Hicksian demand","Establishes that income and substitution effects always have equal magnitude"],
+   a:2,e:"The Slutsky equation connects the empirically observable Marshallian demand to the theoretical Hicksian demand, decomposing the price effect into measurable components."},
+
+  {q:"If a good has ∂x/∂I = 0 (income-neutral good), the Slutsky Equation implies:",
+   c:["The substitution effect is also zero","The Marshallian and Hicksian demand curves are identical","The good must be a Giffen good","The total price effect is twice the substitution effect"],
+   a:1,e:"If ∂x/∂I = 0, the income effect term x·(∂x/∂I) = 0 → ∂x/∂p_x = ∂x^h/∂p_x. The two demand curves are identical."},
+
+  {q:"The mathematical derivation of the Hicksian demand function from the Marshallian requires solving the indirect utility function V(p_x,p_y,I) = U₀ for I. This is possible because:",
+   c:["The indirect utility function is linear in income","The indirect utility function is strictly monotone in I, so it can be inverted to express I as a function of U₀ and prices","The Marshallian demand is always a linear function of income","The expenditure function is always a constant","V always equals zero at the optimum"],
+   a:1,e:"V is strictly increasing in I (more income → higher utility), so it is invertible: solving V = U₀ for I gives the expenditure function E(p,U₀)."},
+
+  {q:"For x^h = √(U₀ p_y / p_x) (derived from U = xy), as p_x increases:",
+   c:["x^h increases — the Hicksian demand curve slopes upward","x^h stays constant since utility U₀ is held fixed","x^h decreases — the substitution effect causes less x to be demanded even at constant utility","x^h increases only if U₀ > p_y"],
+   a:2,e:"x^h = (U₀ p_y)^(1/2) · p_x^(−1/2). As p_x rises, x^h falls — the Hicksian demand slopes downward (substitution effect)."},
+
+  {q:"A consumer buys 10 units of x at price p₀. The price rises by ₱1. According to Shephard's Lemma, minimum required expenditure rises by:",
+   c:["₱1, because only one peso was added to the price","₱10, because the consumer currently buys 10 units of x","₱10 × current quantity of y","An amount equal to the marginal utility of x"],
+   a:1,e:"Shephard's Lemma: ∂E/∂p_x = x^h. With x^h = 10, a ₱1 rise in p_x raises minimum expenditure by ₱10."},
+
+  {q:"In the graphical representation, when p_x increases from p₀ to p₁ for a normal good, the movement from A to B represents the substitution effect and B to C represents the income effect. Which of the following correctly describes point B?",
+   c:["The consumer's optimal bundle on the original indifference curve U₀ at the new price ratio (compensation maintained)","The consumer's actual market bundle at the new price p₁","A point on a higher indifference curve U₁ with the original prices","The corner solution where only y is consumed"],
+   a:0,e:"Point B is where the consumer would be if compensated to stay on U₀ while facing the new price ratio (w/p₁) — it isolates the substitution effect."},
+
+  {q:"Which of the following statements about the signs of the Slutsky decomposition is always true, regardless of the type of good?",
+   c:["The total price effect ∂x/∂p_x is always negative","The income effect x·(∂x/∂I) is always positive","The substitution effect ∂x^h/∂p_x is always non-positive (≤ 0)","The Marshallian and Hicksian price effects always have the same sign"],
+   a:2,e:"The substitution effect is always ≤ 0 — this follows from the second-order conditions of expenditure minimization (compensated demands slope down). The others can be violated."},
+
+  {q:"For the indirect utility function V = I²/(4p_x p_y), holding utility constant at U₀ and solving for I gives I = 2√(U₀ p_x p_y). This expression is:",
+   c:["The Marshallian demand for x","The indirect utility function evaluated at x* and y*","The expenditure function E(p_x, p_y, U₀)","The Lagrange multiplier at the optimum"],
+   a:2,e:"I = E(p_x, p_y, U₀) = 2√(U₀ p_x p_y) is the minimum expenditure to achieve U₀ at given prices — the expenditure function."},
+
+  {q:"Compared with the Marshallian demand curve, the Hicksian demand curve for a normal good is:",
+   c:["Flatter (more elastic), because it omits the income effect which reinforces the substitution effect for normal goods","Steeper (less elastic), because it only captures the substitution effect and not the reinforcing income effect","Identical, since income effects are small for most goods","Upward sloping, because the compensation scheme adds income as price rises"],
+   a:1,e:"For a normal good, the income effect reinforces the substitution effect in the Marshallian demand, making Marshallian flatter. Hicksian only has SE → steeper."},
+
+  {q:"If the substitution effect of a price rise is −5 units and the income effect is +3 units (inferior good), the total (Marshallian) effect is:",
+   c:["+8 units","−8 units","−2 units","+2 units"],
+   a:2,e:"Slutsky: Total = SE − (income effect term). For inferior good, x·∂x/∂I < 0. Total = −5 − (−3) = −5 + 3 = −2. Demand falls by 2 units."},
+
+  {q:"The phrase 'the consumer's income is compensated to maintain utility' in the Hicksian framework means:",
+   c:["The government provides a subsidy exactly equal to the tax on the good","The consumer is given or taken income such that they can still just reach their original indifference curve at the new prices","The consumer's nominal wages rise in proportion to the price increase","The price of the other good falls to compensate for the rise in p_x"],
+   a:1,e:"Hicksian compensation: the income change ΔI = x^h · Δp_x is added or removed so the consumer can exactly reach their original utility level U₀ at the new prices."},
+
+  {q:"Which pair of conditions jointly implies that the Marshallian demand curve slopes upward (Giffen behavior)?",
+   c:["Normal good + large substitution effect","Inferior good + income effect dominates substitution effect","Normal good + income effect reinforces substitution effect","Neutral good + substitution effect equals zero"],
+   a:1,e:"Giffen requires inferiority (income effect works opposite to SE) AND the income effect must be large enough to outweigh the always-negative substitution effect."},
+
+  {q:"The Slutsky Equation can also be written as: ∂x/∂p_x|_{U=const} = ∂x/∂p_x|_{I=const} + x·(∂x/∂I). The left-hand side is the:",
+   c:["Marshallian price effect","Hicksian (substitution) effect — the slope of the compensated demand curve","Total effect including both income and substitution","Cross-price effect"],
+   a:1,e:"∂x/∂p_x|_{U=const} = ∂x^h/∂p_x — this is the slope of the Hicksian demand curve, which equals the pure substitution effect."},
+
+  {q:"A policy maker observes that demand for a staple food rises when its price increases. This is consistent with:",
+   c:["A normal good where both effects reinforce each other","A neutral good where income effects are absent","A Giffen good — the income effect dominates, and since it is inferior, demand actually rises with price","A perfectly inelastic good with vertical demand curve"],
+   a:2,e:"Rising demand with rising price violates the law of demand — this is Giffen behavior, requiring the good to be inferior with a dominant income effect."},
+
+  {q:"For the Hicksian demand x^h(p_x, p_y, U), if we hold p_y and U constant and only increase p_x, we are tracing:",
+   c:["The Marshallian demand curve for x","The compensated (Hicksian) demand curve for x — the pure substitution effect locus","The expansion path of the consumer","The income-consumption curve"],
+   a:1,e:"Holding p_y and U fixed while varying p_x traces the Hicksian demand curve — every point represents the cost-minimizing bundle for achieving U at each p_x."},
+
+  {q:"Why does the income effect have a minus sign in the Slutsky equation ∂x/∂p_x = ∂x^h/∂p_x − x·(∂x/∂I)?",
+   c:["Because the substitution effect is always positive","Because a rise in p_x is equivalent to a real income reduction: the consumer effectively loses x pesos of purchasing power per peso increase in price, which reduces demand for normal goods","Because income and substitution effects always point in opposite directions","Because Marshallian demand always lies below Hicksian demand"],
+   a:1,e:"A ₱1 rise in p_x costs x extra pesos (the consumer buys x units). This loss in real income = x·Δp_x. The income effect on demand = −x·(∂x/∂I)·Δp_x → the minus sign captures this real income loss."},
+
+  {q:"If x and y are perfect complements (L-shaped indifference curves), the substitution effect of a price change is:",
+   c:["Infinitely large because the consumer switches entirely to y","Exactly equal to the income effect in magnitude","Zero — no substitution occurs between perfect complements along the indifference curve","Negative but smaller than for imperfect substitutes"],
+   a:2,e:"With L-shaped indifference curves, the consumer cannot substitute between goods along the indifference curve. The substitution effect = 0; all price response is the income effect."},
+
+  {q:"The Marshallian demand x^m(p_x, p_y, I) = I/(2p_x). Using the Slutsky Equation, the income effect when p_x = 2, I = 100 is:",
+   c:["The entire price effect since substitution effect is zero","x · (∂x^m/∂I) = (I/2p_x) · (1/2p_x) = 25 · 0.25 = 6.25","x · (∂x^m/∂I) = (100/4) · (1/4) = 25 · 0.25 = 6.25","−x · (∂x^m/∂I) = −(25)(0.25) = −6.25"],
+   a:2,e:"x* = 100/(2·2) = 25. ∂x/∂I = 1/(2p_x) = 1/4. Income effect term = x·(∂x/∂I) = 25 × 0.25 = 6.25. (This is the magnitude; in the Slutsky equation it is subtracted.)"},
+
+  {q:"Which of the following best explains why economists prefer the Hicksian demand curve for welfare analysis?",
+   c:["It is easier to estimate empirically since utility can be directly measured","It holds utility constant, making it useful for measuring pure efficiency losses (deadweight loss) from price changes without conflating income effects","Hicksian demand curves are always linear, simplifying integration","It corresponds to the demand curve firms actually face in competitive markets"],
+   a:1,e:"Hicksian demand holds utility constant, so it measures the minimum expenditure to reach a given welfare level — essential for computing compensating and equivalent variation welfare measures."},
+];
+
+// ── STATE ──
+let qs=[], idx=0, score=0, answered=false;
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function startQuiz(){
+  qs=shuffle(POOL).slice(0,10); idx=0; score=0; answered=false;
+  document.getElementById('score-panel').classList.remove('show');
+  render();
+}
+
+function render(){
+  answered=false;
+  const q=qs[idx], tot=qs.length;
+  document.getElementById('qctr').innerHTML=`<strong>${idx+1} / ${tot}</strong>`;
+  document.getElementById('pfill').style.width=`${((idx+1)/tot)*100}%`;
+  const L=['A','B','C','D'];
+  const ch=q.c.map((c,i)=>`<button class="cbtn" onclick="pick(${i})" id="cb${i}"><span class="cltr">${L[i]}</span><span>${c}</span></button>`).join('');
+  document.getElementById('quiz-area').innerHTML=`
+    <div class="qcard">
+      <div class="qtag">Question ${idx+1} of ${tot}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="choices">${ch}</div>
+      <div class="fb" id="fb"></div>
+    </div>
+    <div class="qnav"><button class="btn btn-rose" id="nxt" onclick="nxt()" disabled>${idx===tot-1?'See Results →':'Next →'}</button></div>`;
+}
+
+function pick(chosen){
+  if(answered)return;
+  answered=true;
+  const q=qs[idx];
+  const fb=document.getElementById('fb');
+  for(let i=0;i<4;i++){
+    const b=document.getElementById('cb'+i);
+    b.disabled=true;
+    if(i===q.a) b.classList.add('reveal');
+    if(i===chosen&&chosen!==q.a) b.classList.add('wrong');
+    if(i===chosen&&chosen===q.a){b.classList.remove('reveal');b.classList.add('correct');}
+  }
+  if(chosen===q.a){score++;fb.textContent='✓ Correct! '+q.e;fb.className='fb show ok';}
+  else{fb.textContent='✗ Incorrect. '+q.e;fb.className='fb show no';}
+  document.getElementById('nxt').disabled=false;
+}
+
+function nxt(){idx++;if(idx>=qs.length)showScore();else render();}
+
+function showScore(){
+  document.getElementById('quiz-area').innerHTML='';
+  document.getElementById('qctr').innerHTML='<strong>Complete!</strong>';
+  document.getElementById('pfill').style.width='100%';
+  const wrong=10-score, pct=score*10;
+  let title,sub;
+  if(score===10){title='Flawless!';sub='Perfect command of demand theory and the Slutsky Equation.';}
+  else if(score>=8){title='Excellent';sub='Strong grasp of the material. Review any missed items.';}
+  else if(score>=6){title='Good Work';sub='Solid foundation — revisit weaker sections in the summary.';}
+  else if(score>=4){title='Keep At It';sub='Review the Slutsky decomposition and demand curve comparisons.';}
+  else{title='Needs Review';sub='Work through all six summary sections carefully, then retry.';}
+  document.getElementById('sbig').textContent=score;
+  document.getElementById('sdial').style.setProperty('--p',pct);
+  document.getElementById('stitle').textContent=title;
+  document.getElementById('ssub').textContent=sub;
+  document.getElementById('ssok').textContent=score;
+  document.getElementById('ssno').textContent=wrong;
+  document.getElementById('score-panel').classList.add('show');
+}
+
+function restartQuiz(){document.getElementById('score-panel').classList.remove('show');startQuiz();}
+
+function switchTab(tab,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  btn.classList.add('active');
+  if(tab==='quiz'&&qs.length===0)startQuiz();
+}
+</script>
+</body>
+</html>
